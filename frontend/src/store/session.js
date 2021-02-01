@@ -52,6 +52,31 @@ export const signup = (user) => async (dispatch) => {
         })
     })
     dispatch(setSessionUser(res.data.user));
+
+    await fetch('/api/shelves/new-user', {
+        method: "POST",
+        body: JSON.stringify({
+            shelf_name: 'Want to Torch',
+            user_id: res.data.user.id
+        })
+    })
+
+    await fetch('/api/shelves/new-user', {
+        method: "POST",
+        body: JSON.stringify({
+            shelf_name: 'Currently Torching',
+            user_id: res.data.user.id
+        })
+    })
+
+    await fetch('/api/shelves/new-user', {
+        method: "POST",
+        body: JSON.stringify({
+            shelf_name: 'Torched',
+            user_id: res.data.user.id
+        })
+    })
+
     return res;
 };
 

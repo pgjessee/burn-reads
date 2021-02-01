@@ -8,11 +8,13 @@ const { User } = require('../../db/models')
 
 const sessionRouter = require('./session');
 const usersRouter = require('./users')
+const shelvesRouter = require('./kindling_shelves')
 
 const router = express.Router();
 
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter)
+router.use('/shelves', shelvesRouter)
 
 
 router.get('/set-token-cookie', asyncHandler(async (req, res) => {
