@@ -54,7 +54,6 @@ Simply search for a book to set its torch status, add it to a custom kindling sh
 
 ### 3. `kindling_shelves`
 |column name|data type|constraints|
-
 |----------|----------|----------|
 |`id`|integer|primary key, not null|
 |`shelf_name`|varchar(20)|not null|
