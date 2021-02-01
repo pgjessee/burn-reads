@@ -50,14 +50,11 @@ Simply search for a book to set its torch status, add it to a custom kindling sh
 |----------|----------|----------|
 |`id`|integer|primary key, not null|
 |`google_book_id`|varchar(255)|not null, unique|
-|`title`|varchar(255)|not null|
-|`description`|text|not null|
-|`authors`|varchar(255)|not null|
-|`rating`|float|nullable|
 
 
 ### 3. `kindling_shelves`
 |column name|data type|constraints|
+
 |----------|----------|----------|
 |`id`|integer|primary key, not null|
 |`shelf_name`|varchar(20)|not null|
@@ -87,16 +84,44 @@ Simply search for a book to set its torch status, add it to a custom kindling sh
 - PATCH /api/users/:userId -- Edit user info
 
 ### 3. Shelves
-- GET /api/shelves/:userId -- Gets all kindling shelves of user
-- GET /api/shelves/:shelfId -- Gets all books on kindling shelf
-- POST /api/shelves/new-user -- Sets default kindling shelves for new user
+- GET /api/shelves/:userId -- Get all kindling shelves of user
+- GET /api/shelves/:shelfId -- Get all books on kindling shelf
+- POST /api/shelves/new-user -- Set default kindling shelves for new user
 - POST /api/shelves/ -- Create new custom kindling shelf
 - POST /api/shelves/:shelfId/:googleBookId -- Add book to kindling shelf
-- PATCH /api/shelves/:shelfId/:googleBookId -- Remove book to kindling shelf
+- PATCH /api/shelves/:shelfId/:googleBookId -- Remove book from kindling shelf
 - PATCH /api/shelves/:shelfId -- Rename kindling shelf
-- DELETE /api/shelves/:shelfId -- Deletes custom kindling shelf
+- DELETE /api/shelves/:shelfId -- Delete custom kindling shelf
 
 
+### 4. Burns (Reviews/Ratings)
+- GET /api/burns/:googleBookId -- Get all reviews/ratings for book
+- POST /api/burns/:gooogleBookId/:userId -- Create review/rating for book
+- PATCH /api/burns/:gooogleBookId/:userId -- Edit review/rating for book
+- DELETE /api/burns/:gooogleBookId/:userId -- Delete review/rating for book
+
+---
+<br/>
+
+## Components
+### 1. Splash Page
+- Signup form
+- Login form
+- Top ten burnt books
+
+### 2. Search Results
+- Book info (image, title and author)
+- Burn rating
+- Torch status/Kindling shelf
+
+### 3. Book
+- Image, title, authors, description
+- Burn reviews/ratings
+- Torch status/Kindling shelf
+
+### 4. Profile
+- Kindling shelves
+- All books from all kindling shelves
 
 
 
