@@ -6,6 +6,18 @@ const { Kindling_Shelf } = require('../../db/models');
 const router = express.Router();
 const defaultShelfNames = ['Torched', 'Torching', 'Want to Torch'];
 
+router.get(
+	'/:userId',
+	asyncHandler(async (req, res, next) => {
+		const userShelves = await Kindling_Shelf.findAll({
+			where: {
+				user_id: req.params.userId,
+			},
+		});
+		return res.json(userShelves);
+	})
+);
+
 router.post(
 	'/new-user',
 	asyncHandler(async (req, res, next) => {
@@ -19,8 +31,9 @@ router.post(
 	})
 );
 
+//creates custom shelf
 router.post(
-	'/shelves',
+	'/',
 	asyncHandler(async (req, res, next) => {
 		const { shelf_name, user_id } = req.body;
 		const newShelf = await Kindling_Shelf.create({
