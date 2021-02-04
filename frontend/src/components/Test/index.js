@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { fetch } from '../../store/csrf';
+import * as sessionActions from '../../store/session';
+import { useHistory } from 'react-router-dom';
 
 export default function Test() {
 	const [userShelves, setUserShelves] = useState([]);
 	const sessionUser = useSelector(state => state.session.user);
+	const history = useHistory();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
+		if (!sessionUser) return;
 		(async () => {
 			let res = await fetch(`/api/shelves/${sessionUser.id}`);
 			setUserShelves(res.data);
@@ -14,5 +19,18 @@ export default function Test() {
 	}, [sessionUser]);
 	console.log(userShelves);
 
-	return <div>hello</div>;
+	const handleLogoutBtn = e => {
+		e.preventDefault();
+		dispatch(sessionActions.logout());
+		history.push('/login');
+	};
+
+	return (
+		<>
+			<button onClick={handleLogoutBtn} style={{ width: '200px', height: '20px' }}>
+				Logout
+			</button>
+			<div>hello</div>
+		</>
+	);
 }
