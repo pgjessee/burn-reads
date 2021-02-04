@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetch } from '../../store/csrf';
 import * as sessionActions from '../../store/session';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 
 export default function Test() {
 	const [userShelves, setUserShelves] = useState([]);
@@ -17,15 +17,17 @@ export default function Test() {
 			setUserShelves(res.data);
 		})();
 	}, [sessionUser]);
+
 	console.log(userShelves);
 
 	const handleLogoutBtn = e => {
 		e.preventDefault();
 		dispatch(sessionActions.logout());
-		history.push('/login');
 	};
 
-	return (
+	return !sessionUser ? (
+		<Redirect to='/login' />
+	) : (
 		<>
 			<button onClick={handleLogoutBtn} style={{ width: '200px', height: '20px' }}>
 				Logout
