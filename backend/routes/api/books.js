@@ -9,6 +9,7 @@ router.get(
 	'/search/:searchTerm',
 	asyncHandler(async (req, res) => {
 		let { pageNumber, resultsShown } = req.body;
+
 		books = await bookSearch(req.params.searchTerm, resultsShown, pageNumber);
 		return res.json(books);
 	})
@@ -33,7 +34,10 @@ router.get(
 				book_id: findBook.id,
 			},
 		});
-		return res.json({ book, burns });
+		const averageRating = burns.reduce((avg, { rating }, burns) => {
+			avg += rating / burns.length;
+		});
+		return res.json({ book, burns, averageRating });
 	})
 );
 
