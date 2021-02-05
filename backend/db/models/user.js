@@ -81,8 +81,16 @@ module.exports = (sequelize, DataTypes) => {
 		return await User.scope('currentUser').findByPk(user.id);
 	};
 
+	const columnMapping = {
+		through: 'Burn',
+		otherKey: 'book_id',
+		foreignKey: 'user_id'
+	};
+
 	User.associate = function (models) {
 		User.hasMany(models.Kindling_Shelf, { foreignKey: 'user_id' });
+		User.belongsToMany(models.Book, columnMapping)
+		User.hasMany(models.Burn, { foreignKey: 'user_id' });
 	};
 	return User;
 };
