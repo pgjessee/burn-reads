@@ -60,7 +60,7 @@ Simply search for a book to set its torch status, add it to a custom kindling sh
 |`user_id`|intger|not null|
 
 
-### 4. `reviews`
+### 4. `burns (reviews)`
 |column name|data type|constraints|
 |----------|----------|----------|
 |`id`|integer|primary key, not null|
@@ -95,9 +95,9 @@ Simply search for a book to set its torch status, add it to a custom kindling sh
 
 ### 4. Burns (Reviews/Ratings)
 - GET /api/burns/:googleBookId -- Get all reviews/ratings for book
-- POST /api/burns/:gooogleBookId/:userId -- Create review/rating for book
-- PATCH /api/burns/:gooogleBookId/:userId -- Edit review/rating for book
-- DELETE /api/burns/:gooogleBookId/:userId -- Delete review/rating for book
+- POST /api/burns/:googleBookId/:userId -- Create review/rating for book
+- PATCH /api/burns/:googleBookId/:userId -- Edit review/rating for book
+- DELETE /api/burns/:googleBookId/:userId -- Delete review/rating for book
 
 ---
 <br/>
