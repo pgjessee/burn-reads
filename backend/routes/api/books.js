@@ -1,7 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { bookSearch, getBookInfo } = require('../../utils/bookApi');
-const { Book } = require('../../db/models');
+const { Book, Burn } = require('../../db/models');
 
 const router = express.Router();
 
@@ -17,8 +17,23 @@ router.get(
 router.get(
 	'/:googleBookId',
 	asyncHandler(async (req, res) => {
-		let book = await getBookInfo(req.params.googleBookId);
-		return res.json(book);
+		const googleBookId = req.params.googleBookId;
+		let book = await getBookInfo(googleBookId);
+
+		let findBook = await Book.findOne({
+			where: {
+				google_book_id: googleBookId,
+			},
+		});
+
+		if (!findBook) return res.json({ book, burns: [] });
+
+		const burns = await Burn.findAll({
+			where: {
+				book_id: findBook.id,
+			},
+		});
+		return res.json({ book, burns });
 	})
 );
 

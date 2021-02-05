@@ -1,152 +1,152 @@
 const express = require('express');
-const asyncHandler = require("express-async-handler");
+const asyncHandler = require('express-async-handler');
 
-const { Burn, Book } = require('../../db/models')
+const { Burn, Book } = require('../../db/models');
 
 const router = express.Router();
 
+router.get(
+	'/:googleBookId/:userId',
+	asyncHandler(async (req, res, next) => {
+		const googleBookId = req.params.googleBookId;
+		const userId = parseInt(req.params.userId, 10);
 
+		let findBook = await Book.findOne({
+			where: {
+				google_book_id: googleBookId,
+			},
+		});
 
-router.get('/:googleBookId/:userId', asyncHandler(async (req, res, next) => {
-    const googleBookId = req.params.googleBookId;
-    const userId = parseInt(req.params.userId, 10);
+		const burn = await Burn.findOne({
+			where: {
+				book_id: findBook.id,
+				user_id: userId,
+			},
+		});
 
-    let findBook = await Book.findOne({
-        where: {
-            google_book_id: googleBookId
-        }
-    });
+		if (!burn) return false;
 
-    const burn = await Burn.findOne({
-        where: {
-            book_id: findBook.id,
-            user_id: userId
-        }
-    });
+		return true;
+	})
+);
 
-    if (!burn) return false;
+// router.get('/:googleBookId', asyncHandler(async (req, res) => {
+//     const googleBookId = req.params.googleBookId;
 
-    return true;
+//     let findBook = await Book.findOne({
+//         where: {
+//             google_book_id: googleBookId
+//         }
+//     });
 
-}));
+//     const burns = await Burn.findAll({
+//         where: {
+//             book_id: findBook.id
+//         }
+//     });
 
+//     return res.json({ burns })
 
-router.get('/:googleBookId', asyncHandler(async (req, res) => {
-    const googleBookId = req.params.googleBookId;
+// }));
 
-    let findBook = await Book.findOne({
-        where: {
-            google_book_id: googleBookId
-        }
-    });
+router.post(
+	'/:googleBookId/:userId',
+	asyncHandler(async (req, res, next) => {
+		const googleBookId = req.params.googleBookId;
+		const userId = parseInt(req.params.userId, 10);
 
-    const burns = await Burn.findAll({
-        where: {
-            book_id: findBook.id
-        }
-    });
+		const { review, rating } = req.body;
+		let burn;
 
-    return res.json({ burns })
+		let findBook = await Book.findOne({
+			where: {
+				google_book_id: googleBookId,
+			},
+		});
 
-}));
+		if (!findBook) {
+			await Book.create({ google_book_id: googleBookId });
 
+			findBook = await Book.findOne({
+				where: {
+					google_book_id: googleBookId,
+				},
+			});
 
-router.post('/:googleBookId/:userId', asyncHandler(async (req, res, next) => {
-    const googleBookId = req.params.googleBookId;
-    const userId = parseInt(req.params.userId, 10);
+			burn = await Burn.create({
+				book_id: findBook.id,
+				user_id: userId,
+				review,
+				rating,
+			});
 
+			return res.json({ burn });
+		}
 
-    const { review, rating } = req.body;
-    let burn;
+		burn = await Burn.create({
+			book_id: findBook.id,
+			user_id: userId,
+			review,
+			rating,
+		});
 
-    let findBook = await Book.findOne({
-        where: {
-            google_book_id: googleBookId
-        }
-    });
+		return res.json({ burn });
+	})
+);
 
-    if (!findBook) {
+router.put(
+	'/:googleBookId/:userId',
+	asyncHandler(async (req, res) => {
+		const googleBookId = req.params.googleBookId;
+		const userId = parseInt(req.params.userId, 10);
+		const { review, rating } = req.body;
 
-        await Book.create({ google_book_id: googleBookId });
+		let findBook = await Book.findOne({
+			where: {
+				google_book_id: googleBookId,
+			},
+		});
 
-        findBook = await Book.findOne({
-            where: {
-                google_book_id: googleBookId
-            }
-        });
+		let burn = await Burn.findOne({
+			where: {
+				book_id: findBook.id,
+				user_id: userId,
+			},
+		});
 
-        burn = await Burn.create({
-            book_id: findBook.id,
-            user_id: userId,
-            review,
-            rating
-        });
+		burn = await burn.update({
+			review,
+			rating,
+		});
 
-        return res.json({ burn })
-    };
+		return res.json({ burn });
+	})
+);
 
-    burn = await Burn.create({
-        book_id: findBook.id,
-        user_id: userId,
-        review,
-        rating
-    });
+router.delete(
+	'/:googleBookId/:userId',
+	asyncHandler(async (req, res) => {
+		const googleBookId = req.params.googleBookId;
+		const userId = parseInt(req.params.userId, 10);
+		const { review, rating } = req.body;
 
-    return res.json({ burn });
+		let findBook = await Book.findOne({
+			where: {
+				google_book_id: googleBookId,
+			},
+		});
 
-}));
+		let burn = await Burn.findOne({
+			where: {
+				book_id: findBook.id,
+				user_id: userId,
+			},
+		});
 
+		burn = await burn.destroy();
 
-router.put('/:googleBookId/:userId', asyncHandler(async (req, res) => {
-    const googleBookId = req.params.googleBookId;
-    const userId = parseInt(req.params.userId, 10);
-    const { review, rating } = req.body;
-
-    let findBook = await Book.findOne({
-        where: {
-            google_book_id: googleBookId
-        }
-    });
-
-    let burn = await Burn.findOne({
-        where: {
-            book_id: findBook.id,
-            user_id: userId
-        }
-    });
-
-    burn = await burn.update({
-        review,
-        rating
-    })
-
-    return res.json({ burn })
-}));
-
-
-router.delete('/:googleBookId/:userId', asyncHandler(async (req, res) => {
-    const googleBookId = req.params.googleBookId;
-    const userId = parseInt(req.params.userId, 10);
-    const { review, rating } = req.body;
-
-    let findBook = await Book.findOne({
-        where: {
-            google_book_id: googleBookId
-        }
-    });
-
-    let burn = await Burn.findOne({
-        where: {
-            book_id: findBook.id,
-            user_id: userId
-        }
-    });
-
-    burn = await burn.destroy()
-
-    return res.json({ burn })
-
-}));
-
+		return res.json({ burn });
+	})
+);
 
 module.exports = router;
