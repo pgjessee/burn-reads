@@ -6,6 +6,7 @@ const { Burn, Book } = require('../../db/models')
 const router = express.Router();
 
 
+
 router.get('/:googleBookId/:userId', asyncHandler(async (req, res, next) => {
     const googleBookId = req.params.googleBookId;
     const userId = parseInt(req.params.userId, 10);
@@ -144,7 +145,7 @@ router.delete('/:googleBookId/:userId', asyncHandler(async (req, res) => {
     burn = await burn.destroy()
 
     return res.json({ burn })
-    
+
 }));
 
 

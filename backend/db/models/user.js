@@ -92,5 +92,6 @@ module.exports = (sequelize, DataTypes) => {
 		User.belongsToMany(models.Book, columnMapping)
 		User.hasMany(models.Burn, { foreignKey: 'user_id' });
 	};
+	
 	return User;
 };
