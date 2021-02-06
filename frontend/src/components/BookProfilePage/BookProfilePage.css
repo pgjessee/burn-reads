@@ -1,0 +1,18 @@
+
+.book-profile-margin-container {
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+
+.profile-grid-container {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    margin: 0 auto;
+}
+
+.profile-thumbnail-shelf-select-container {
+    margin: 0 auto;
+}
+
+

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import LoginFormPage from './components/LoginFormPage';
 import SignUpFormPage from './components/SignupFormPage';
+import BookProfilePage from './components/BookProfilePage'
 import WriteReviewPage from './components/WriteReviewPage'
 import Test from './components/Test';
 import * as sessionActions from './store/session';
@@ -23,6 +24,9 @@ function App() {
 					</Route>
 					<Route path='/signup'>
 						<SignUpFormPage />
+					</Route>
+					<Route path='/:googleBookId' exact={true} >
+						<BookProfilePage />
 					</Route>
 					<Route path='/:googleBookId/reviews' exact={true} >
 						<WriteReviewPage />
