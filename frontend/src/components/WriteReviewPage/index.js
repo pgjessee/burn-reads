@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { fetch } from '../../store/csrf'
+import { fetch } from '../../store/csrf';
 import BurnRating from '../BurnFlame'
 
 import './WriteReviewPage.css'
@@ -24,7 +24,7 @@ function WriteReviewPage() {
 
             setAuthors(bookAuthors)
             setBook(res.data.book);
-            console.log(sessionUser.id)
+
         })()
     }, [])
 
@@ -41,7 +41,6 @@ function WriteReviewPage() {
             body: JSON.stringify(newBurn)
         });
 
-        console.log("MADE IT")
         return;
     }
 
