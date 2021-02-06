@@ -1,0 +1,29 @@
+
+
+.burn-margin-container {
+    margin-left: 25%;
+    margin-right: 25%;
+    /* background-color: aquamarine; */
+}
+
+.write-review-header {
+    display: flex;
+    /* background-color: blueviolet; */
+    /* height: 50px; */
+}
+
+.burn-thumbnail {
+    /* height: 50px; */
+    padding-right: 20px;
+}
+
+
+.burn-textarea {
+    padding: 5px;
+    font-size: 18px;
+    resize: none;
+}
+
+.burn-submit-container {
+    padding-top: 10px;
+}
