@@ -18,6 +18,30 @@
 }
 
 
+.flame-rating-container  > * {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.flame-rating-container > *:hover {
+    text-shadow: 0 0 6px orange;
+}
+
+
+.flame--off {
+    color: lightgray;
+    font-size: 30px;
+}
+
+.flame--on {
+    color: firebrick;
+    font-size: 30px;
+}
+
+.burn-textarea-container {
+    margin-top: 10px;
+}
+
 .burn-textarea {
     padding: 5px;
     font-size: 18px;

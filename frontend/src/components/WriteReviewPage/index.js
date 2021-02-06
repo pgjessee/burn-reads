@@ -24,7 +24,7 @@ function WriteReviewPage() {
 
             setAuthors(bookAuthors)
             setBook(res.data.book);
-            // console.log(sessionUser.id)
+            console.log(sessionUser.id)
         })()
     }, [])
 
@@ -66,7 +66,6 @@ function WriteReviewPage() {
                 <div className="write-review-body">
                     <h3 className="burn-book-header">Burn this Book!</h3>
                     <form onSubmit={handleSubmit}>
-                        <div>Rating Fires go here</div>
                         <BurnRating setRating={setRating} rating={rating}/>
                         <div className="burn-textarea-container">
                             <textarea

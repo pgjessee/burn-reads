@@ -18,7 +18,7 @@ export default function BurnRating({ setRating, rating}) {
 
     return (
         <>
-        <div>
+        <div className="flame-rating-container">
             {flames.map(flame => {
                 return flame
             })}
