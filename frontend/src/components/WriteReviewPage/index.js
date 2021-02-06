@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { fetch } from '../../store/csrf'
+import BurnRating from '../BurnFlame'
 
 import './WriteReviewPage.css'
 
@@ -10,8 +11,9 @@ function WriteReviewPage() {
     const { googleBookId } = useParams()
 
     const sessionUser = useSelector(state => state.session.user);
-    const [review, setReview] = useState('');
-    const [book, setBook] = useState(null);
+    const [burn, setBurn] = useState('');
+    const [rating, setRating] = useState(1)
+    const [book, setBook] = useState('');
     const [authors, setAuthors] = useState('')
 
     useEffect(() => {
@@ -22,8 +24,26 @@ function WriteReviewPage() {
 
             setAuthors(bookAuthors)
             setBook(res.data.book);
+            // console.log(sessionUser.id)
         })()
     }, [])
+
+    const handleSubmit = async () => {
+
+        const newBurn = {
+            review: burn,
+            rating: rating
+        };
+
+        const res = await fetch(`/api/burns/${googleBookId}/${sessionUser.id}`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(newBurn)
+        });
+
+        console.log("MADE IT")
+        return;
+    }
 
     return (
         <div className="write-review-page-container">
@@ -45,8 +65,9 @@ function WriteReviewPage() {
                 </div>
                 <div className="write-review-body">
                     <h3 className="burn-book-header">Burn this Book!</h3>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div>Rating Fires go here</div>
+                        <BurnRating setRating={setRating} rating={rating}/>
                         <div className="burn-textarea-container">
                             <textarea
                                 className="burn-textarea"
@@ -54,8 +75,8 @@ function WriteReviewPage() {
                                 cols="80"
                                 name="burn"
                                 placeholder="Send it to the inferno..."
-                                value={review}
-                                onChange={(e) => setReview(e.target.value)}
+                                value={burn}
+                                onChange={(e) => setBurn(e.target.value)}
                                 required
                             />
                         </div>

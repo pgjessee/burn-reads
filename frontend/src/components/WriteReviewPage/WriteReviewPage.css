@@ -22,6 +22,7 @@
     padding: 5px;
     font-size: 18px;
     resize: none;
+    box-shadow: 0 0 1px 1px;
 }
 
 .burn-submit-container {
