@@ -12,18 +12,21 @@ function WriteReviewPage() {
 
     const sessionUser = useSelector(state => state.session.user);
     const [burn, setBurn] = useState('');
-    const [rating, setRating] = useState(1)
+    const [rating, setRating] = useState(1);
     const [book, setBook] = useState('');
-    const [authors, setAuthors] = useState('')
+    const [authors, setAuthors] = useState('');
+    const [bookLink, setBookLink] = useState('');
 
     useEffect(() => {
         (async () => {
             const res = await fetch(`/api/books/${googleBookId}`);
             let bookAuthors = res.data.book.authors;
             bookAuthors = bookAuthors.length === 1 ? bookAuthors[0] : bookAuthors.join(", ");
+            let bookPage = `/${googleBookId}`
 
-            setAuthors(bookAuthors)
+            setAuthors(bookAuthors);
             setBook(res.data.book);
+            setBookLink(bookPage);
 
         })()
     }, [])
@@ -48,14 +51,14 @@ function WriteReviewPage() {
         <div className="write-review-page-container">
             <div className="burn-margin-container">
                 <div className="book-page-return">
-                    <h2><a href={googleBookId}>{book.title}</a></h2>
+                    <h2><a className="burn-anchor-header" href={bookLink}>{book.title}</a></h2>
                 </div>
                 <div className="write-review-header">
-                    <div className="burn-thumbnail">
-                        <img src={book.smallThumbnail}/>
+                    <div className="burn-thumbnail-container">
+                        <img className="burn-thumbnail" src={book.smallThumbnail}/>
                     </div>
                     <div className="burn-title">
-                        <h2><a href={googleBookId}>{book.title}</a></h2>
+                        <h2><a className="burn-title-anchor" href={bookLink}>{book.title}</a></h2>
                         <h3>By {authors}</h3>
                     </div>
                 </div>
