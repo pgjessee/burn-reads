@@ -1,7 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { bookSearch, getBookInfo } = require('../../utils/bookApi');
-const { Book, Burn } = require('../../db/models');
+const { Book, Burn, User } = require('../../db/models');
 
 const router = express.Router();
 
@@ -32,6 +32,7 @@ router.get(
 			where: {
 				book_id: findBook.id,
 			},
+			include: User
 		});
 		return res.json({ book, burns });
 	})

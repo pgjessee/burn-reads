@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 
 import { fetch } from '../../store/csrf';
 
 import BookBurn from './BurnsList';
+
 import './BookProfilePage.css'
 
 function BookProfilePage() {
@@ -14,6 +15,7 @@ function BookProfilePage() {
     const [googleBook, setBook] = useState('');
     const [bookBurns, setBurns] = useState([]);
     const [authors, setAuthors] = useState('');
+    const [reviewsLink, setReviewsLink] = useState('')
 
     useEffect(() => {
         (async () => {
@@ -23,10 +25,14 @@ function BookProfilePage() {
             const { book, burns } = data;
             let bookAuthors = book.authors;
             bookAuthors = bookAuthors.length === 1 ? bookAuthors[0] : bookAuthors.join(", ");
+            const writeBurn = `/${googleBookId}/reviews`
 
             setBook(book)
             setBurns(burns)
             setAuthors(bookAuthors)
+            setReviewsLink(writeBurn)
+
+            console.log(bookBurns)
         })()
     }, [])
 
@@ -36,7 +42,7 @@ function BookProfilePage() {
                 <div className="profile-grid-container">
                     <div className="profile-thumbnail-shelf-select-container">
                         <div className="profile-thumbnail-container">
-                            <img src={googleBook.smallThumbnail}/>
+                            <img className="book-profile-thumbnail" src={googleBook.smallThumbnail}/>
                         </div>
                         <div className="shelf-selector-container">
                             <h3>Shelf Selector goes here</h3>
@@ -55,7 +61,7 @@ function BookProfilePage() {
                     </div>
                 </div>
                 <div className="button-link-burn">
-                    <button>Burn this book</button>
+                    <NavLink to={reviewsLink}><button className="burn-book-button">Burn this book</button></NavLink>
                 </div>
                 <div className="profile-burns-container">
                     {bookBurns.map(burn => {

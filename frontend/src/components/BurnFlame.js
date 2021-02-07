@@ -7,6 +7,8 @@ const BurnFlame = ({ onClick, id, on}) => {
     )
 }
 
+
+
 export default function BurnRating({ setRating, rating}) {
     const maxRating = 5;
 
