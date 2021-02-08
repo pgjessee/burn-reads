@@ -8,6 +8,7 @@ const bookSearch = async (searchTerm, resultsShown, pageNumber) => {
 	try {
 		let res = await fetch(url);
 		res = await res.json();
+		console.log(res);
 		const books = res.items.map(({ id, volumeInfo }) => {
 			return {
 				id: id,
