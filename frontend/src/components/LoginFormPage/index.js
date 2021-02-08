@@ -79,12 +79,13 @@ const LoginFormPage = () => {
 					width="350px"
 					margin="10px"
 					p={5}
-					pt={10}
+					// pt={10}
 					boxShadow="sm"
 					rounded="lg"
 					textAlign="center"
-					height="300px"
+					height="220px"
 					minWidth="200px"
+					opacity="0.9"
 					// bgImage="url(/testImg.jpg)"
 				>
 					{/* <div className="login-page-container">
@@ -97,8 +98,8 @@ const LoginFormPage = () => {
 								))}
 							</ul>
 							<div>
-								<Text fontFamily="Big Shoulders Display">Login</Text>
-								<Text>Email</Text>
+								{/* <Text fontFamily="Big Shoulders Display">Login</Text> */}
+								{/* <Text>Email</Text> */}
 								<label htmlFor="email"></label>
 								<Input
 									name="email"
@@ -111,7 +112,7 @@ const LoginFormPage = () => {
 								/>
 							</div>
 							<div>
-								<Text>Password</Text>
+								{/* <Text>Password</Text> */}
 								<Input
 									name="password"
 									type="password"
@@ -123,7 +124,7 @@ const LoginFormPage = () => {
 								/>
 							</div>
 							<div className="login-form-submit-button-div">
-								<Button type="submit" boxShadow="md">
+								<Button type="submit" boxShadow="md" width="100%">
 									Login
 								</Button>
 							</div>
