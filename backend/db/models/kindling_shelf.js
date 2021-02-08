@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 	);
 	Kindling_Shelf.associate = function (models) {
 		Kindling_Shelf.belongsTo(models.User, { foreignKey: 'user_id' });
+		Kindling_Shelf.hasMany(models.Kindling_Book, { foreignKey: 'kindling_shelf_id' });
 	};
 	return Kindling_Shelf;
 };
