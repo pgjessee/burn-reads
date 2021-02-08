@@ -10,8 +10,16 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{}
 	);
+
+	const columnMapping = {
+		through: 'Burn',
+		otherKey: 'user_id',
+		foreignKey: 'book_id'
+	};
+
 	Book.associate = function (models) {
-		// associations can be defined here
+		Book.hasMany(models.Burn, { foreignKey: 'book_id' });
+		Book.belongsToMany(models.User, columnMapping)
 	};
 	return Book;
 };

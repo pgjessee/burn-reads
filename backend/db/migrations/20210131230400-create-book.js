@@ -13,26 +13,6 @@ module.exports = {
         unique: true,
         allowNull: false
       },
-      title: {
-        type: Sequelize.STRING(255),
-        allowNull: false
-      },
-      description: {
-        type: Sequelize.TEXT,
-        allowNull: true
-      },
-      authors: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      categories: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      rating: {
-        type: Sequelize.FLOAT,
-        allowNull: true,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

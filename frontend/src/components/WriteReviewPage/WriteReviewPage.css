@@ -1,0 +1,85 @@
+
+
+.burn-margin-container {
+    margin-left: 25%;
+    margin-right: 25%;
+    /* background-color: aquamarine; */
+}
+
+.write-review-header {
+    display: flex;
+    /* background-color: blueviolet; */
+    /* height: 50px; */
+}
+
+.burn-anchor-header {
+    text-decoration: none;
+}
+
+.burn-anchor-header:hover {
+    text-decoration: underline;
+}
+
+.burn-thumbnail-container {
+    padding-right: 20px;
+}
+
+.burn-thumbnail {
+    box-shadow: 0 0 3px 0;
+    height: 100px;
+}
+
+.burn-title-anchor {
+    text-decoration: none;
+}
+
+.burn-title-anchor:hover {
+    text-decoration: underline;
+}
+
+.flame-rating-container  > * {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.flame-rating-container > *:hover {
+    text-shadow: 0 0 6px orange;
+}
+
+
+.flame--off {
+    color: lightgray;
+    font-size: 30px;
+}
+
+.flame--on {
+    color: firebrick;
+    font-size: 30px;
+}
+
+.burn-textarea-container {
+    margin-top: 10px;
+}
+
+.burn-textarea {
+    padding: 5px;
+    font-size: 18px;
+    resize: none;
+    box-shadow: 0 0 1px 1px;
+}
+
+.burn-submit-container {
+    padding-top: 10px;
+}
+
+.burn-submit {
+    width: 150px;
+    height: 50px;
+    font-size: 16px;
+}
+
+.burn-submit:hover {
+    color: white;
+    background-color: firebrick;
+    box-shadow: 0 0 3px 1px;
+}
