@@ -1,64 +1,141 @@
-import React, { useState } from 'react';
-import * as sessionActions from '../../store/session';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import React, { useState } from "react";
+import * as sessionActions from "../../store/session";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 
-import './LoginFormPage.css'
+
+import "./LoginFormPage.css";
+import {
+	Box,
+	Button,
+	Flex,
+	Image,
+	Input,
+	Stack,
+	Tab,
+	TabList,
+	TabPanel,
+	TabPanels,
+	Tabs,
+	Text,
+} from "@chakra-ui/react";
 
 const LoginFormPage = () => {
+	const dispatch = useDispatch();
+	const sessionUser = useSelector((state) => state.session.user);
+	const [credential, setCredential] = useState("");
+	const [password, setPassword] = useState("");
+	const [errors, setErrors] = useState([]);
 
-    const dispatch = useDispatch();
-    const sessionUser = useSelector(state => state.session.user);
-    const [credential, setCredential] = useState('');
-    const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState([]);
+	if (sessionUser) return <Redirect to="/" />;
 
-    if (sessionUser) return (
-        <Redirect to="/" />
-    )
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		setErrors([]);
+		return dispatch(sessionActions.login({ credential, password })).catch(
+			(res) => {
+				if (res.data && res.data.errors) setErrors(res.data.errors);
+			}
+		);
+	};
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setErrors([]);
-        return dispatch(sessionActions.login({ credential, password }))
-            .catch((res) => {
-                if (res.data && res.data.errors) setErrors(res.data.errors);
-            })
-    }
-
-    return (
-        <div className="login-page-container">
-            <div className="login-form-container">
-                <form onSubmit={handleSubmit}>
-                    <ul>
-                        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                    </ul>
-                    <div>
-                        <input
-                            type="text"
-                            value={credential}
-                            onChange={(e) => setCredential(e.target.value)}
-                            placeholder="Email"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            placeholder="Password"
-                        />
-                    </div>
-                    <div className="login-form-submit-button-div">
-                        <button type="submit">Login</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    )
-}
-
+	return (
+		<div>
+			{/* style={{ backgroundImage: "url(/matchSticks.jfif)" }} */}
+			{/* <Box>
+				<Image
+					src={require("/testImg.jpg")}
+					size="100%"
+					rounded="1rem"
+					shadow="2xl"
+					alt="splash image"
+				/>
+			</Box> */}
+			<Flex
+				// justify="space-evenly"
+				justify="center"
+				align="center"
+				bgImage="url(/matchSticks.jfif)"
+				height="100vh"
+				width="100vw"
+			>
+				<Box
+					color="white"
+					// border="solid"
+					width="50vw"
+					textAlign="center"
+					fontSize="70px"
+					alignSelf="flex-start"
+					mt="10vh"
+					fontFamily="Big Shoulders Display, cursive"
+					p={10}
+					m={7}
+				>
+					Welcome to BurnReads
+				</Box>
+				<Box
+					className="form"
+					bg="#CC232A"
+					width="350px"
+					margin="10px"
+					p={5}
+					// pt={10}
+					boxShadow="sm"
+					rounded="lg"
+					textAlign="center"
+					height="220px"
+					minWidth="200px"
+					opacity="0.9"
+					// bgImage="url(/testImg.jpg)"
+				>
+					{/* <div className="login-page-container">
+                        <div className="login-form-container"> */}
+					<form onSubmit={handleSubmit}>
+						<Stack spacing={4}>
+							<ul>
+								{errors.map((error, idx) => (
+									<li key={idx}>{error}</li>
+								))}
+							</ul>
+							<div>
+								{/* <Text fontFamily="Big Shoulders Display">Login</Text> */}
+								{/* <Text>Email</Text> */}
+								<label htmlFor="email"></label>
+								<Input
+									name="email"
+									type="text"
+									value={credential}
+									onChange={(e) => setCredential(e.target.value)}
+									placeholder="Email"
+									bg="white"
+									required
+								/>
+							</div>
+							<div>
+								{/* <Text>Password</Text> */}
+								<Input
+									name="password"
+									type="password"
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+									placeholder="Password"
+									bg="white"
+									required
+								/>
+							</div>
+							<div className="login-form-submit-button-div">
+								<Button type="submit" boxShadow="md" width="100%">
+									Login
+								</Button>
+							</div>
+						</Stack>
+					</form>
+					{/* </div>
+                    </div> */}
+				</Box>
+			</Flex>
+		</div>
+	);
+};
 
 export default LoginFormPage;
