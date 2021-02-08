@@ -3,7 +3,6 @@ import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
-
 import "./LoginFormPage.css";
 import {
 	Box,
@@ -83,53 +82,77 @@ const LoginFormPage = () => {
 					boxShadow="sm"
 					rounded="lg"
 					textAlign="center"
-					height="220px"
+					// height="220px"
 					minWidth="200px"
 					opacity="0.9"
 					// bgImage="url(/testImg.jpg)"
 				>
+					<Tabs
+						variant="soft-rounded"
+						colorScheme="red"
+						// bg="yellow"
+						isFitted
+						m={2}
+						// defaultIndex={formTab}
+						rounded="lg"
+					>
+						<TabList>
+							<Tab>Login</Tab>
+							<Tab>Sign Up</Tab>
+						</TabList>
+						<TabPanels>
+							<TabPanel>
+								<form onSubmit={handleSubmit}>
+									<Stack spacing={4}>
+										<ul>
+											{errors.map((error, idx) => (
+												<li key={idx}>{error}</li>
+											))}
+										</ul>
+										<div>
+											{/* <Text fontFamily="Big Shoulders Display">Login</Text> */}
+											{/* <Text>Email</Text> */}
+											<label htmlFor="email"></label>
+											<Input
+												name="email"
+												type="text"
+												value={credential}
+												onChange={(e) => setCredential(e.target.value)}
+												placeholder="Email"
+												bg="white"
+												required
+											/>
+										</div>
+										<div>
+											{/* <Text>Password</Text> */}
+											<Input
+												name="password"
+												type="password"
+												value={password}
+												onChange={(e) => setPassword(e.target.value)}
+												placeholder="Password"
+												bg="white"
+												required
+											/>
+										</div>
+										<div className="login-form-submit-button-div">
+											<Button type="submit" boxShadow="md" width="100%">
+												Login
+											</Button>
+											<Button type="submit" boxShadow="md" width="100%" mt={4}>
+												Demo Login
+											</Button>
+										</div>
+									</Stack>
+								</form>
+							</TabPanel>
+							<TabPanel>
+								<Text>Ello</Text>
+							</TabPanel>
+						</TabPanels>
+					</Tabs>
 					{/* <div className="login-page-container">
                         <div className="login-form-container"> */}
-					<form onSubmit={handleSubmit}>
-						<Stack spacing={4}>
-							<ul>
-								{errors.map((error, idx) => (
-									<li key={idx}>{error}</li>
-								))}
-							</ul>
-							<div>
-								{/* <Text fontFamily="Big Shoulders Display">Login</Text> */}
-								{/* <Text>Email</Text> */}
-								<label htmlFor="email"></label>
-								<Input
-									name="email"
-									type="text"
-									value={credential}
-									onChange={(e) => setCredential(e.target.value)}
-									placeholder="Email"
-									bg="white"
-									required
-								/>
-							</div>
-							<div>
-								{/* <Text>Password</Text> */}
-								<Input
-									name="password"
-									type="password"
-									value={password}
-									onChange={(e) => setPassword(e.target.value)}
-									placeholder="Password"
-									bg="white"
-									required
-								/>
-							</div>
-							<div className="login-form-submit-button-div">
-								<Button type="submit" boxShadow="md" width="100%">
-									Login
-								</Button>
-							</div>
-						</Stack>
-					</form>
 					{/* </div>
                     </div> */}
 				</Box>
