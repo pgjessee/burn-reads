@@ -26,7 +26,7 @@ router.get(
 
 		if (!burn) return false;
 
-		return true;
+		return res.json({ burn });
 	})
 );
 

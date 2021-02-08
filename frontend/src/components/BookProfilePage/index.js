@@ -8,7 +8,7 @@ import BookBurn from './BurnsList';
 
 import './BookProfilePage.css'
 
-function BookProfilePage() {
+const BookProfilePage = ()  => {
     const { googleBookId } = useParams();
 
     const sessionUser = useSelector(state => state.session.user);

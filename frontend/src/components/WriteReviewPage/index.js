@@ -7,7 +7,7 @@ import BurnRating from '../BurnFlame'
 
 import './WriteReviewPage.css'
 
-function WriteReviewPage() {
+const WriteReviewPage = () => {
     const { googleBookId } = useParams()
 
     const sessionUser = useSelector(state => state.session.user);
