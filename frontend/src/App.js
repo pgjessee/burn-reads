@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import LoginFormPage from './components/LoginFormPage';
-import SignUpFormPage from './components/SignupFormPage';
+import SignUpFormPage from './components/SignupFormPage/SignUpFormPage';
 import MyBooksPage from './components/MyBooksPage'
 import BookProfilePage from './components/BookProfilePage';
 import WriteReviewPage from './components/WriteReviewPage';

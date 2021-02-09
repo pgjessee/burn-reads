@@ -48,7 +48,7 @@ module.exports = {
       {
         book_id: 8,
         user_id: 2,
-        review: 'Rather than breaking dawn, this book needs into ride to the sunset to a fiery death.',
+        review: 'Rather than breaking dawn, this book needs to ride into the sunset to a fiery death.',
         rating: 5
       },
       {
