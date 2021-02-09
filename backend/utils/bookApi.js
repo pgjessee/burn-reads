@@ -18,7 +18,7 @@ const bookSearch = async (searchTerm, resultsShown, pageNumber) => {
 				description: volumeInfo.description || 'Not Available',
 				smallThumbnail: volumeInfo.imageLinks.smallThumbnail,
 				thumbnail: volumeInfo.imageLinks.thumbnail,
-				categories: volumeInfo.categories,
+				categories: volumeInfo.categories || 'Not Available',
 			};
 		});
 		return books;
