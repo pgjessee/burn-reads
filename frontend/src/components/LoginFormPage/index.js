@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import SignUpFormPage from "../SignupFormPage"
 
 import "./LoginFormPage.css";
 import {
@@ -40,16 +41,6 @@ const LoginFormPage = () => {
 
 	return (
 		<div>
-			{/* style={{ backgroundImage: "url(/matchSticks.jfif)" }} */}
-			{/* <Box>
-				<Image
-					src={require("/testImg.jpg")}
-					size="100%"
-					rounded="1rem"
-					shadow="2xl"
-					alt="splash image"
-				/>
-			</Box> */}
 			<Flex
 				// justify="space-evenly"
 				justify="center"
@@ -85,7 +76,6 @@ const LoginFormPage = () => {
 					// height="220px"
 					minWidth="200px"
 					opacity="0.9"
-					// bgImage="url(/testImg.jpg)"
 				>
 					<Tabs
 						variant="soft-rounded"
@@ -110,8 +100,6 @@ const LoginFormPage = () => {
 											))}
 										</ul>
 										<div>
-											{/* <Text fontFamily="Big Shoulders Display">Login</Text> */}
-											{/* <Text>Email</Text> */}
 											<label htmlFor="email"></label>
 											<Input
 												name="email"
@@ -147,14 +135,10 @@ const LoginFormPage = () => {
 								</form>
 							</TabPanel>
 							<TabPanel>
-								<Text>Ello</Text>
+								<SignUpFormPage/>
 							</TabPanel>
 						</TabPanels>
 					</Tabs>
-					{/* <div className="login-page-container">
-                        <div className="login-form-container"> */}
-					{/* </div>
-                    </div> */}
 				</Box>
 			</Flex>
 		</div>
