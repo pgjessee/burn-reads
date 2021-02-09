@@ -7,6 +7,7 @@ import { fetch } from '../../store/csrf';
 const UserBook = ({ userBook }) => {
 
     const sessionUser = useSelector(state => state.session.user);
+
     const [fetchedBook, setBook] = useState('');
     const [authors, setAuthors] = useState('');
     const [userBurnLink, setUserBurnLink] = useState('');
@@ -35,9 +36,9 @@ const UserBook = ({ userBook }) => {
     }, [])
 
     return (
-        <tr>
+        <tr className="user-book-table-row">
             <td><a href={bookProfileLink}><img src={fetchedBook.smallThumbnail}/></a></td>
-            <td>{fetchedBook.title}</td>
+            <td><a href={bookProfileLink}>{fetchedBook.title}</a></td>
             <td>{authors}</td>
             <td><UserFlames rating={rating}/></td>
             <td><a href={userBurnLink}>Write a review</a></td>

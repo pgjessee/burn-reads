@@ -4,6 +4,7 @@ import UserBook from './UserBook';
 
 
 import { fetch } from '../../store/csrf';
+import './MyBooksPage.css'
 
 const MyBooksPage = () => {
     const [userBooks, setUserBooks] = useState([]);
@@ -13,7 +14,6 @@ const MyBooksPage = () => {
            const res = await fetch('/api/books');
            const { books } = res.data;
 
-           console.log(books);
            setUserBooks(books)
         })()
     }, [])
