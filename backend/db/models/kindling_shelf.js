@@ -15,9 +15,18 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{}
 	);
+
+	const columnMapping = {
+		through: 'Kindling_Book',
+		otherKey: 'book_id',
+		foreignKey: 'kindling_shelf_id',
+	};
+
 	Kindling_Shelf.associate = function (models) {
 		Kindling_Shelf.belongsTo(models.User, { foreignKey: 'user_id' });
 		Kindling_Shelf.hasMany(models.Kindling_Book, { foreignKey: 'kindling_shelf_id' });
+		Kindling_Shelf.belongsToMany(models.Book, columnMapping);
 	};
+
 	return Kindling_Shelf;
 };

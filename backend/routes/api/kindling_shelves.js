@@ -1,12 +1,12 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { getBookInfo } = require('../../utils/bookApi');
-const { Kindling_Shelf, Kindling_Book, Book } = require('../../db/models');
+const { Kindling_Shelf, Kindling_Book, Book, Burn } = require('../../db/models');
 
 const router = express.Router();
 const defaultShelfNames = ['Torched', 'Torching', 'Want to Torch'];
 
-//gets all books for each shelf
+//gets all book and their info for each kindling shelf
 router.get(
 	'/:userId',
 	asyncHandler(async (req, res, next) => {
@@ -14,36 +14,38 @@ router.get(
 			where: {
 				user_id: req.params.userId,
 			},
+			include: {
+				model: Book,
+				include: Burn,
+			},
 		});
-
 		fullKindlingShelves = await Promise.all(
-			kindlingShelves.map(async shelf => {
-				const shelf_books = await Kindling_Book.findAll({
-					where: {
-						kindling_shelf_id: shelf.id,
-					},
-				});
-				const shelfBooksInfo = await Promise.all(
-					shelf_books.map(async shelf_book => {
-						const book = await Book.findOne({
-							where: {
-								id: shelf_book.id,
-							},
-						});
-						bookInfo = await getBookInfo(book.google_book_id);
-						return bookInfo;
+			kindlingShelves.map(async kindlingShelf => {
+				const books = kindlingShelf.Books;
+				booksInfo = await Promise.all(
+					books.map(async book => {
+						burns = book.Burns;
+						info = await getBookInfo(book.google_book_id);
+						const avgRating = burns.reduce((avg, { rating }, idx, burns) => {
+							return (avg += rating / burns.length);
+						}, 0);
+						info.rating = avgRating;
+						info.book_id = book.id;
+						return info;
 					})
 				);
-				shelfWithInfo = {
-					id: shelf.id,
-					shelf_name: shelf.shelf_name,
-					user_id: shelf.user_id,
-					books: shelfBooksInfo,
+				let { id, shelf_name, user_id, createdAt } = kindlingShelf;
+				const fullKindlingShelf = {
+					id,
+					shelf_name,
+					user_id,
+					createdAt,
+					books: booksInfo,
 				};
-				return shelfWithInfo;
+				return fullKindlingShelf;
 			})
 		);
-		console.log(fullKindlingShelves);
+
 		return res.json(fullKindlingShelves);
 	})
 );
@@ -72,6 +74,45 @@ router.post(
 		});
 		return res.json({ newShelf });
 	})
+);
+
+//add book to kindling shelf
+router.post(
+	'/:shelfId/:googleBookId',
+	asyncHandler(async (req, res) => {
+		const shelfId = req.params.shelfId;
+		const googleBookId = req.params.googleBookId;
+
+		let newKindlingBook = Kindling_Book.create({
+			shelf_id: shelfId,
+			google_book_id: googleBookId,
+		});
+		return res.json(newKindlingBook);
+	})
+);
+
+//remove book from kindling shelf
+router.patch(
+	'/:shelfId/:googleBookId',
+	asyncHandler(async (req, res) => {
+		const shelfId = req.params.shelfId;
+		const googleBookId = req.params.googleBookId;
+
+		let kindlingBook = Kindling_Book.findOne({
+			where: {
+				shelf_id: shelfId,
+				google_book_id: googleBookId,
+			},
+		});
+		kindlingBook.destroy();
+		return res.json(kindlingBook);
+	})
+);
+
+// rename kindling shelf
+router.patch(
+	'/:shelfId',
+	asyncHandler(async (req, res) => {})
 );
 
 module.exports = router;
