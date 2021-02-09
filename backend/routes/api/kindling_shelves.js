@@ -112,7 +112,18 @@ router.patch(
 // rename kindling shelf
 router.patch(
 	'/:shelfId',
-	asyncHandler(async (req, res) => {})
+	asyncHandler(async (req, res) => {
+		const { newName } = req.body;
+		const shelf = await Kindling_Shelf.findOne({
+			where: {
+				id: req.params.shelfId,
+			},
+		});
+		await shelf.update({
+			shelf_name: newName,
+		});
+		return res.json(shelf);
+	})
 );
 
 module.exports = router;
