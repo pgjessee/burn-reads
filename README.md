@@ -83,8 +83,7 @@ Simply search for a book to set its torch status, add it to a custom kindling sh
 - PATCH /api/users/:userId -- Edit user info
 
 ### 3. Shelves
-- GET /api/shelves/:userId -- Get all kindling shelves of user
-- GET /api/shelves/:shelfId -- Get all books on kindling shelf
+- GET /api/shelves/:userId -- Get all kindling shelves and books for user
 - POST /api/shelves/new-user -- Set default kindling shelves for new user
 - POST /api/shelves/ -- Create new custom kindling shelf
 - POST /api/shelves/:shelfId/:googleBookId -- Add book to kindling shelf
