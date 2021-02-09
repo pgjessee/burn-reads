@@ -126,4 +126,23 @@ router.patch(
 	})
 );
 
+router.delete(
+	'/:shelfId',
+	asyncHandler(async (req, res) => {
+		const shelfId = req.params.shelfId;
+		const shelf = await Kindling_Shelf.findOne({
+			where: {
+				id: shelfId,
+			},
+		});
+		await shelf.destroy();
+		await Kindling_Book({
+			where: {
+				kindling_shelf_id: shelfId,
+			},
+		});
+		return res.json(shelf);
+	})
+);
+
 module.exports = router;
