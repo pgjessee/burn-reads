@@ -7,7 +7,9 @@ const router = express.Router();
 
 router.get('/splash', asyncHandler(async(req, res, next) => {
 
-	const splashBooks = await Book.findAll()
+	const splashBooks = await Book.findAll({
+		limit: 10
+	});
 
 	return res.json({ splashBooks })
 }));
