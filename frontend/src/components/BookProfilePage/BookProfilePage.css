@@ -9,6 +9,8 @@
     display: grid;
     grid-template-columns: 25% 75%;
     margin: 0 auto;
+    padding-bottom: 30px;
+    border-bottom: 1px solid gray;
 }
 
 .profile-thumbnail-shelf-select-container {
@@ -29,7 +31,9 @@ h2 {
 }
 
 .button-link-burn {
-    margin-top: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid gray;
 }
 
 .burn-book-button {
@@ -44,12 +48,20 @@ h2 {
     box-shadow: 0 0 3px 1px;
 }
 
-.profile-burns-container {
-    margin-top: 20px;
+.book-burns-header {
+    font-size: 24px;
+    padding-top: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid gray;
 }
 
+
 .profile-book-burn-container {
-    margin-top: 40px;
+    /* margin-top: 40px; */
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid gray;
+    border-radius: 20px;
 }
 
 .burn-firstname {
