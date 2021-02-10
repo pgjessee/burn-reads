@@ -36,9 +36,6 @@ function App() {
 					<Route path='/:googleBookId/reviews' exact={true}>
 						<WriteReviewPage />
 					</Route>
-					<Route path='/'>
-						<Test />
-					</Route>
 					<Route path='/search-results'>
 						<SearchResults />
 					</Route>
