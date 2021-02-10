@@ -42,7 +42,10 @@ const SignUpFormPage = () => {
 	const demoLogin = async (e) => {
 		setCredential("demo@aa.io");
 		setPassword("123");
-		return dispatch(sessionActions.login({ credential, password }));
+		return dispatch(sessionActions.login({ credential, password })).catch(
+			(res) => {
+				if (res.data && res.data.errors) console.log(res.data.errors);
+			})
 	};
 
 	return (
