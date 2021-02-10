@@ -30,14 +30,17 @@ function App() {
 					<Route path='/signup'>
 						<SignUpFormPage />
 					</Route>
+					<Route exact={true} path='/search/:searchTerm'>
+						<SearchResults />
+					</Route>
+					<Route exact={true} path='/search-test'>
+						<Test />
+					</Route>
 					<Route path='/:googleBookId' exact={true}>
 						<BookProfilePage />
 					</Route>
 					<Route path='/:googleBookId/reviews' exact={true}>
 						<WriteReviewPage />
-					</Route>
-					<Route path='/search-results'>
-						<SearchResults />
 					</Route>
 				</Switch>
 			</BrowserRouter>

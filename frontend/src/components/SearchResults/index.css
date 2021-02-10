@@ -1,0 +1,26 @@
+#search-resultsContainer {
+	width: 100%;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-items: space-evenly;
+}
+
+.search-bookContainer {
+	width: 300px;
+	height: auto;
+	display: flex;
+}
+
+.search-bookThumbnailContainer {
+	cursor: pointer;
+}
+
+.greyFire {
+	color: lightgrey;
+}
+
+.redFire {
+	color: firebrick;
+}
