@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import SplashPage from './components/SplashPage';
 import LoginFormPage from './components/LoginFormPage';
 import SignUpFormPage from './components/SignupFormPage/SignUpFormPage';
-import BookProfilePage from './components/BookProfilePage'
-import WriteReviewPage from './components/WriteReviewPage'
+import BookProfilePage from './components/BookProfilePage';
+import WriteReviewPage from './components/WriteReviewPage';
 import Test from './components/Test';
 import * as sessionActions from './store/session';
 
@@ -19,6 +20,9 @@ function App() {
 		isLoaded && (
 			<BrowserRouter>
 				<Switch>
+					<Route exact={true} path='/'>
+						<SplashPage />
+					</Route>
 					<Route path='/login'>
 						<LoginFormPage />
 					</Route>
@@ -30,9 +34,6 @@ function App() {
 					</Route>
 					<Route path='/:googleBookId/reviews' exact={true} >
 						<WriteReviewPage />
-					</Route>
-					<Route path='/'>
-						<Test />
 					</Route>
 				</Switch>
 			</BrowserRouter>

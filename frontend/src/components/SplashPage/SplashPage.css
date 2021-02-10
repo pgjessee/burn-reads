@@ -1,0 +1,37 @@
+
+
+.splashbooks-body-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.splashbooks-title-header {
+    font-size: 36px;
+}
+
+.splash-table-head {
+    border-bottom: 1px solid black;
+}
+
+.user-book-table-row {
+    height: 300px;
+    border-bottom: 1px solid black;
+}
+
+
+.splashbook-thumbnail {
+    text-align: center;
+}
+
+.splashbook-title {
+    text-align: left;
+}
+
+.splashbook-authors {
+    text-align: center;
+}
+
+.splashbook-burn-link {
+    text-align: center;
+}
