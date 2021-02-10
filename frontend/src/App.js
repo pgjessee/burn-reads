@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import SplashPage from './components/SplashPage';
 import LoginFormPage from './components/LoginFormPage';
 import SignUpFormPage from './components/SignupFormPage/SignUpFormPage';
 import BookProfilePage from './components/BookProfilePage';
@@ -20,6 +21,9 @@ function App() {
 		isLoaded && (
 			<BrowserRouter>
 				<Switch>
+					<Route exact={true} path='/'>
+						<SplashPage />
+					</Route>
 					<Route path='/login'>
 						<LoginFormPage />
 					</Route>

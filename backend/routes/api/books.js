@@ -5,6 +5,16 @@ const { Book, Burn, User } = require('../../db/models');
 
 const router = express.Router();
 
+router.get('/splash', asyncHandler(async(req, res, next) => {
+
+	const splashBooks = await Book.findAll({
+		limit: 10
+	});
+
+	return res.json({ splashBooks })
+}));
+
+
 router.get(
 	'/search/:searchTerm',
 	asyncHandler(async (req, res) => {
@@ -37,5 +47,8 @@ router.get(
 		return res.json({ book, burns });
 	})
 );
+
+
+
 
 module.exports = router;
