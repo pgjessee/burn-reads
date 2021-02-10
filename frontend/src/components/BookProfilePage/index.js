@@ -65,6 +65,7 @@ function BookProfilePage() {
                     <NavLink to={reviewsLink}><button className="burn-book-button">Burn this book</button></NavLink>
                 </div>
                 <div className="profile-burns-container">
+                    <div className="book-burns-header">This Book's Burns</div>
                     {bookBurns.map(burn => {
                         return <BookBurn key={burn.user_id} burn={burn}/>
                     })}
