@@ -39,6 +39,16 @@ const SignUpFormPage = () => {
 		);
 	};
 
+	const demoLogin = async (e) => {
+		console.log("e", e);
+		e.preventDefault();
+		setCredential("demo@aa.io");
+		setPassword("123");
+		console.log("Demo function", credential, password);
+		// return dispatch(sessionActions.login({ credential, password }));
+		return dispatch(sessionActions.login({ credential, password }));
+	};
+
 	return (
 		<div>
 			<Flex
@@ -127,12 +137,17 @@ const SignUpFormPage = () => {
 											<Button type="submit" boxShadow="md" width="100%">
 												Login
 											</Button>
-											<Button type="submit" boxShadow="md" width="100%" mt={4}>
-												Demo Login
-											</Button>
 										</div>
 									</Stack>
 								</form>
+								<Button
+									boxShadow="md"
+									width="100%"
+									mt={4}
+									onClick={() => demoLogin()}
+								>
+									Demo Login
+								</Button>
 							</TabPanel>
 							<TabPanel>
 								<SignUpForm />
