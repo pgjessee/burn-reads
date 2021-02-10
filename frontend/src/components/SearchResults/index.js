@@ -41,9 +41,7 @@ const SearchResults = () => {
 									</a>
 									<div className='search-authorContainer'>by {bookResult.authors}</div>
 									<div className='search-rating'>
-										{/* <UserFlames rating={bookResult.rating} /> */}
-										<BurnRating rating={bookResult.rating} />
-										<BurnRating rating={4} />
+										<BurnRating rating={4.5} id={bookResult.id} />
 									</div>
 								</div>
 							</div>
