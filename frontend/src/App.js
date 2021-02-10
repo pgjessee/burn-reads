@@ -29,11 +29,11 @@ function App() {
 					<Route path='/signup'>
 						<SignUpFormPage />
 					</Route>
-					<Route path='/:googleBookId' exact={true} >
-						<BookProfilePage />
-					</Route>
 					<Route path='/:googleBookId/reviews' exact={true} >
 						<WriteReviewPage />
+					</Route>
+					<Route path='/:googleBookId' exact={true} >
+						<BookProfilePage />
 					</Route>
 				</Switch>
 			</BrowserRouter>
