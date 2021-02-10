@@ -32,8 +32,8 @@ function BookProfilePage() {
             setAuthors(bookAuthors)
             setReviewsLink(writeBurn)
 
-            console.log(bookBurns)
         })()
+
     }, [])
 
     return (
@@ -56,7 +56,8 @@ function BookProfilePage() {
                             <h2>By {authors}</h2>
                         </div>
                         <div className="profile-description-container">
-                            <span>{googleBook.description}</span>
+                            {/* <span>{googleBook.description}</span> */}
+                            {googleBook.description}
                         </div>
                     </div>
                 </div>
@@ -64,6 +65,7 @@ function BookProfilePage() {
                     <NavLink to={reviewsLink}><button className="burn-book-button">Burn this book</button></NavLink>
                 </div>
                 <div className="profile-burns-container">
+                    <div className="book-burns-header">This Book's Burns</div>
                     {bookBurns.map(burn => {
                         return <BookBurn key={burn.user_id} burn={burn}/>
                     })}
