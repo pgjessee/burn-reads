@@ -40,12 +40,8 @@ const SignUpFormPage = () => {
 	};
 
 	const demoLogin = async (e) => {
-		console.log("e", e);
-		e.preventDefault();
 		setCredential("demo@aa.io");
 		setPassword("123");
-		console.log("Demo function", credential, password);
-		// return dispatch(sessionActions.login({ credential, password }));
 		return dispatch(sessionActions.login({ credential, password }));
 	};
 
@@ -139,15 +135,15 @@ const SignUpFormPage = () => {
 											</Button>
 										</div>
 									</Stack>
+									<Button
+										boxShadow="md"
+										width="100%"
+										mt={4}
+										onClick={() => demoLogin()}
+									>
+										Demo Login
+									</Button>
 								</form>
-								<Button
-									boxShadow="md"
-									width="100%"
-									mt={4}
-									onClick={() => demoLogin()}
-								>
-									Demo Login
-								</Button>
 							</TabPanel>
 							<TabPanel>
 								<SignUpForm />
