@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 // import { AiOutlineClose } from "react-icons/ai";
-import { Flex, HStack, MenuIcon, Stack, Text } from "@chakra-ui/react";
+import { Button, Flex, HStack, Input, MenuIcon, Stack, Text } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
+import Logo from "./Logo";
+// import { logout } from "../../store/session";
+
+
+const REMOVE_SESSION_USER = "REMOVE_SESSION_USER";
 
 
 const NavBarContainer = (props) => {
@@ -27,24 +33,42 @@ const NavBarContainer = (props) => {
 	);
 };
 
-const NavBar = ({ authenticated, setAuthenticated }) => {
+const NavBar = () => {
 	// const [isOpen, setIsOpen] = useState(false);
 
 	// const toggle = () => setIsOpen(!isOpen);
-
+	const sessionUser = useSelector((state) => state.session.user);
+	const removeSessionUser = () => {
+		return {
+			type: REMOVE_SESSION_USER,
+			user: null,
+		};
+	};
+	 const logout = () => async (dispatch) => {
+			console.log("Logout function");
+			const res = await fetch("/api/session", {
+				method: "DELETE",
+			});
+			dispatch(removeSessionUser());
+			return res;
+		};
 	return (
 		// <Flex >
 		<NavBarContainer>
 			<HStack>
+				<Logo/>
 			</HStack>
 			<HStack>
-				{authenticated && <NavLink to="/users" exact={true} activeClassName="active">
+				<Input placeholder="Search here" bg="white" />
+			</HStack>
+			<HStack>
+				{sessionUser && <NavLink to="/users" exact={true} activeClassName="active">
 						<Stack spacing="0" direction="column" align="center">
 							{/* <RiAncientGateLine size="30px" /> */}
-							<Text>Students</Text>
+							<NavLink to="/">My Kindling Shelves</NavLink>
 						</Stack>
 					</NavLink>}
-				{!authenticated && (
+				{!sessionUser && (
 					<>
 						<NavLink to="/login" exact={true} activeClassName="active">
 							Login
@@ -54,7 +78,7 @@ const NavBar = ({ authenticated, setAuthenticated }) => {
 						</NavLink>
 					</>
 				)}
-				{/* {authenticated && <LogoutButton setAuthenticated={setAuthenticated} />} */}
+				{sessionUser && <Button onClick={()=> logout()}>Logout</Button>}
 			</HStack>
 		</NavBarContainer>
 		// </Flex>
