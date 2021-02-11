@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 // import { AiOutlineClose } from "react-icons/ai";
 import { Flex, HStack, MenuIcon, Stack, Text } from "@chakra-ui/react";
-import Logo from "./Logo";
 
 
 const NavBarContainer = (props) => {
@@ -11,15 +10,15 @@ const NavBarContainer = (props) => {
 			as="nav"
 			align="center"
 			justify="space-between"
+			position="sticky"
+			top="0"
 			wrap="wrap"
 			w="100%"
 			mb={8}
 			p={3}
 			fontWeight="bold"
-			// bg="blue"
-			// color="black"
 			opacity="0.8"
-			bg={["gray.200"]}
+			bg={["red.200"]}
 			color={["black", "black", "primary.700", "primary.700"]}
 			// borderBottom="1px solid red"
 		>
@@ -37,26 +36,25 @@ const NavBar = ({ authenticated, setAuthenticated }) => {
 		// <Flex >
 		<NavBarContainer>
 			<HStack>
-				<Logo />
 			</HStack>
 			<HStack>
-				{/* {authenticated && <NavLink to="/users" exact={true} activeClassName="active">
+				{authenticated && <NavLink to="/users" exact={true} activeClassName="active">
 						<Stack spacing="0" direction="column" align="center">
-							<RiAncientGateLine size="30px" />
+							{/* <RiAncientGateLine size="30px" /> */}
 							<Text>Students</Text>
 						</Stack>
-					</NavLink>} */}
+					</NavLink>}
 				{!authenticated && (
 					<>
 						<NavLink to="/login" exact={true} activeClassName="active">
 							Login
 						</NavLink>
-						<NavLink to="/sign-up" exact={true} activeClassName="active">
+						<NavLink to="/signup" exact={true} activeClassName="active">
 							Sign Up
 						</NavLink>
 					</>
 				)}
-				{authenticated && <LogoutButton setAuthenticated={setAuthenticated} />}
+				{/* {authenticated && <LogoutButton setAuthenticated={setAuthenticated} />} */}
 			</HStack>
 		</NavBarContainer>
 		// </Flex>

@@ -9,6 +9,7 @@ import WriteReviewPage from './components/WriteReviewPage';
 import SearchResults from './components/SearchResults';
 import Test from './components/Test';
 import * as sessionActions from './store/session';
+import NavBar from './components/NavBar/NavBar'
 
 function App() {
 	const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function App() {
 	return (
 		isLoaded && (
 			<BrowserRouter>
+				<NavBar/>
 				<Switch>
 					<Route exact={true} path='/'>
 						<SplashPage />
