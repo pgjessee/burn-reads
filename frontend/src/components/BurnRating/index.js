@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './index.css';
 
 export default function BurnRating({ rating, id }) {
 	const [burnRating, setBurnRating] = useState([]);
@@ -22,7 +23,6 @@ export default function BurnRating({ rating, id }) {
 			} else {
 				// if rating is float
 				const ratingFloor = Math.floor(rating);
-				const greystars = 5 - ratingCeiling;
 				for (let i = 0; i < ratingFloor; i++) {
 					flames.push(<i key={`${id}${i}`} className='fab fa-gripfire redFire'></i>);
 				}
@@ -46,11 +46,11 @@ export default function BurnRating({ rating, id }) {
 				setBurnRating(flames);
 			}
 		})();
-	}, [rating]);
+	}, [rating, id]);
 
 	return (
 		<>
-			<div style={{ border: '1px solid black', width: '100px', height: '50px' }}>{burnRating}</div>
+			<div>{burnRating}</div>
 		</>
 	);
 }

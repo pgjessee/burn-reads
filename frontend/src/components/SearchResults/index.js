@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetch } from '../../store/csrf';
 import './index.css';
-import UserFlames from '../UserFlame';
 import BurnRating from '../BurnRating';
 
 const SearchResults = () => {
@@ -23,30 +22,38 @@ const SearchResults = () => {
 	return (
 		<>
 			{loaded && (
-				<div id='search-resultsContainer'>
-					{searchResults?.map(bookResult => {
-						console.log(bookResult);
-						return (
-							<div className='search-bookContainer' key={bookResult.id}>
-								<div className='search-bookThumbnailContainer'>
-									<img
-										className='search-bookThumbnail'
-										alt='thumbnail'
-										src={bookResult.smallThumbnail}
-									/>
-								</div>
-								<div className='search-bookInfoContainer'>
-									<a className='search-BookTitle' href={`/${bookResult.id}`}>
-										{bookResult.title}
-									</a>
-									<div className='search-authorContainer'>by {bookResult.authors}</div>
-									<div className='search-rating'>
-										<BurnRating rating={4.5} id={bookResult.id} />
+				<div id='search-resultsWrapper'>
+					<div id='search-resultsContainer'>
+						{searchResults?.map(bookResult => {
+							console.log(bookResult);
+							return (
+								<>
+									<div className='search-bookContainer' key={bookResult.id}>
+										<div className='search-bookThumbnailContainer'>
+											<img
+												className='search-bookThumbnail'
+												alt='thumbnail'
+												src={bookResult.smallThumbnail}
+											/>
+										</div>
+										<div className='search-bookInfoContainer'>
+											<a className='search-BookTitle' href={`/${bookResult.id}`}>
+												{bookResult.title}
+											</a>
+											<div className='search-authorContainer'>by {bookResult.authors}</div>
+											<div className='search-rating'>
+												{/* <BurnRating rating={bookResult.rating} id={bookResult.id} />{' '} */}
+												{/* <div className='search-ratingText'>{bookResult.rating} avg rating</div> */}
+												<BurnRating rating={4} id={bookResult.id} />
+												<div className='search-ratingText'>{4} avg rating</div>
+											</div>
+										</div>
 									</div>
-								</div>
-							</div>
-						);
-					})}
+									<hr></hr>
+								</>
+							);
+						})}
+					</div>
 				</div>
 			)}
 		</>
