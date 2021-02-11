@@ -63,6 +63,42 @@ module.exports = {
         review: 'Why is a vampire that is more than one hundred years old still in high school?',
         rating: 5
       },
+      {
+        book_id: 11,
+        user_id: 1,
+        review: 'I would walk 500 miles and I would walk 500 more just to be the man.',
+        rating: 3
+      },
+      {
+        book_id: 12,
+        user_id: 1,
+        review: 'Testy testy testy spach spach spach winky wink.',
+        rating: 4
+      },
+      {
+        book_id: 13,
+        user_id: 1,
+        review: "This book is the cat's pajamas. Mom's spaghetti. He's nervous, but on the surface he looks calm and ready... Mom's spaghetti. I forgot the rest of the song...",
+        rating: 2
+      },
+      {
+        book_id: 14,
+        user_id: 1,
+        review: "Time to rumble with the greasers.",
+        rating: 3
+      },
+      {
+        book_id: 15,
+        user_id: 1,
+        review: "Joseph Stalin is a punk.",
+        rating: 3
+      },
+      {
+        book_id: 16,
+        user_id: 1,
+        review: "It's hard to imagine a commercial by Apple Computer Company inspired the writing of this book.",
+        rating: 5
+      },
     ], {});
 
   },

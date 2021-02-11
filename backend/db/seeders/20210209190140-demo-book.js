@@ -32,6 +32,24 @@ module.exports = {
       },
       {
         google_book_id: 'ZfjzX7M8zt0C',
+      },
+      {
+        google_book_id: '_ojXNuzgHRcC',
+      },
+      {
+        google_book_id: 'RJxWIQOvoZUC',
+      },
+      {
+        google_book_id: 'zaRoX10_UsMC',
+      },
+      {
+        google_book_id: 'ha6GIYze5lEC',
+      },
+      {
+        google_book_id: 'nkalO3OsoeMC',
+      },
+      {
+        google_book_id: 'kotPYEqx7kMC',
       }
     ], {});
   },

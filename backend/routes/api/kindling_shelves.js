@@ -1,5 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
+const { Op } = require('sequelize')
 const { getBookInfo } = require('../../utils/bookApi');
 const { Kindling_Shelf, Kindling_Book, Book, Burn } = require('../../db/models');
 
@@ -10,17 +11,18 @@ const defaultShelfNames = ['Torched', 'Torching', 'Want to Torch'];
 router.get(
 	'/:userId',
 	asyncHandler(async (req, res, next) => {
-		let kindlingShelves = await Kindling_Shelf.findAll({
+		let defaultKindlingShelves = await Kindling_Shelf.findAll({
 			where: {
 				user_id: req.params.userId,
+				shelf_name: ['Torched', 'Torching', 'Want to Torch']
 			},
 			include: {
 				model: Book,
 				include: Burn,
 			},
 		});
-		fullKindlingShelves = await Promise.all(
-			kindlingShelves.map(async kindlingShelf => {
+		fullDefaultKindlingShelves = await Promise.all(
+			defaultKindlingShelves.map(async kindlingShelf => {
 				const books = kindlingShelf.Books;
 				booksInfo = await Promise.all(
 					books.map(async book => {
@@ -46,7 +48,46 @@ router.get(
 			})
 		);
 
-		return res.json(fullKindlingShelves);
+		let customKindlingShelves = await Kindling_Shelf.findAll({
+			where: {
+				user_id: req.params.userId,
+				shelf_name: {
+					[Op.notIn]: ['Torched', 'Torching', 'Want to Torch']
+				}
+			},
+			include: {
+				model: Book,
+				include: Burn,
+			},
+		});
+		fullCustomKindlingShelves = await Promise.all(
+			customKindlingShelves.map(async kindlingShelf => {
+				const books = kindlingShelf.Books;
+				booksInfo = await Promise.all(
+					books.map(async book => {
+						burns = book.Burns;
+						info = await getBookInfo(book.google_book_id);
+						const avgRating = burns.reduce((avg, { rating }, idx, burns) => {
+							return (avg += rating / burns.length);
+						}, 0);
+						info.rating = avgRating;
+						info.book_id = book.id;
+						return info;
+					})
+				);
+				let { id, shelf_name, user_id, createdAt } = kindlingShelf;
+				const fullKindlingShelf = {
+					id,
+					shelf_name,
+					user_id,
+					createdAt,
+					books: booksInfo,
+				};
+				return fullKindlingShelf;
+			})
+		);
+
+		return res.json({ fullDefaultKindlingShelves, fullCustomKindlingShelves });
 	})
 );
 
