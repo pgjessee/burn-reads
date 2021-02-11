@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 // import { AiOutlineClose } from "react-icons/ai";
-import { Button, Flex, HStack, Input, MenuIcon, Stack, Text } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import {
+	Button,
+	Flex,
+	HStack,
+	Input,
+	MenuIcon,
+	Stack,
+	Text,
+} from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
 import Logo from "./Logo";
-// import { logout } from "../../store/session";
-
+import * as sessionActions from "../../store/session";
 
 const REMOVE_SESSION_USER = "REMOVE_SESSION_USER";
-
 
 const NavBarContainer = (props) => {
 	return (
@@ -38,36 +44,30 @@ const NavBar = () => {
 
 	// const toggle = () => setIsOpen(!isOpen);
 	const sessionUser = useSelector((state) => state.session.user);
-	const removeSessionUser = () => {
-		return {
-			type: REMOVE_SESSION_USER,
-			user: null,
-		};
+	const dispatch = useDispatch();
+
+	const handleLogoutBtn = (e) => {
+		dispatch(sessionActions.logout());
 	};
-	 const logout = () => async (dispatch) => {
-			console.log("Logout function");
-			const res = await fetch("/api/session", {
-				method: "DELETE",
-			});
-			dispatch(removeSessionUser());
-			return res;
-		};
+
 	return (
 		// <Flex >
 		<NavBarContainer>
 			<HStack>
-				<Logo/>
+				<Logo />
 			</HStack>
 			<HStack>
 				<Input placeholder="Search here" bg="white" />
 			</HStack>
 			<HStack>
-				{sessionUser && <NavLink to="/users" exact={true} activeClassName="active">
+				{sessionUser && (
+					<NavLink to="/users" exact={true} activeClassName="active">
 						<Stack spacing="0" direction="column" align="center">
 							{/* <RiAncientGateLine size="30px" /> */}
-							<NavLink to="/">My Kindling Shelves</NavLink>
+							<NavLink to="/mybooks">My Books</NavLink>
 						</Stack>
-					</NavLink>}
+					</NavLink>
+				)}
 				{!sessionUser && (
 					<>
 						<NavLink to="/login" exact={true} activeClassName="active">
@@ -78,7 +78,9 @@ const NavBar = () => {
 						</NavLink>
 					</>
 				)}
-				{sessionUser && <Button onClick={()=> logout()}>Logout</Button>}
+				{sessionUser && (
+					<Button onClick={() => handleLogoutBtn()}>Logout</Button>
+				)}
 			</HStack>
 		</NavBarContainer>
 		// </Flex>
