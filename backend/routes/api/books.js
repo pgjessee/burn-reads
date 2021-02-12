@@ -29,22 +29,26 @@ router.get(
 	'/:googleBookId',
 	asyncHandler(async (req, res) => {
 		const googleBookId = req.params.googleBookId;
-		let book = await getBookInfo(googleBookId);
 
 		let findBook = await Book.findOne({
 			where: {
 				google_book_id: googleBookId,
 			},
 		});
+		let burns;
 
-		if (!findBook) return res.json({ book, burns: [] });
+		if (findBook) {
+			burns = await Burn.findAll({
+				where: {
+					book_id: findBook.id,
+				},
+				include: User,
+			});
+		} else {
+			burns = [];
+		}
+		let book = await getBookInfo(googleBookId);
 
-		const burns = await Burn.findAll({
-			where: {
-				book_id: findBook.id,
-			},
-			include: User,
-		});
 		return res.json({ book, burns });
 	})
 );
