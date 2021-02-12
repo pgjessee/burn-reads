@@ -5,21 +5,22 @@ const { Book, Burn, User } = require('../../db/models');
 
 const router = express.Router();
 
-router.get('/splash', asyncHandler(async(req, res, next) => {
+router.get(
+	'/splash',
+	asyncHandler(async (req, res, next) => {
+		const splashBooks = await Book.findAll({
+			limit: 10,
+		});
 
-	const splashBooks = await Book.findAll({
-		limit: 10
-	});
-
-	return res.json({ splashBooks })
-}));
-
+		return res.json({ splashBooks });
+	})
+);
 
 router.get(
-	'/search/:searchTerm',
+	'/search/:searchTerm/:pageNumber/:maxResults',
 	asyncHandler(async (req, res) => {
-		let { pageNumber, resultsShown } = req.body;
-		books = await bookSearch(req.params.searchTerm, resultsShown, pageNumber);
+		const { searchTerm, maxResults, pageNumber } = req.params;
+		books = await bookSearch(searchTerm, maxResults, pageNumber);
 		return res.json(books);
 	})
 );
@@ -28,27 +29,28 @@ router.get(
 	'/:googleBookId',
 	asyncHandler(async (req, res) => {
 		const googleBookId = req.params.googleBookId;
-		let book = await getBookInfo(googleBookId);
 
 		let findBook = await Book.findOne({
 			where: {
 				google_book_id: googleBookId,
 			},
 		});
+		let burns;
 
-		if (!findBook) return res.json({ book, burns: [] });
+		if (findBook) {
+			burns = await Burn.findAll({
+				where: {
+					book_id: findBook.id,
+				},
+				include: User,
+			});
+		} else {
+			burns = [];
+		}
+		let book = await getBookInfo(googleBookId);
 
-		const burns = await Burn.findAll({
-			where: {
-				book_id: findBook.id,
-			},
-			include: User
-		});
 		return res.json({ book, burns });
 	})
 );
-
-
-
 
 module.exports = router;

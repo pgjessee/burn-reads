@@ -1,0 +1,57 @@
+#search-resultsWrapper {
+	width: 100%;
+	height: auto;
+	display: flex;
+	justify-content: center;
+}
+
+#search-resultsContainer {
+	width: 500px;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.search-bookContainer {
+	width: 500px;
+	height: auto;
+	display: flex;
+	margin: 5px 0 10px 0;
+}
+
+.search-bookThumbnailContainer {
+	cursor: pointer;
+	width: 50px;
+	height: 80px;
+}
+
+.search-bookThumbnailContainer img {
+	width: 100%;
+}
+
+.search-bookInfoContainer {
+	margin-top: -5px;
+	margin-left: 15px;
+}
+
+.search-BookTitle {
+	font-weight: 700;
+}
+
+.search-rating {
+	display: flex;
+	margin-top: 5px;
+}
+
+.search-ratingText {
+	color: rgb(179, 177, 177);
+	font-size: 0.8rem;
+	margin-left: 5px;
+}
+
+hr {
+	border-top: 1px solid lightgrey;
+	height: 1px;
+	width: 100%;
+}

@@ -9,7 +9,7 @@ import WriteReviewPage from './components/WriteReviewPage';
 import SearchResults from './components/SearchResults';
 import Test from './components/Test';
 import * as sessionActions from './store/session';
-import NavBar from './components/NavBar/NavBar'
+import NavBar from './components/NavBar/NavBar';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 function App() {
@@ -18,11 +18,11 @@ function App() {
 	useEffect(() => {
 		dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
 	}, [dispatch]);
-	
+
 	const LoginContainer = () => (
-		<div className="container">
-			<Route exact path="/" render={() => <Redirect to="/login" />} />
-			<Route path="/login" component={LoginFormPage} />
+		<div className='container'>
+			<Route exact path='/' render={() => <Redirect to='/login' />} />
+			<Route path='/login' component={LoginFormPage} />
 		</div>
 	);
 
@@ -31,24 +31,26 @@ function App() {
 			<BrowserRouter>
 				<NavBar />
 				<Switch>
-					<Route exact path="/login" component={LoginContainer} />
-					{/* <Route component={DefaultContainer} /> */}
-					<Route exact={true} path="/">
+					<Route exact path='/login' component={LoginContainer} />
+					<Route exact={true} path='/'>
 						<SplashPage />
 					</Route>
-					<Route path="/login">
+					<Route path='/login'>
 						<LoginFormPage />
 					</Route>
-					<Route path="/signup">
+					<Route path='/signup'>
 						<SignUpFormPage />
 					</Route>
-					<Route path="/:googleBookId" exact={true}>
+					<Route path='/:googleBookId' exact={true}>
 						<BookProfilePage />
 					</Route>
-					<Route path="/:googleBookId/reviews" exact={true}>
+					<Route path='/:googleBookId/reviews' exact={true}>
 						<WriteReviewPage />
 					</Route>
-					<Route path="/search-results">
+					<Route exact={true} path='/search/:searchTerm'>
+						<SearchResults />
+					</Route>
+					<Route path='/search-results'>
 						<SearchResults />
 					</Route>
 				</Switch>

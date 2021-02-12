@@ -26,10 +26,6 @@ router.get(
 					books.map(async book => {
 						burns = book.Burns;
 						info = await getBookInfo(book.google_book_id);
-						const avgRating = burns.reduce((avg, { rating }, idx, burns) => {
-							return (avg += rating / burns.length);
-						}, 0);
-						info.rating = avgRating;
 						info.book_id = book.id;
 						return info;
 					})
