@@ -1,6 +1,6 @@
 const { BookApiKey } = require('../config');
 const fetch = require('node-fetch');
-const { Kindling_Shelf, Kindling_Book, Book, Burn } = require('../db/models');
+const { Kindling_Shelf, Kindling_Book, Book, Burn, User } = require('../db/models');
 
 const getBookRating = burns => {
 	if (!burns) return 0;
@@ -11,8 +11,9 @@ const getBookRating = burns => {
 	return avgRating;
 };
 
-const getBurns = async googleBookId => {
+const getBurnsAndShelves = async (googleBookId, userId) => {
 	let burns;
+	let shelves;
 	let book = await Book.findOne({
 		where: {
 			google_book_id: googleBookId,
@@ -25,14 +26,38 @@ const getBurns = async googleBookId => {
 				book_id: book.id,
 			},
 		});
+
+		kindlingBooks = await Kindling_Book.findAll({
+			where: {
+				book_id: book.id,
+			},
+			include: {
+				model: Kindling_Shelf,
+				include: User,
+				where: {
+					user_id: userId,
+				},
+			},
+		});
+
+		shelves = kindlingBooks.map(kindlingBook => {
+			return {
+				id: kindlingBook.Kindling_Shelf.id,
+				name: kindlingBook.Kindling_Shelf.shelf_name,
+			};
+		});
+
+		console.log(shelves);
 	} else {
 		burns = [];
+		shelves = [];
 	}
 
+	let burnsAndShelves = { burns, shelves };
 	return burns;
 };
 
-const bookSearch = async (searchTerm, maxResults, pageNumber) => {
+const bookSearch = async (searchTerm, maxResults, pageNumber, userId) => {
 	const url = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&startIndex=${
 		pageNumber * maxResults - maxResults
 	}&maxResults=${maxResults}`;
@@ -41,10 +66,9 @@ const bookSearch = async (searchTerm, maxResults, pageNumber) => {
 		res = await res.json();
 		const books = await Promise.all(
 			res.items.map(async ({ id, volumeInfo }) => {
-				let burns = await getBurns(id);
+				let { burns, shelves } = await getBurnsAndShelves(id, userId);
 
 				avgRating = getBookRating(burns);
-				console.log(id, burns);
 				let bookInfo = {
 					id: id,
 					title: volumeInfo.title,
@@ -55,6 +79,7 @@ const bookSearch = async (searchTerm, maxResults, pageNumber) => {
 					smallThumbnail: volumeInfo.imageLinks.smallThumbnail,
 					thumbnail: volumeInfo.imageLinks.thumbnail,
 					categories: volumeInfo.categories || 'Categories Not Available',
+					kindlingShelves: shelves,
 				};
 
 				return bookInfo;
@@ -67,12 +92,12 @@ const bookSearch = async (searchTerm, maxResults, pageNumber) => {
 	}
 };
 
-const getBookInfo = async bookId => {
+const getBookInfo = async (bookId, userId) => {
 	const url = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
 	let res = await fetch(url);
 	let book = await res.json();
 	let { id, volumeInfo } = book;
-	let burns = await getBurns(id);
+	let { burns, shelves } = await getBurnsAndShelves(id, userId);
 	let avgRating = getBookRating(burns);
 
 	book = {
@@ -85,6 +110,7 @@ const getBookInfo = async bookId => {
 		smallThumbnail: volumeInfo.imageLinks.smallThumbnail,
 		thumbnail: volumeInfo.imageLinks.thumbnail,
 		categories: volumeInfo.categories || 'Categories Not Available',
+		kindlingShelves: shelves,
 	};
 
 	return book;
