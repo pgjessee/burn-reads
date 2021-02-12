@@ -17,18 +17,18 @@ router.get(
 );
 
 router.get(
-	'/search/:searchTerm/:pageNumber/:maxResults',
+	'/search/:searchTerm/:pageNumber/:maxResults/:userId',
 	asyncHandler(async (req, res) => {
-		const { searchTerm, maxResults, pageNumber } = req.params;
-		books = await bookSearch(searchTerm, maxResults, pageNumber);
+		const { searchTerm, maxResults, pageNumber, userId } = req.params;
+		books = await bookSearch(searchTerm, maxResults, pageNumber, userId);
 		return res.json(books);
 	})
 );
 
 router.get(
-	'/:googleBookId',
+	'/:googleBookId/:userId',
 	asyncHandler(async (req, res) => {
-		const googleBookId = req.params.googleBookId;
+		const { googleBookId, userId } = req.params;
 
 		let findBook = await Book.findOne({
 			where: {
@@ -47,7 +47,7 @@ router.get(
 		} else {
 			burns = [];
 		}
-		let book = await getBookInfo(googleBookId);
+		let book = await getBookInfo(googleBookId, userId);
 
 		return res.json({ book, burns });
 	})

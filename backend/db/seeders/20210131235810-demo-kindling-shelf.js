@@ -41,6 +41,24 @@ module.exports = {
 					createdAt: '2021-1-31',
 					updatedAt: '2021-1-31',
 				},
+				{
+					shelf_name: 'Inferno',
+					user_id: 1,
+					createdAt: '2021-1-31',
+					updatedAt: '2021-1-31',
+				},
+				{
+					shelf_name: 'Camp Fire',
+					user_id: 1,
+					createdAt: '2021-1-31',
+					updatedAt: '2021-1-31',
+				},
+				{
+					shelf_name: 'Brimstone',
+					user_id: 1,
+					createdAt: '2021-1-31',
+					updatedAt: '2021-1-31',
+				},
 			],
 			{}
 		);
