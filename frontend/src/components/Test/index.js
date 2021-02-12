@@ -22,7 +22,6 @@ export default function Test() {
 
 	const handleSearch = async () => {
 		history.push(`/search/${searchTerm}`);
-		// console.log('hi');
 	};
 
 	const handleLogoutBtn = e => {

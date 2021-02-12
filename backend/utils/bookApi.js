@@ -3,11 +3,33 @@ const fetch = require('node-fetch');
 const { Kindling_Shelf, Kindling_Book, Book, Burn } = require('../db/models');
 
 const getBookRating = burns => {
+	if (!burns) return 0;
 	const avgRating = burns.reduce((avg, { rating }, idx, burns) => {
 		return (avg += rating / burns.length);
 	}, 0);
 
 	return avgRating;
+};
+
+const getBurns = async googleBookId => {
+	let burns;
+	let book = await Book.findOne({
+		where: {
+			google_book_id: googleBookId,
+		},
+	});
+
+	if (book) {
+		burns = await Burn.findAll({
+			where: {
+				book_id: book.id,
+			},
+		});
+	} else {
+		burns = [];
+	}
+
+	return burns;
 };
 
 const bookSearch = async (searchTerm, maxResults, pageNumber) => {
@@ -19,16 +41,10 @@ const bookSearch = async (searchTerm, maxResults, pageNumber) => {
 		res = await res.json();
 		const books = await Promise.all(
 			res.items.map(async ({ id, volumeInfo }) => {
-				let book = await Book.findOne({
-					where: { google_book_id: id },
-					include: Burn,
-				});
-				// console.log(book);
-				// console.log('these are the burns', book.Burns);
-				let avgRating;
-				if (book) {
-					avgRating = getBookRating(book.Burns);
-				}
+				let burns = await getBurns(id);
+
+				avgRating = getBookRating(burns);
+				console.log(id, burns);
 				let bookInfo = {
 					id: id,
 					title: volumeInfo.title,
@@ -51,11 +67,12 @@ const bookSearch = async (searchTerm, maxResults, pageNumber) => {
 	}
 };
 
-const getBookInfo = async (bookId, burns) => {
+const getBookInfo = async bookId => {
 	const url = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
 	let res = await fetch(url);
 	let book = await res.json();
 	let { id, volumeInfo } = book;
+	let burns = await getBurns(id);
 	let avgRating = getBookRating(burns);
 
 	book = {

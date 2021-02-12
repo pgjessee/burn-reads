@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import SignUpFormPage from "../SignupFormPage/SignUpForm"
+import SignUpFormPage from "../SignupFormPage/SignUpForm";
 
 import "./LoginFormPage.css";
 import {
@@ -37,6 +37,12 @@ const LoginFormPage = () => {
 				if (res.data && res.data.errors) setErrors(res.data.errors);
 			}
 		);
+	};
+
+	const demoLogin = async (e) => {
+		setCredential("demo@aa.io");
+		setPassword("123");
+		return dispatch(sessionActions.login({ credential, password }));
 	};
 
 	return (
@@ -127,7 +133,12 @@ const LoginFormPage = () => {
 											<Button type="submit" boxShadow="md" width="100%">
 												Login
 											</Button>
-											<Button type="submit" boxShadow="md" width="100%" mt={4}>
+											<Button
+												boxShadow="md"
+												width="100%"
+												mt={4}
+												onClick={() => demoLogin()}
+											>
 												Demo Login
 											</Button>
 										</div>
@@ -135,7 +146,7 @@ const LoginFormPage = () => {
 								</form>
 							</TabPanel>
 							<TabPanel>
-								<SignUpFormPage/>
+								<SignUpFormPage />
 							</TabPanel>
 						</TabPanels>
 					</Tabs>
