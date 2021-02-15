@@ -74,7 +74,9 @@ const SignUpFormPage = () => {
 				</Box>
 				<Box
 					className="form"
-					bg="#CC232A"
+					bg="#F7B05B"
+					border="2px"
+					borderColor="red.500"
 					width="350px"
 					margin="10px"
 					p={5}

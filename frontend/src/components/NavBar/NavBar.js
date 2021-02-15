@@ -11,19 +11,19 @@ const REMOVE_SESSION_USER = 'REMOVE_SESSION_USER';
 const NavBarContainer = props => {
 	return (
 		<Flex
-			as='nav'
-			align='center'
-			justify='space-between'
-			position='sticky'
-			top='0'
-			wrap='wrap'
-			w='100%'
-			mb={8}
+			as="nav"
+			align="center"
+			justify="space-between"
+			position="sticky"
+			top="0"
+			wrap="wrap"
+			w="100%"
+			mb={0}
 			p={3}
-			fontWeight='bold'
-			opacity='0.8'
-			bg={['red.200']}
-			color={['black', 'black', 'primary.700', 'primary.700']}
+			fontWeight="bold"
+			opacity="1"
+			bg={["red.200"]}
+			color={["black", "black", "primary.700", "primary.700"]}
 			// borderBottom="1px solid red"
 		>
 			{props.children}
