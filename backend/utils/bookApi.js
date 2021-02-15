@@ -46,8 +46,6 @@ const getBurnsAndShelves = async (googleBookId, userId) => {
 				name: kindlingBook.Kindling_Shelf.shelf_name,
 			};
 		});
-
-		console.log(shelves);
 	} else {
 		burns = [];
 		shelves = [];
@@ -67,18 +65,18 @@ const bookSearch = async (searchTerm, maxResults, pageNumber, userId) => {
 		const books = await Promise.all(
 			res.items.map(async ({ id, volumeInfo }) => {
 				let { burns, shelves } = await getBurnsAndShelves(id, userId);
-
+        let {title, authors, publisher, description, imageLinks, categories} = volumeInfo;
 				avgRating = getBookRating(burns);
 				let bookInfo = {
 					id: id,
-					title: volumeInfo.title,
-					authors: volumeInfo.authors,
+					title: title,
+					authors: authors,
 					rating: avgRating || 0,
-					publisher: volumeInfo.publisher || 'Publisher Not Available',
-					description: volumeInfo.description || 'Description Not Available',
-					smallThumbnail: volumeInfo.imageLinks.smallThumbnail,
-					thumbnail: volumeInfo.imageLinks.thumbnail,
-					categories: volumeInfo.categories || 'Categories Not Available',
+					publisher: publisher || 'Publisher Not Available',
+					description: description || 'Description Not Available',
+					smallThumbnail: imageLinks ? imageLinks.smallThumbnail : 'bad image url here',
+					thumbnail: imageLinks ? imageLinks.thumbnail : 'badiamge URL here',
+					categories: categories || 'Categories Not Available',
 					kindlingShelves: shelves,
 				};
 

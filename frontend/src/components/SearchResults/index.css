@@ -55,3 +55,23 @@ hr {
 	height: 1px;
 	width: 100%;
 }
+
+#search-maxResultsContainer {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+#search-maxResultsSelectBox {
+  width: 45px;
+  color: black;
+  margin: 0 4px 0 5px;
+  border: 1px solid black;
+}
+
+#search-maxResultsSelectBox:focus {
+outline: none;
+}
+
+.search-maxResultsOption{
+  width: 70px;
+}

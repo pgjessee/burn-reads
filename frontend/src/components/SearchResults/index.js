@@ -13,11 +13,19 @@ const SearchResults = () => {
 	const [searchResults, setSearchResults] = useState(null);
 	const [loaded, setLoaded] = useState(false);
 
+  const handleMaxResultsSubmit = async (e) => {
+    console.log(e.target.value)
+  }
+
 	useEffect(() => {
+    // console.log('this runs')
 		(async () => {
+      console.log('this runs', maxResults)
+      setLoaded(false)
 			let res = await fetch(`/api/books/search/${searchTerm}/${pageNumber}/${maxResults}/${sessionUser?.id || 0}`);
-			setSearchResults(res.data);
+      setSearchResults(res.data);
 			setLoaded(true);
+      console.log('this also runs')
 		})();
 	}, [maxResults, pageNumber, searchTerm]);
 
@@ -26,8 +34,20 @@ const SearchResults = () => {
 			{loaded && (
 				<div id='search-resultsWrapper'>
 					<div id='search-resultsContainer'>
+            <div id='search-maxResultsContainer'>
+              <div id='search-maxResultsTitle1'>Showing</div>
+                <form id='search-maxResultsForm'>
+                {/* <form id='search-maxResultsForm' onChange={handleMaxResultsSubmit}> */}
+                  <select id='search-maxResultsSelectBox' onChange={(e) => setMaxResults(parseInt(e.target.value, 10))} value={maxResults} >
+                    <option className='search-maxResultsOption' value='10'>10</option>
+                    <option className='search-maxResultsOption' value='20'>20</option>
+                    <option className='search-maxResultsOption' value='30'>30</option>
+                    <option className='search-maxResultsOption' value='40'>40</option>
+                  </select>
+                </form>
+                <div id='search-maxResultsTitle2'>Results</div>
+            </div>
 						{searchResults?.map(bookResult => {
-							console.log(bookResult);
 							return (
 								<>
 									<div className='search-bookContainer' key={bookResult.id}>
@@ -44,10 +64,8 @@ const SearchResults = () => {
 											</a>
 											<div className='search-authorContainer'>by {bookResult.authors}</div>
 											<div className='search-rating'>
-												<BurnRating rating={bookResult.rating} id={bookResult.id} />{' '}
+												<BurnRating rating={bookResult.rating} id={bookResult.id} />
 												<div className='search-ratingText'>{bookResult.rating} avg rating</div>
-												{/* <BurnRating rating={4} id={bookResult.id} />
-												<div className='search-ratingText'>{4} avg rating</div> */}
 											</div>
 										</div>
 									</div>
