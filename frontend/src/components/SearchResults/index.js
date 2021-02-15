@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { fetch } from '../../store/csrf';
 import './index.css';
 import BurnRating from '../BurnRating';
 
 const SearchResults = () => {
-	const { searchTerm } = useParams();
+  const sessionUser = useSelector(state => state.session.user);
+  const { searchTerm } = useParams();
 	const [maxResults, setMaxResults] = useState(10);
 	const [pageNumber, setPageNumber] = useState(1);
 	const [searchResults, setSearchResults] = useState(null);
@@ -13,7 +15,7 @@ const SearchResults = () => {
 
 	useEffect(() => {
 		(async () => {
-			let res = await fetch(`/api/books/search/${searchTerm}/${pageNumber}/${maxResults}`);
+			let res = await fetch(`/api/books/search/${searchTerm}/${pageNumber}/${maxResults}/${sessionUser?.id || 0}`);
 			setSearchResults(res.data);
 			setLoaded(true);
 		})();

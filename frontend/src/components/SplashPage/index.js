@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import SplashBook from './SplashBook'
 
 import { fetch } from '../../store/csrf';
 import './SplashPage.css'
 
 const SplashPage = () => {
-    // const sessionUser = useSelector(state => state.session.user);
+    const sessionUser = useSelector(state => state.session.user);
 
     const [burnSplashBooks, setSplashBooks] = useState([]);
 
     useEffect(() => {
         (async () => {
 
-           const res = await fetch('/api/books/splash');
+           const res = await fetch(`/api/books/splash`);
            const { splashBooks } = res.data;
            setSplashBooks(splashBooks)
         })()

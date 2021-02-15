@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-
+import { useSelector } from 'react-redux';
 import { fetch } from '../../store/csrf';
 
 const SplashBook = ({ splashBook }) => {
+    const sessionUser = useSelector(state => state.session.user);
 
 
     const [fetchedBook, setBook] = useState('');
@@ -14,7 +15,7 @@ const SplashBook = ({ splashBook }) => {
 
     useEffect(() => {
         (async () => {
-            const res = await fetch(`/api/books/${splashBook.google_book_id}`);
+            const res = await fetch(`/api/books/${splashBook.google_book_id}/${sessionUser?.id || 0}`);
             const { book } = res.data;
             let bookAuthors = book.authors;
             bookAuthors = bookAuthors.length === 1 ? bookAuthors[0] : bookAuthors.join(", ");
