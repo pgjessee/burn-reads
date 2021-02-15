@@ -42,7 +42,7 @@ const LoginFormPage = () => {
 	const demoLogin = async (e) => {
 		setCredential("demo@aa.io");
 		setPassword("123");
-		return dispatch(sessionActions.login({ credential, password }));
+		dispatch(sessionActions.login({ credential, password }));
 	};
 
 	return (
@@ -74,7 +74,8 @@ const LoginFormPage = () => {
 			</Box>
 			<Box
 				className="form"
-				bg="#F7B05B"
+				bg="red.800"
+				// bg="#F7B05B"
 				// bg="#CC232A"
 				// border="2px"
 				// borderColor="red.500"
@@ -99,8 +100,8 @@ const LoginFormPage = () => {
 					rounded="lg"
 				>
 					<TabList>
-						<Tab>Login</Tab>
-						<Tab>Sign Up</Tab>
+						<Tab color="white">Login</Tab>
+						<Tab color="white">Sign Up</Tab>
 					</TabList>
 					<TabPanels>
 						<TabPanel>

@@ -58,6 +58,7 @@ const NavBar = () => {
 				<form onSubmit={handleSearch}>
 					<Input
 						type="text"
+						variant="flushed"
 						id="searchInput"
 						placeholder="Search..."
 						autoComplete="off"
@@ -83,10 +84,10 @@ const NavBar = () => {
 				{!sessionUser && (
 					<>
 						<NavLink to="/login" exact={true} activeClassName="active">
-							<Text color="#F7B05B">Login</Text>
+							<Text color="white">Login</Text>
 						</NavLink>
 						<NavLink to="/signup" exact={true} activeClassName="active">
-							<Text color="#F7B05B">Sign Up</Text>
+							<Text color="white">Sign Up</Text>
 						</NavLink>
 					</>
 				)}

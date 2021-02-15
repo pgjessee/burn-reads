@@ -74,7 +74,7 @@ const SignUpFormPage = () => {
 				</Box>
 				<Box
 					className="form"
-					bg="#F7B05B"
+					bg="red.800"
 					// border="2px"
 					// borderColor="red.500"
 					width="350px"
@@ -98,8 +98,8 @@ const SignUpFormPage = () => {
 						rounded="lg"
 					>
 						<TabList>
-							<Tab>Login</Tab>
-							<Tab>Sign Up</Tab>
+							<Tab color="white">Login</Tab>
+							<Tab color="white">Sign Up</Tab>
 						</TabList>
 						<TabPanels>
 							<TabPanel>
