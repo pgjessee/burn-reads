@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, NavLink } from 'react-router-dom';
-
 import { fetch } from '../../store/csrf';
-
 import BookBurn from './BurnsList';
-
 import './BookProfilePage.css'
 
 function BookProfilePage() {
@@ -20,7 +17,7 @@ function BookProfilePage() {
     useEffect(() => {
         (async () => {
 
-            const res = await fetch(`/api/books/${googleBookId}`)
+            const res = await fetch(`/api/books/${googleBookId}/${sessionUser?.id || 0}`)
             const data = res.data;
             const { book, burns } = data;
             let bookAuthors = book.authors;
