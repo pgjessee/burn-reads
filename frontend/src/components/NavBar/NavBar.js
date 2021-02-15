@@ -22,7 +22,7 @@ const NavBarContainer = props => {
 			p={3}
 			fontWeight="bold"
 			opacity="1"
-			bg={["red.200"]}
+			bg={["red.800"]}
 			color={["black", "black", "primary.700", "primary.700"]}
 			// borderBottom="1px solid red"
 		>
@@ -56,36 +56,43 @@ const NavBar = () => {
 			</HStack>
 			<HStack>
 				<form onSubmit={handleSearch}>
-					<input
-						type='text'
-						id='searchInput'
-						placeholder='Search...'
-						autoComplete='off'
-						onChange={e => setSearchTerm(e.target.value)}
-						bg='white'
+					<Input
+						type="text"
+						id="searchInput"
+						placeholder="Search..."
+						autoComplete="off"
+						onChange={(e) => setSearchTerm(e.target.value)}
+						bg="white"
+						variant="outline"
+						// border="2px"
+						// borderColor="red.500"
+						// boxShadow="none"
+						// borderRadius="0"
 					/>
 				</form>
 			</HStack>
 			<HStack>
 				{sessionUser && (
-					<NavLink to='/users' exact={true} activeClassName='active'>
-						<Stack spacing='0' direction='column' align='center'>
+					<NavLink to="/users" exact={true} activeClassName="active">
+						<Stack spacing="0" direction="column" align="center">
 							{/* <RiAncientGateLine size="30px" /> */}
-							<NavLink to='/mybooks'>My Books</NavLink>
+							<NavLink to="/mybooks">My Books</NavLink>
 						</Stack>
 					</NavLink>
 				)}
 				{!sessionUser && (
 					<>
-						<NavLink to='/login' exact={true} activeClassName='active'>
-							Login
+						<NavLink to="/login" exact={true} activeClassName="active">
+							<Text color="#F7B05B">Login</Text>
 						</NavLink>
-						<NavLink to='/signup' exact={true} activeClassName='active'>
-							Sign Up
+						<NavLink to="/signup" exact={true} activeClassName="active">
+							<Text color="#F7B05B">Sign Up</Text>
 						</NavLink>
 					</>
 				)}
-				{sessionUser && <Button onClick={() => handleLogoutBtn()}>Logout</Button>}
+				{sessionUser && (
+					<Button onClick={() => handleLogoutBtn()}>Logout</Button>
+				)}
 			</HStack>
 		</NavBarContainer>
 		// </Flex>
