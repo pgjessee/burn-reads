@@ -39,7 +39,7 @@ function BookProfilePage() {
                 <div className="profile-grid-container">
                     <div className="profile-thumbnail-shelf-select-container">
                         <div className="profile-thumbnail-container">
-                            <img className="book-profile-thumbnail" src={googleBook.smallThumbnail}/>
+                            <img className="book-profile-thumbnail" src={googleBook.smallThumbnail ? googleBook.smallThumbnail : '/image-not-found.png'}/>
                         </div>
                         <div className="shelf-selector-container">
                             <h3>Shelf Selector goes here</h3>

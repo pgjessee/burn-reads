@@ -1,4 +1,4 @@
-const { BookApiKey } = require('../config');
+// const { BookApiKey } = require('../config');
 const fetch = require('node-fetch');
 const { Kindling_Shelf, Kindling_Book, Book, Burn, User } = require('../db/models');
 
@@ -74,8 +74,8 @@ const bookSearch = async (searchTerm, maxResults, pageNumber, userId) => {
 					rating: avgRating || 0,
 					publisher: publisher || 'Publisher Not Available',
 					description: description || 'Description Not Available',
-					smallThumbnail: imageLinks ? imageLinks.smallThumbnail : 'bad image url here',
-					thumbnail: imageLinks ? imageLinks.thumbnail : 'badiamge URL here',
+					smallThumbnail: imageLinks ? imageLinks.smallThumbnail : null,
+					thumbnail: imageLinks ? imageLinks.thumbnail :  null,
 					categories: categories || 'Categories Not Available',
 					kindlingShelves: shelves,
 				};

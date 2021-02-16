@@ -18,7 +18,6 @@ const SearchResults = () => {
   }
 
 	useEffect(() => {
-    // console.log('this runs')
 		(async () => {
       console.log('this runs', maxResults)
       setLoaded(false)
@@ -37,7 +36,6 @@ const SearchResults = () => {
             <div id='search-maxResultsContainer'>
               <div id='search-maxResultsTitle1'>Showing</div>
                 <form id='search-maxResultsForm'>
-                {/* <form id='search-maxResultsForm' onChange={handleMaxResultsSubmit}> */}
                   <select id='search-maxResultsSelectBox' onChange={(e) => setMaxResults(parseInt(e.target.value, 10))} value={maxResults} >
                     <option className='search-maxResultsOption' value='10'>10</option>
                     <option className='search-maxResultsOption' value='20'>20</option>
@@ -47,25 +45,25 @@ const SearchResults = () => {
                 </form>
                 <div id='search-maxResultsTitle2'>Results</div>
             </div>
-						{searchResults?.map(bookResult => {
+						{searchResults?.map(( {id, smallThumbnail, title, authors, rating, kindlingShelves} ) => {
 							return (
 								<>
-									<div className='search-bookContainer' key={bookResult.id}>
+									<div className='search-bookContainer' key={id}>
 										<div className='search-bookThumbnailContainer'>
 											<img
 												className='search-bookThumbnail'
 												alt='thumbnail'
-												src={bookResult.smallThumbnail}
+												src={smallThumbnail ? smallThumbnail : '/image-not-found.png'}
 											/>
 										</div>
 										<div className='search-bookInfoContainer'>
-											<a className='search-BookTitle' href={`/${bookResult.id}`}>
-												{bookResult.title}
+											<a className='search-BookTitle' href={`/${id}`}>
+												{title}
 											</a>
-											<div className='search-authorContainer'>by {bookResult.authors}</div>
+											<div className='search-authorContainer'>by {authors}</div>
 											<div className='search-rating'>
-												<BurnRating rating={bookResult.rating} id={bookResult.id} />
-												<div className='search-ratingText'>{bookResult.rating} avg rating</div>
+												<BurnRating rating={rating} id={id} />
+												<div className='search-ratingText'>{rating} avg rating</div>
 											</div>
 										</div>
 									</div>
