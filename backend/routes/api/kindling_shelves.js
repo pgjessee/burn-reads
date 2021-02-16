@@ -12,24 +12,16 @@ router.get(
 	asyncHandler(async (req, res, next) => {
 		const shelf_id = parseInt(req.params.shelfId, 10);
 		let shelf = await Kindling_Shelf.findByPk(shelf_id, {
-			include: {
-				model: Book,
-				include: Burn,
-			}
+			include: Book
 		});
 
 		const books = shelf.Books;
 
-		let burns, info, avgRating
+		let info
 		kindlingShelf = await Promise.all(
 			booksInfo = await Promise.all(
 				books.map(async book => {
-					burns = book.Burns;
-					info = await getBookInfo(book.google_book_id);
-					avgRating = burns.reduce((avg, { rating }, idx, burns) => {
-						return (avg += rating / burns.length);
-					}, 0);
-					info.rating = avgRating;
+					info = await getBookInfo(book.google_book_id, userId);
 					info.book_id = book.id;
 					return info;
 				})
@@ -39,33 +31,29 @@ router.get(
 		return res.json(kindlingShelf);
 
 	})
-)
+	)
 
-//gets all book and their info for each kindling shelf
-router.get(
-	'/:userId',
-	asyncHandler(async (req, res, next) => {
-		let defaultKindlingShelves = await Kindling_Shelf.findAll({
-			where: {
-				user_id: req.params.userId,
-				shelf_name: ['Torched', 'Torching', 'Want to Torch']
-			},
-			include: {
-				model: Book,
-				include: Burn,
-			},
-		});
+	//gets all book and their info for each kindling shelf
+	router.get(
+		'/:userId',
+		asyncHandler(async (req, res, next) => {
+			const { userId } = req.params;
+			let defaultKindlingShelves = await Kindling_Shelf.findAll({
+				where: {
+					user_id: req.params.userId,
+					shelf_name: ['Torched', 'Torching', 'Want to Torch']
+				},
+				include: {
+					model: Book,
+					include: Burn,
+				},
+			});
 		fullDefaultKindlingShelves = await Promise.all(
 			defaultKindlingShelves.map(async kindlingShelf => {
 				const books = kindlingShelf.Books;
 				booksInfo = await Promise.all(
 					books.map(async book => {
-						burns = book.Burns;
-						info = await getBookInfo(book.google_book_id);
-						const avgRating = burns.reduce((avg, { rating }, idx, burns) => {
-							return (avg += rating / burns.length);
-						}, 0);
-						info.rating = avgRating;
+						info = await getBookInfo(book.google_book_id, userId);
 						info.book_id = book.id;
 						return info;
 					})
@@ -84,27 +72,24 @@ router.get(
 
 		let customKindlingShelves = await Kindling_Shelf.findAll({
 			where: {
-				user_id: req.params.userId,
+				user_id: userId,
 				shelf_name: {
 					[Op.notIn]: ['Torched', 'Torching', 'Want to Torch']
-				}
+				},
 			},
 			include: {
 				model: Book,
 				include: Burn,
 			},
 		});
-		fullCustomKindlingShelves = await Promise.all(
+
+		let fullCustomKindlingShelves = await Promise.all(
 			customKindlingShelves.map(async kindlingShelf => {
 				const books = kindlingShelf.Books;
-				booksInfo = await Promise.all(
+				let booksInfo = await Promise.all(
 					books.map(async book => {
 						burns = book.Burns;
-						info = await getBookInfo(book.google_book_id);
-						const avgRating = burns.reduce((avg, { rating }, idx, burns) => {
-							return (avg += rating / burns.length);
-						}, 0);
-						info.rating = avgRating;
+						info = await getBookInfo(book.google_book_id, userId);
 						info.book_id = book.id;
 						return info;
 					})

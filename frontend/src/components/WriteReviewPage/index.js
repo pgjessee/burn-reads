@@ -20,7 +20,7 @@ const WriteReviewPage = () => {
 
     useEffect(() => {
         (async () => {
-            const res = await fetch(`/api/books/${googleBookId}`);
+            const res = await fetch(`/api/books/${googleBookId}/${sessionUser?.id || 0}`);
             let bookAuthors = res.data.book.authors;
             bookAuthors = bookAuthors.length === 1 ? bookAuthors[0] : bookAuthors.join(", ");
             let bookPage = `/${googleBookId}`

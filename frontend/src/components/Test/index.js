@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetch } from '../../store/csrf';
 import * as sessionActions from '../../store/session';
 import { useHistory, Redirect } from 'react-router-dom';
+import './index.css';
 
 export default function Test() {
 	const [userShelves, setUserShelves] = useState([]);
+	const [searchTerm, setSearchTerm] = useState(null);
 	const sessionUser = useSelector(state => state.session.user);
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -18,7 +20,9 @@ export default function Test() {
 		})();
 	}, [sessionUser]);
 
-	console.log(userShelves);
+	const handleSearch = async () => {
+		history.push(`/search/${searchTerm}`);
+	};
 
 	const handleLogoutBtn = e => {
 		e.preventDefault();
@@ -32,6 +36,15 @@ export default function Test() {
 			<button onClick={handleLogoutBtn} style={{ width: '200px', height: '20px' }}>
 				Logout
 			</button>
+			<form onSubmit={handleSearch}>
+				<input
+					type='text'
+					id='searchInput'
+					placeholder='Search...'
+					autoComplete='off'
+					onChange={e => setSearchTerm(e.target.value)}
+				/>
+			</form>
 			<div>hello</div>
 		</>
 	);
