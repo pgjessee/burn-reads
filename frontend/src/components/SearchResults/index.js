@@ -5,6 +5,7 @@ import { fetch } from '../../store/csrf';
 import './index.css';
 import BurnRating from '../BurnRating';
 import PageResults from './PageResults';
+import { Flex, Select } from "@chakra-ui/react";
 
 const SearchResults = () => {
 	const sessionUser = useSelector(state => state.session.user);
@@ -49,25 +50,49 @@ const SearchResults = () => {
 							({ id, smallThumbnail, title, authors, rating, kindlingShelves }) => {
 								return (
 									<>
-										<div className='search-bookContainer' key={id}>
-											<div className='search-bookThumbnailContainer'>
-												<img
-													className='search-bookThumbnail'
-													alt='thumbnail'
-													src={smallThumbnail ? smallThumbnail : '/image-not-found.png'}
-												/>
-											</div>
-											<div className='search-bookInfoContainer'>
-												<a className='search-BookTitle' href={`/${id}`}>
-													{title}
-												</a>
-												<div className='search-authorContainer'>by {displayAuthors(authors)}</div>
-												<div className='search-rating'>
-													<BurnRating rating={rating} id={id} />
-													<div className='search-ratingText'>{rating} avg rating</div>
+										<Flex
+											className="search-bookContainer"
+											key={id}
+											justify="space-between"
+										>
+											<Flex>
+												<div className="search-bookThumbnailContainer">
+													<img
+														className="search-bookThumbnail"
+														alt="thumbnail"
+														src={
+															smallThumbnail
+																? smallThumbnail
+																: "/image-not-found.png"
+														}
+													/>
 												</div>
-											</div>
-										</div>
+												<div className="search-bookInfoContainer">
+													<a className="search-BookTitle" href={`/${id}`}>
+														{title}
+													</a>
+													<div className="search-authorContainer">
+														by {displayAuthors(authors)}
+													</div>
+													<div className="search-rating">
+														<BurnRating rating={rating} id={id} />
+														<div className="search-ratingText">
+															{rating} avg rating
+														</div>
+													</div>
+												</div>
+											</Flex>
+											<Flex
+												className="search-bookDropdownContainer"
+												align="center"
+												justifyContent="flex-end"
+											>
+												<Select placeholder="Add to shelf" size="sm">
+													<option>A shelf</option>
+													<option>Another shelf</option>
+												</Select>
+											</Flex>
+										</Flex>
 										<hr></hr>
 									</>
 								);
