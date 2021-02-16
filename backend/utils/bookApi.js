@@ -32,6 +32,7 @@ const getBookInfo = async bookId => {
 	const url = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
 	let res = await fetch(url);
 	let book = await res.json();
+	console.log(book)
 	let { id, volumeInfo } = book;
 	book = {
 		id: id,

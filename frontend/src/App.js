@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import LoginFormPage from './components/LoginFormPage';
 import SignUpFormPage from './components/SignupFormPage/SignUpFormPage';
-import MyBooksPage from './components/MyBooksPage'
+import MyBooksPage from './components/MyBooksPage';
+import ShelfPage from './components/MyBooksPage/ShelfPage'
 import BookProfilePage from './components/BookProfilePage';
 import WriteReviewPage from './components/WriteReviewPage';
 import Test from './components/Test';
@@ -26,8 +27,14 @@ function App() {
 					<Route path='/signup'>
 						<SignUpFormPage />
 					</Route>
-					<Route path='/mybooks'>
+					<Route path='/mybooks' exact={true}>
 						<MyBooksPage />
+					</Route>
+					{/* <Route path='/mybooks/:shelfId' exact={true}>
+						<ShelfPage />
+					</Route> */}
+					<Route path='/shelf/:shelfId' exact={true}>
+						<ShelfPage />
 					</Route>
 					<Route path='/:googleBookId' exact={true} >
 						<BookProfilePage />

@@ -7,6 +7,40 @@ const { Kindling_Shelf, Kindling_Book, Book, Burn } = require('../../db/models')
 const router = express.Router();
 const defaultShelfNames = ['Torched', 'Torching', 'Want to Torch'];
 
+router.get(
+	'/shelf/:shelfId',
+	asyncHandler(async (req, res, next) => {
+		const shelf_id = parseInt(req.params.shelfId, 10);
+		let shelf = await Kindling_Shelf.findByPk(shelf_id, {
+			include: {
+				model: Book,
+				include: Burn,
+			}
+		});
+
+		const books = shelf.Books;
+
+		let burns, info, avgRating
+		kindlingShelf = await Promise.all(
+			booksInfo = await Promise.all(
+				books.map(async book => {
+					burns = book.Burns;
+					info = await getBookInfo(book.google_book_id);
+					avgRating = burns.reduce((avg, { rating }, idx, burns) => {
+						return (avg += rating / burns.length);
+					}, 0);
+					info.rating = avgRating;
+					info.book_id = book.id;
+					return info;
+				})
+			)
+		)
+
+		return res.json(kindlingShelf);
+
+	})
+)
+
 //gets all book and their info for each kindling shelf
 router.get(
 	'/:userId',

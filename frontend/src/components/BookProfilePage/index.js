@@ -32,7 +32,6 @@ const BookProfilePage = ()  => {
             setAuthors(bookAuthors)
             setReviewsLink(writeBurn)
 
-            console.log(bookBurns)
         })()
     }, [])
 

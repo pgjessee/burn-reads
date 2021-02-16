@@ -1,6 +1,40 @@
 
 
+.mybooks-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mybooks-page-container .mybooks-header {
+    justify-content: start;
+}
+
+
+.mybooks-container {
+    display: flex;
+}
+
+.mybooks-shelves-container {
+    margin-right: 40px;
+}
+
+.default-shelves-container {
+    padding-bottom: 10px;
+}
+
+.custom-shelves-container {
+    padding-top: 10px;
+    border-top: 1px solid gray;
+}
+
+
+.mybooks-table-header {
+    border-bottom: 1px solid gray;
+}
+
+
 .user-book-table-row {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid gray;
     height: 200px;
 }
