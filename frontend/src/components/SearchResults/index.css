@@ -56,22 +56,44 @@ hr {
 	width: 100%;
 }
 
-#search-maxResultsContainer {
-  display: flex;
-  margin-bottom: 20px;
+.search-maxResultsContainer {
+	width: 500px;
+	margin: 20px 0 20px 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
-#search-maxResultsSelectBox {
-  width: 45px;
-  color: black;
-  margin: 0 4px 0 5px;
-  border: 1px solid black;
+.search-maxResultsTitleContainer {
+	display: flex;
+	user-select: none;
 }
 
-#search-maxResultsSelectBox:focus {
-outline: none;
+.search-maxResultsSelectBox {
+	width: 45px;
+	color: black;
+	margin: 0 4px 0 5px;
+	border: 1px solid black;
+	border-radius: 3px;
 }
 
-.search-maxResultsOption{
-  width: 70px;
+.search-maxResultsSelectBox:focus {
+	outline: none;
+}
+
+.search-maxResultsOption {
+	width: 70px;
+}
+
+.resultsBtn {
+	cursor: pointer;
+	user-select: none;
+}
+
+.resultsBtn:hover {
+	color: #822727;
+}
+
+.resultsBtn:active {
+	color: #5a5a5a;
 }

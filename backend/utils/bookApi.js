@@ -65,7 +65,7 @@ const bookSearch = async (searchTerm, maxResults, pageNumber, userId) => {
 		const books = await Promise.all(
 			res.items.map(async ({ id, volumeInfo }) => {
 				let { burns, shelves } = await getBurnsAndShelves(id, userId);
-        let {title, authors, publisher, description, imageLinks, categories} = volumeInfo;
+				let { title, authors, publisher, description, imageLinks, categories } = volumeInfo;
 				avgRating = getBookRating(burns);
 				let bookInfo = {
 					id: id,
@@ -75,7 +75,7 @@ const bookSearch = async (searchTerm, maxResults, pageNumber, userId) => {
 					publisher: publisher || 'Publisher Not Available',
 					description: description || 'Description Not Available',
 					smallThumbnail: imageLinks ? imageLinks.smallThumbnail : null,
-					thumbnail: imageLinks ? imageLinks.thumbnail :  null,
+					thumbnail: imageLinks ? imageLinks.thumbnail : null,
 					categories: categories || 'Categories Not Available',
 					kindlingShelves: shelves,
 				};
