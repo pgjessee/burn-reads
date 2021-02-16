@@ -77,7 +77,9 @@ const NavBar = () => {
 					<NavLink to="/users" exact={true} activeClassName="active">
 						<Stack spacing="0" direction="column" align="center">
 							{/* <RiAncientGateLine size="30px" /> */}
-							<NavLink to="/mybooks">My Books</NavLink>
+							<NavLink to="/mybooks">
+								<Text color="white">My Books</Text>
+							</NavLink>
 						</Stack>
 					</NavLink>
 				)}
