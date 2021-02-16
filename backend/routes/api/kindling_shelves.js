@@ -48,11 +48,14 @@ router.get(
 					include: Burn,
 				},
 			});
-		fullDefaultKindlingShelves = await Promise.all(
+
+		let fullDefaultKindlingShelves = await Promise.all(
 			defaultKindlingShelves.map(async kindlingShelf => {
 				const books = kindlingShelf.Books;
 				booksInfo = await Promise.all(
 					books.map(async book => {
+						console.log(book)
+						if (!book.google_book_id) return {title: "Unavailable"};
 						info = await getBookInfo(book.google_book_id, userId);
 						info.book_id = book.id;
 						return info;
@@ -88,7 +91,7 @@ router.get(
 				const books = kindlingShelf.Books;
 				let booksInfo = await Promise.all(
 					books.map(async book => {
-						burns = book.Burns;
+						if (!book.google_book_id) return {title: "Unavailable"};
 						info = await getBookInfo(book.google_book_id, userId);
 						info.book_id = book.id;
 						return info;

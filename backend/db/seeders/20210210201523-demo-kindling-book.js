@@ -122,14 +122,14 @@ module.exports = {
         kindling_shelf_id: 8,
         book_id: 15,
       },
-      {
-        kindling_shelf_id: 3,
-        book_id: 16,
-      },
-      {
-        kindling_shelf_id: 9,
-        book_id: 16,
-      },
+      // {
+      //   kindling_shelf_id: 3,
+      //   book_id: 16,
+      // },
+      // {
+      //   kindling_shelf_id: 9,
+      //   book_id: 16,
+      // },
     ], {});
   },
 

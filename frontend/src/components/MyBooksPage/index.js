@@ -88,9 +88,9 @@ const MyBooksPage = () => {
                             <div className="shelf-div" onClick={() => handleShelfClick(torched)}>Torched ({torched.books.length})</div>
                             {/* <div className="shelf-div"><a href={torchedLink}>Torched ({torched.books.length})</a></div> */}
                             {/* <div className="shelf-div"><a href={torchingsLink}>Torching ({torchings.books.length}</a>)</div> */}
-                            {/* <div className="shelf-div" onClick={() => handleShelfClick(torchings)}>Torching ({torchings.books.length})</div> */}
+                            <div className="shelf-div" onClick={() => handleShelfClick(torchings)}>Torching ({torchings.books.length})</div>
                             {/* <div className="shelf-div"><a href={wanToTorchLink}>Want to Torch ({wantToTorch.books.length})</a></div> */}
-                            {/* <div className="shelf-div" onClick={() => handleShelfClick(wantToTorch)}>Want to Torch ({wantToTorch.books.length})</div> */}
+                            <div className="shelf-div" onClick={() => handleShelfClick(wantToTorch)}>Want to Torch ({wantToTorch.books.length})</div>
                         </div>
                         <div className="custom-shelves-container">
                             <div className="custom-shelves-section-header"></div>

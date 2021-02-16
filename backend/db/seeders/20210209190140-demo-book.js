@@ -50,9 +50,9 @@ module.exports = {
 				{
 					google_book_id: 'nkalO3OsoeMC',
 				},
-				{
-					google_book_id: 'kotPYEqx7kMC',
-				},
+				// {
+				// 	google_book_id: 'kotPYEqx7kMC',
+				// },
 			],
 			{}
 		);

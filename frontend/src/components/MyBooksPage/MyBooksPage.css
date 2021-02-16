@@ -10,6 +10,14 @@
     justify-content: start;
 }
 
+.shelf-div {
+    cursor: pointer;
+    user-select: none;
+}
+
+.shelf-div:hover {
+    text-decoration: underline;
+}
 
 .mybooks-container {
     display: flex;

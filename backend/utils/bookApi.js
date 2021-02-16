@@ -91,10 +91,25 @@ const bookSearch = async (searchTerm, maxResults, pageNumber, userId) => {
 };
 
 const getBookInfo = async (bookId, userId) => {
+	console.log(bookId);
+	if (!bookId) {
+		return {
+			id: id || 0,
+			title: volumeInfo.title || 'Not Available',
+			authors: volumeInfo.authors || 'Not Available',
+			rating: avgRating || 0,
+			publisher: volumeInfo.publisher || 'Not Available',
+			description: volumeInfo.description || 'Not Available',
+			smallThumbnail: volumeInfo.imageLinks.smallThumbnail || null,
+			thumbnail: volumeInfo.imageLinks.thumbnail || null,
+			categories: volumeInfo.categories || 'Categories Not Available',
+			kindlingShelves: shelves || {},
+		};
+	}
 	const url = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
 	let res = await fetch(url);
 	let book = await res.json();
-	console.log(book)
+
 	let { id, volumeInfo } = book;
 	let { burns, shelves } = await getBurnsAndShelves(id, userId);
 	let avgRating = getBookRating(burns);
