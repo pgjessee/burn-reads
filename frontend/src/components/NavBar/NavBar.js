@@ -11,19 +11,19 @@ const REMOVE_SESSION_USER = 'REMOVE_SESSION_USER';
 const NavBarContainer = props => {
 	return (
 		<Flex
-			as="nav"
-			align="center"
-			justify="space-between"
-			position="sticky"
-			top="0"
-			wrap="wrap"
-			w="100%"
+			as='nav'
+			align='center'
+			justify='space-between'
+			position='sticky'
+			top='0'
+			wrap='wrap'
+			w='100%'
 			mb={0}
 			p={3}
-			fontWeight="bold"
-			opacity="1"
-			bg={["red.800"]}
-			color={["black", "black", "primary.700", "primary.700"]}
+			fontWeight='bold'
+			opacity='1'
+			bg={['red.800']}
+			color={['black', 'black', 'primary.700', 'primary.700']}
 			// borderBottom="1px solid red"
 		>
 			{props.children}
@@ -57,14 +57,14 @@ const NavBar = () => {
 			<HStack>
 				<form onSubmit={handleSearch}>
 					<Input
-						type="text"
-						variant="flushed"
-						id="searchInput"
-						placeholder="Search..."
-						autoComplete="off"
-						onChange={(e) => setSearchTerm(e.target.value)}
-						bg="white"
-						variant="outline"
+						type='text'
+						variant='flushed'
+						id='searchInput'
+						placeholder='Search...'
+						autoComplete='off'
+						onChange={e => setSearchTerm(e.target.value)}
+						bg='white'
+						variant='outline'
 						// border="2px"
 						// borderColor="red.500"
 						// boxShadow="none"
@@ -74,26 +74,22 @@ const NavBar = () => {
 			</HStack>
 			<HStack>
 				{sessionUser && (
-					<NavLink to="/users" exact={true} activeClassName="active">
-						<Stack spacing="0" direction="column" align="center">
-							{/* <RiAncientGateLine size="30px" /> */}
-							<NavLink to="/mybooks">My Books</NavLink>
-						</Stack>
-					</NavLink>
+					<Stack spacing='0' direction='column' align='center'>
+						{/* <RiAncientGateLine size="30px" /> */}
+						<NavLink to='/mybooks'>My Books</NavLink>
+					</Stack>
 				)}
 				{!sessionUser && (
 					<>
-						<NavLink to="/login" exact={true} activeClassName="active">
-							<Text color="white">Login</Text>
+						<NavLink to='/login' exact={true} activeClassName='active'>
+							<Text color='white'>Login</Text>
 						</NavLink>
-						<NavLink to="/signup" exact={true} activeClassName="active">
-							<Text color="white">Sign Up</Text>
+						<NavLink to='/signup' exact={true} activeClassName='active'>
+							<Text color='white'>Sign Up</Text>
 						</NavLink>
 					</>
 				)}
-				{sessionUser && (
-					<Button onClick={() => handleLogoutBtn()}>Logout</Button>
-				)}
+				{sessionUser && <Button onClick={() => handleLogoutBtn()}>Logout</Button>}
 			</HStack>
 		</NavBarContainer>
 		// </Flex>

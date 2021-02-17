@@ -1,80 +1,78 @@
-
-
 .mybooks-page-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .mybooks-page-container .mybooks-header {
-    justify-content: start;
+	justify-content: start;
 }
 
 .shelf-div {
-    cursor: pointer;
-    user-select: none;
+	cursor: pointer;
+	user-select: none;
 }
 
 .shelf-div:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 .custom-shelf {
-    cursor: pointer;
-    user-select: none;
+	cursor: pointer;
+	user-select: none;
 }
 
 .custom-shelf:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 .mybooks-container {
-    display: flex;
+	display: flex;
 }
 
 .mybooks-shelves-container {
-    margin-right: 40px;
+	margin-right: 40px;
 }
 
 .default-shelves-container {
-    padding-bottom: 10px;
+	padding-bottom: 10px;
 }
 
 .custom-shelves-container {
-    padding-top: 10px;
-    border-top: 1px solid gray;
+	padding-top: 10px;
+	border-top: 1px solid gray;
 }
 
 #mybooks-header {
-    font-size: 24px;
-    font-weight: bolder;
-    margin-top: 20px;
-    margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bolder;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .mybooks-table-header {
-    border-bottom: 1px solid gray;
+	border-bottom: 1px solid gray;
 }
-
 
 .user-book-table-row {
-    border-bottom: 1px solid gray;
-    height: 200px;
+	border-bottom: 1px solid gray;
+	height: 200px;
 }
 
+.mybooks-thumbnail-image {
+	height: 150px;
+	width: 100px;
+}
 
-.mybooks-thumbnail {
-    height: 150px;
-    width: 100px;
-    margin-right: 20px;
+.mybooks-thumbnail-cell {
+	width: 200px;
+	padding: 10px;
 }
 
 .mybooks-fire-rating {
-    text-align: center;
+	text-align: center;
 }
 
 .mybooks-burn-link {
-    text-align: center;
+	text-align: center;
 }
-
-
