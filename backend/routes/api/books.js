@@ -43,6 +43,7 @@ router.get(
 					book_id: findBook.id,
 				},
 				include: User,
+				order: [["createdAt", "DESC"]]
 			});
 		} else {
 			burns = [];
