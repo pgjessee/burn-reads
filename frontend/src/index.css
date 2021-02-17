@@ -4,7 +4,15 @@ body {
     margin: 0;
 }
 
+table {
+    border-collapse: collapse;
+}
 
 a:hover {
     text-decoration: underline;
+}
+
+
+td {
+    width: 200px;
 }

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 
 import { fetch } from '../../store/csrf';
 import BurnRating from '../BurnFlame'
 
 import './WriteReviewPage.css'
 
-function WriteReviewPage() {
+const WriteReviewPage = () => {
     const { googleBookId } = useParams()
 
     const sessionUser = useSelector(state => state.session.user);
@@ -16,6 +16,7 @@ function WriteReviewPage() {
     const [book, setBook] = useState('');
     const [authors, setAuthors] = useState('');
     const [bookLink, setBookLink] = useState('');
+
 
     useEffect(() => {
         (async () => {
@@ -30,6 +31,8 @@ function WriteReviewPage() {
 
         })()
     }, [])
+
+    // if (!sessionUser) return <Redirect to="/login" />;
 
     const handleSubmit = async () => {
 

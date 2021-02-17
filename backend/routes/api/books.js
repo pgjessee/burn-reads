@@ -53,4 +53,12 @@ router.get(
 	})
 );
 
+
+router.get('/', asyncHandler (async(req, res) => {
+	const books = await Book.findAll();
+
+	return res.json({ books })
+}))
+
+
 module.exports = router;

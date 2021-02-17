@@ -103,13 +103,6 @@ module.exports = {
 					review: 'Joseph Stalin is a punk.',
 					rating: 3,
 				},
-				{
-					book_id: 16,
-					user_id: 1,
-					review:
-						"It's hard to imagine a commercial by Apple Computer Company inspired the writing of this book.",
-					rating: 5,
-				},
 			],
 			{}
 		);

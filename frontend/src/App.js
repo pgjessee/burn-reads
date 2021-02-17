@@ -4,6 +4,8 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import SplashPage from './components/SplashPage';
 import LoginFormPage from './components/LoginFormPage';
 import SignUpFormPage from './components/SignupFormPage/SignUpFormPage';
+import MyBooksPage from './components/MyBooksPage';
+// import ShelfPage from './components/MyBooksPage/ShelfPage'
 import BookProfilePage from './components/BookProfilePage';
 import WriteReviewPage from './components/WriteReviewPage';
 import SearchResults from './components/SearchResults';
@@ -40,6 +42,9 @@ function App() {
 					</Route>
 					<Route path='/signup'>
 						<SignUpFormPage />
+					</Route>
+					<Route path='/mybooks' exact={true}>
+						<MyBooksPage />
 					</Route>
 					<Route path='/:googleBookId' exact={true}>
 						<BookProfilePage />
