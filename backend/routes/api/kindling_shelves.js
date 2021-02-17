@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
 const { getBookInfo } = require('../../utils/bookApi');
 const { Kindling_Shelf, Kindling_Book, Book, Burn } = require('../../db/models');
 
@@ -12,50 +12,48 @@ router.get(
 	asyncHandler(async (req, res, next) => {
 		const shelf_id = parseInt(req.params.shelfId, 10);
 		let shelf = await Kindling_Shelf.findByPk(shelf_id, {
-			include: Book
+			include: Book,
 		});
 
 		const books = shelf.Books;
 
-		let info
+		let info;
 		kindlingShelf = await Promise.all(
-			booksInfo = await Promise.all(
+			(booksInfo = await Promise.all(
 				books.map(async book => {
 					info = await getBookInfo(book.google_book_id, userId);
 					info.book_id = book.id;
 					return info;
 				})
-			)
-		)
+			))
+		);
 
 		return res.json(kindlingShelf);
-
 	})
-	)
+);
 
-	//gets all book and their info for each kindling shelf
-	router.get(
-		'/:userId',
-		asyncHandler(async (req, res, next) => {
-			const { userId } = req.params;
-			let defaultKindlingShelves = await Kindling_Shelf.findAll({
-				where: {
-					user_id: req.params.userId,
-					shelf_name: ['Torched', 'Torching', 'Want to Torch']
-				},
-				include: {
-					model: Book,
-					include: Burn,
-				},
-			});
+//gets all book and their info for each kindling shelf
+router.get(
+	'/:userId',
+	asyncHandler(async (req, res, next) => {
+		const { userId } = req.params;
+		let defaultKindlingShelves = await Kindling_Shelf.findAll({
+			where: {
+				user_id: userId,
+				shelf_name: ['Torched', 'Torching', 'Want to Torch'],
+			},
+			include: {
+				model: Book,
+				include: Burn,
+			},
+		});
 
 		let fullDefaultKindlingShelves = await Promise.all(
 			defaultKindlingShelves.map(async kindlingShelf => {
 				const books = kindlingShelf.Books;
 				booksInfo = await Promise.all(
 					books.map(async book => {
-						console.log(book)
-						if (!book.google_book_id) return {title: "Unavailable"};
+						if (!book.google_book_id) return { title: 'Unavailable' };
 						info = await getBookInfo(book.google_book_id, userId);
 						info.book_id = book.id;
 						return info;
@@ -77,7 +75,7 @@ router.get(
 			where: {
 				user_id: userId,
 				shelf_name: {
-					[Op.notIn]: ['Torched', 'Torching', 'Want to Torch']
+					[Op.notIn]: ['Torched', 'Torching', 'Want to Torch'],
 				},
 			},
 			include: {
@@ -91,7 +89,7 @@ router.get(
 				const books = kindlingShelf.Books;
 				let booksInfo = await Promise.all(
 					books.map(async book => {
-						if (!book.google_book_id) return {title: "Unavailable"};
+						if (!book.google_book_id) return { title: 'Unavailable' };
 						info = await getBookInfo(book.google_book_id, userId);
 						info.book_id = book.id;
 						return info;
@@ -110,6 +108,26 @@ router.get(
 		);
 
 		return res.json({ fullDefaultKindlingShelves, fullCustomKindlingShelves });
+	})
+);
+
+//gets all kindling shelf names for a user
+router.get(
+	'/shelf-names/:userId',
+	asyncHandler(async (req, res) => {
+		const { userId } = req.params;
+		let userShelves;
+
+		if (userId == 0) {
+			userShelves = [
+				{ shelf_name: 'Torched', userId: 0 },
+				{ shelf_name: 'Torching', userId: 0 },
+				{ shelf_name: 'Want to Torch', userId: 0 },
+			];
+		} else {
+			userShelves = await Kindling_Shelf.findAll({ where: { user_id: userId } });
+		}
+		return res.json(userShelves);
 	})
 );
 

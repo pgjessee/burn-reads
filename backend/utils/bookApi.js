@@ -52,7 +52,7 @@ const getBurnsAndShelves = async (googleBookId, userId) => {
 	}
 
 	let burnsAndShelves = { burns, shelves };
-	return burns;
+	return burnsAndShelves;
 };
 
 const bookSearch = async (searchTerm, maxResults, pageNumber, userId) => {

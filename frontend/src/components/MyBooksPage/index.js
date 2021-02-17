@@ -10,7 +10,7 @@ const MyBooksPage = () => {
 
 	// const [userBooks, setUserBooks] = useState([]);
 	const [loaded, setLoaded] = useState(false);
-	let [allBooks, setAllBooks] = useState([]);
+	const [allBooks, setAllBooks] = useState([]);
 	const [userShelfBooks, setUserShelfBooks] = useState([]);
 	const [customShelves, setCustomShelves] = useState([]);
 	const [torchings, setTorchings] = useState({});

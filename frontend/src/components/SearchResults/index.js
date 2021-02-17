@@ -5,13 +5,15 @@ import { fetch } from '../../store/csrf';
 import './index.css';
 import BurnRating from '../BurnRating';
 import PageResults from './PageResults';
-import { Flex, Select } from "@chakra-ui/react";
+import ShelfUtil from '../ShelfUtil';
+import { Flex, Select } from '@chakra-ui/react';
 
 const SearchResults = () => {
 	const sessionUser = useSelector(state => state.session.user);
 	const { searchTerm } = useParams();
 	const [maxResults, setMaxResults] = useState(10);
 	const [pageNumber, setPageNumber] = useState(1);
+	const [shelfNames, setShelfNames] = useState([]);
 	const [searchResults, setSearchResults] = useState(null);
 	const [loaded, setLoaded] = useState(false);
 
@@ -33,7 +35,14 @@ const SearchResults = () => {
 			setSearchResults(res.data);
 			setLoaded(true);
 		})();
-	}, [maxResults, pageNumber, searchTerm]);
+	}, [maxResults, pageNumber, searchTerm, sessionUser]);
+
+	useEffect(() => {
+		(async () => {
+			let res = await fetch(`/api/shelves/shelf-names/${sessionUser?.id || 0}`);
+			setShelfNames(res.data);
+		})();
+	}, [sessionUser]);
 
 	return (
 		<>
@@ -50,39 +59,28 @@ const SearchResults = () => {
 							({ id, smallThumbnail, title, authors, rating, kindlingShelves }) => {
 								return (
 									<>
-										<Flex
-											className="search-bookContainer"
-											key={id}
-											justify="space-between"
-										>
+										<Flex className='search-bookContainer' key={id} justify='space-between'>
 											<Flex>
-												<div className="search-bookThumbnailContainer">
+												<div className='search-bookThumbnailContainer'>
 													<img
-														className="search-bookThumbnail"
-														alt="thumbnail"
-														src={
-															smallThumbnail
-																? smallThumbnail
-																: "/image-not-found.png"
-														}
+														className='search-bookThumbnail'
+														alt='thumbnail'
+														src={smallThumbnail ? smallThumbnail : '/image-not-found.png'}
 													/>
 												</div>
-												<div className="search-bookInfoContainer">
-													<a className="search-BookTitle" href={`/${id}`}>
+												<div className='search-bookInfoContainer'>
+													<a className='search-BookTitle' href={`/${id}`}>
 														{title}
 													</a>
-													<div className="search-authorContainer">
-														by {displayAuthors(authors)}
-													</div>
-													<div className="search-rating">
+													<div className='search-authorContainer'>by {displayAuthors(authors)}</div>
+													<div className='search-rating'>
 														<BurnRating rating={rating} id={id} />
-														<div className="search-ratingText">
-															{rating} avg rating
-														</div>
+														<div className='search-ratingText'>{rating} avg rating</div>
 													</div>
+													<ShelfUtil kindlingShelves={kindlingShelves} shelfNames={shelfNames} />
 												</div>
 											</Flex>
-											<Flex
+											{/* <Flex
 												className="search-bookDropdownContainer"
 												align="center"
 												justifyContent="flex-end"
@@ -91,7 +89,7 @@ const SearchResults = () => {
 													<option>A shelf</option>
 													<option>Another shelf</option>
 												</Select>
-											</Flex>
+											</Flex> */}
 										</Flex>
 										<hr></hr>
 									</>
