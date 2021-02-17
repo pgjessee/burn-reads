@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import { fetch } from '../../store/csrf';
 import BurnRating from '../BurnFlame'
@@ -9,6 +9,7 @@ import './WriteReviewPage.css'
 
 const WriteReviewPage = () => {
     const { googleBookId } = useParams()
+    const history = useHistory();
 
     const sessionUser = useSelector(state => state.session.user);
     const [burn, setBurn] = useState('');
@@ -34,12 +35,15 @@ const WriteReviewPage = () => {
 
     // if (!sessionUser) return <Redirect to="/login" />;
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        history.push(`/${googleBookId}`);
 
         const newBurn = {
             review: burn,
             rating: rating
         };
+
 
         const res = await fetch(`/api/burns/${googleBookId}/${sessionUser.id}`, {
             method: "POST",
@@ -47,7 +51,6 @@ const WriteReviewPage = () => {
             body: JSON.stringify(newBurn)
         });
 
-        return;
     }
 
     return (
