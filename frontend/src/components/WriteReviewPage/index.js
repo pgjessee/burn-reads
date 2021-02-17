@@ -31,8 +31,8 @@ const WriteReviewPage = () => {
 
         })()
     }, [])
-    
-    if (!sessionUser) return <Redirect to="/login" />;
+
+    // if (!sessionUser) return <Redirect to="/login" />;
 
     const handleSubmit = async () => {
 

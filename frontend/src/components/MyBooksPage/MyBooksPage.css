@@ -19,6 +19,15 @@
     text-decoration: underline;
 }
 
+.custom-shelf {
+    cursor: pointer;
+    user-select: none;
+}
+
+.custom-shelf:hover {
+    text-decoration: underline;
+}
+
 .mybooks-container {
     display: flex;
 }
@@ -36,6 +45,12 @@
     border-top: 1px solid gray;
 }
 
+#mybooks-header {
+    font-size: 24px;
+    font-weight: bolder;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 
 .mybooks-table-header {
     border-bottom: 1px solid gray;
@@ -46,3 +61,20 @@
     border-bottom: 1px solid gray;
     height: 200px;
 }
+
+
+.mybooks-thumbnail {
+    height: 150px;
+    width: 100px;
+    margin-right: 20px;
+}
+
+.mybooks-fire-rating {
+    text-align: center;
+}
+
+.mybooks-burn-link {
+    text-align: center;
+}
+
+

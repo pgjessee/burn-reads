@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 import UserFlames from '../UserFlame';
-import { fetch } from '../../store/csrf';
 
 const UserBook = ({ userBook }) => {
-    // const sessionUser = useSelector(state => state.session.user);
 
     const [fetchedBook, setBook] = useState('');
     const [authors, setAuthors] = useState('');
@@ -24,15 +21,15 @@ const UserBook = ({ userBook }) => {
             setAuthors(bookAuthors);
             setUserBurnLink(burnLink);
             setBookProfileLink(profileLink);
-    }, [])
+    }, []);
 
     return (
         <tr className="user-book-table-row">
-            <td><a href={bookProfileLink}><img src={fetchedBook.smallThumbnail}/></a></td>
+            <td><a href={bookProfileLink}><img src={fetchedBook.smallThumbnail} className="mybooks-thumbnail"/></a></td>
             <td><a href={bookProfileLink}>{fetchedBook.title}</a></td>
             <td>{authors}</td>
-            <td><UserFlames rating={fetchedBook.rating}/></td>
-            <td><a href={userBurnLink}>Write a review</a></td>
+            <td className="mybooks-fire-rating"><UserFlames rating={fetchedBook.rating}/></td>
+            <td className="mybooks-burn-link"><a href={userBurnLink}>Burn this book!</a></td>
         </tr>
     )
 };
