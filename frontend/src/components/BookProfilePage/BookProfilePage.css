@@ -97,7 +97,12 @@ h2 {
 }
 
 .burn-delete-button {
-    color: solid black;
+    color:firebrick;
+    background-color: #FFE046;
+    font-weight: bolder;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .burn-delete-button:hover {

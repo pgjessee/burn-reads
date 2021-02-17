@@ -21,6 +21,19 @@ function BookBurn({ burn }) {
         setUserBurn(null)
     };
 
+
+    if (!sessionUser) {
+        return (
+            <div className="profile-book-burn-container">
+                <span className="burn-firstname">{burn.User.first_name} burned it </span>
+                <UserFlames rating={burn.rating}/>
+                <div className="burn-review-container">
+                    <span className="burn-review">{burn.review}</span>
+                </div>
+            </div>
+        )
+    }
+
     if (sessionUser.id === burn.user_id) {
         return (
             <div className="profile-book-burn-container">
