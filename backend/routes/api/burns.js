@@ -124,21 +124,21 @@ router.put(
 );
 
 router.delete(
-	'/:googleBookId/:userId',
+	'/:bookId/:userId',
 	asyncHandler(async (req, res) => {
-		const googleBookId = req.params.googleBookId;
+		const booksId = parseInt(req.params.bookId, 10);
 		const userId = parseInt(req.params.userId, 10);
-		const { review, rating } = req.body;
+		// const { review, rating } = req.body;
 
-		let findBook = await Book.findOne({
-			where: {
-				google_book_id: googleBookId,
-			},
-		});
+		// let findBook = await Book.findOne({
+		// 	where: {
+		// 		google_book_id: googleBookId,
+		// 	},
+		// });
 
 		let burn = await Burn.findOne({
 			where: {
-				book_id: findBook.id,
+				book_id: booksId,
 				user_id: userId,
 			},
 		});

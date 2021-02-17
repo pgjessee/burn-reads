@@ -46,6 +46,7 @@ h2 {
     color: white;
     background-color: firebrick;
     box-shadow: 0 0 3px 1px;
+    font-weight: bolder;
 }
 
 .book-burns-header {
@@ -79,4 +80,22 @@ h2 {
 
 .burn-review {
     font-size: 24px;
+}
+
+.burn-delete-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.burn-delete-button {
+    color: solid black;
+}
+
+.burn-delete-button:hover {
+    background-color: firebrick;
+    color: white;
+    font-weight: bolder;
 }
