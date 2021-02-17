@@ -6,7 +6,6 @@ import { fetch } from '../../store/csrf';
 function BookBurn({ burn }) {
     const sessionUser = useSelector(state => state.session.user);
     const [userBurn, setUserBurn] = useState('');
-    console.log(burn)
 
     // useEffect(() => {
     //     setUserBurn(burn)
