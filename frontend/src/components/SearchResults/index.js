@@ -59,38 +59,30 @@ const SearchResults = () => {
 							({ id, smallThumbnail, title, authors, rating, kindlingShelves }) => {
 								return (
 									<>
-										<Flex className='search-bookContainer' key={id} justify='space-between'>
-											<Flex>
-												<div className='search-bookThumbnailContainer'>
-													<img
-														className='search-bookThumbnail'
-														alt='thumbnail'
-														src={smallThumbnail ? smallThumbnail : '/image-not-found.png'}
-													/>
+										<div className='search-bookContainer' key={id} justify='space-between'>
+											<div className='search-bookThumbnailContainer'>
+												<img
+													className='search-bookThumbnail'
+													alt='thumbnail'
+													src={smallThumbnail ? smallThumbnail : '/image-not-found.png'}
+												/>
+											</div>
+											<div className='search-bookInfoContainer'>
+												<a className='search-BookTitle' href={`/${id}`}>
+													{title}
+												</a>
+												<div className='search-authorContainer'>by {displayAuthors(authors)}</div>
+												<div className='search-rating'>
+													<BurnRating rating={rating} id={id} />
+													<div className='search-ratingText'>{rating} avg rating</div>
 												</div>
-												<div className='search-bookInfoContainer'>
-													<a className='search-BookTitle' href={`/${id}`}>
-														{title}
-													</a>
-													<div className='search-authorContainer'>by {displayAuthors(authors)}</div>
-													<div className='search-rating'>
-														<BurnRating rating={rating} id={id} />
-														<div className='search-ratingText'>{rating} avg rating</div>
-													</div>
-													<ShelfUtil kindlingShelves={kindlingShelves} shelfNames={shelfNames} />
-												</div>
-											</Flex>
-											{/* <Flex
-												className="search-bookDropdownContainer"
-												align="center"
-												justifyContent="flex-end"
-											>
-												<Select placeholder="Add to shelf" size="sm">
-													<option>A shelf</option>
-													<option>Another shelf</option>
-												</Select>
-											</Flex> */}
-										</Flex>
+												<ShelfUtil
+													kindlingShelves={kindlingShelves}
+													shelfNames={shelfNames}
+													bookId={id}
+												/>
+											</div>
+										</div>
 										<hr></hr>
 									</>
 								);
