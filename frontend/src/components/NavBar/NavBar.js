@@ -22,7 +22,8 @@ const NavBarContainer = props => {
 			p={3}
 			fontWeight="bold"
 			opacity="1"
-			bg={["red.800"]}
+			// bg={["red.800"]}
+			bg={["yellow.300"]}
 			color={["black", "black", "primary.700", "primary.700"]}
 			// borderBottom="1px solid red"
 		>
