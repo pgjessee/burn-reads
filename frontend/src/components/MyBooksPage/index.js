@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import UserBook from './UserBook';
-import CustomShelf from './CustomShelf';
 
 import { fetch } from '../../store/csrf';
 import './MyBooksPage.css'
