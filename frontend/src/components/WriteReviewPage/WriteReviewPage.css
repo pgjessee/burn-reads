@@ -76,6 +76,11 @@
     width: 150px;
     height: 50px;
     font-size: 16px;
+    color: firebrick;
+    font-weight: bolder;
+    background-color: #FFE046;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 .burn-submit:hover {
@@ -83,3 +88,5 @@
     background-color: firebrick;
     box-shadow: 0 0 3px 1px;
 }
+
+
