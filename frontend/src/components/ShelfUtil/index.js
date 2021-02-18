@@ -15,6 +15,7 @@ export default function ShelfUtil({
 	const [currentShelf, setCurrentShelf] = useState({ shelf_name: 'Want To Torch' });
 	const [defaultShelfOptions, setDefaultShelfOptions] = useState([]);
 	const [customShelfOptions, setCustomShelfOptions] = useState([]);
+	const [reload, setReload] = useState(false);
 	const optionsWrapper = useRef(null);
 	const history = useHistory();
 	let dropdownTimer;
@@ -51,7 +52,7 @@ export default function ShelfUtil({
 			}
 		});
 		setCustomShelfOptions(selectedCustomShelves);
-	}, [kindlingShelves, customShelves, userId]);
+	}, [kindlingShelves, customShelves, userId, reload]);
 
 	// displays dropdown when clicking btn
 	const handleShelfDropdownBtn = () => {
@@ -74,10 +75,29 @@ export default function ShelfUtil({
 		dropdownTimer = setTimeout(() => (optionsWrapper.current.style.display = 'none'), 500);
 	};
 
+	const handleCurShelfClick = async e => {
+		if (!sessionUserId) history.push('/login');
+		// if the displayed shelf is not a kindling book
+		if (!currentShelf.id) {
+			const shelfId = defaultShelves.reduce((shelfId, { shelf_name, id }) => {
+				if (shelf_name === 'Want to Torch') return (shelfId = id);
+				return shelfId;
+			});
+			let res = await fetch(`/api/shelves/${shelfId}/${bookId}`, {
+				method: 'POST',
+			});
+
+			const kindledCurShelf = currentShelf;
+			kindledCurShelf.id = shelfId;
+			setCurrentShelf(kindledCurShelf);
+			setReload(true);
+		}
+	};
+
 	const handleDefaultShelfClick = async e => {
 		if (!sessionUserId) history.push('/login');
 		let shelf_name = e.target.getAttribute('data-value');
-		let id = e.target.getAttribute('data-shelfId');
+		let id = e.target.getAttribute('data-shelfid');
 		let res = await fetch(`/api/shelves/${id}/${bookId}`, {
 			method: 'PATCH',
 		});
@@ -96,6 +116,7 @@ export default function ShelfUtil({
 				className='shelf-nameDisplay'
 				onMouseEnter={handleMouseEnter}
 				onMouseLeave={handleMouseLeave}
+				onClick={handleCurShelfClick}
 			>
 				{currentShelf.id ? <i className='fas fa-check'></i> : <span></span>}
 				{currentShelf.shelf_name.length > 13
@@ -122,7 +143,7 @@ export default function ShelfUtil({
 						<div
 							className='shelf-optionContainer'
 							data-value={shelf_name}
-							data-shelfId={id}
+							data-shelfid={id}
 							key={v4()}
 							onClick={handleDefaultShelfClick}
 						>
@@ -134,7 +155,7 @@ export default function ShelfUtil({
 					return (
 						<form key={v4()}>
 							<div className='shelf-optionContainer customShelfOption' value={shelf_name}>
-								<input id={`check${shelf_name}`} type='checkbox' data-shelfId={`${id}`} />
+								<input id={`check${shelf_name}`} type='checkbox' data-shelfid={`${id}`} />
 								<label htmlFor={`check${shelf_name}`}>{shelf_name}</label>
 							</div>
 						</form>
