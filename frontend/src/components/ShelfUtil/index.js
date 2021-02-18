@@ -83,7 +83,9 @@ export default function ShelfUtil({ kindlingShelves, customShelfNames, userId, b
 								className='shelf-optionContainer'
 								value={shelf.name}
 								key={`${shelf.name}${bookId}`}
-							></div>
+              >
+                <input type='checkbox'
+              </div>
 						</form>
 					);
 				})}
