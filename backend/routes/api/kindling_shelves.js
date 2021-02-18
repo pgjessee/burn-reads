@@ -7,31 +7,6 @@ const { Kindling_Shelf, Kindling_Book, Book, Burn } = require('../../db/models')
 const router = express.Router();
 const defaultShelfNames = ['Torched', 'Torching', 'Want to Torch'];
 
-router.get(
-	'/shelf/:shelfId',
-	asyncHandler(async (req, res, next) => {
-		const shelf_id = parseInt(req.params.shelfId, 10);
-		let shelf = await Kindling_Shelf.findByPk(shelf_id, {
-			include: Book,
-		});
-
-		const books = shelf.Books;
-
-		let info;
-		kindlingShelf = await Promise.all(
-			(booksInfo = await Promise.all(
-				books.map(async book => {
-					info = await getBookInfo(book.google_book_id, userId);
-					info.book_id = book.id;
-					return info;
-				})
-			))
-		);
-
-		return res.json(kindlingShelf);
-	})
-);
-
 //gets all book and their info for each kindling shelf
 router.get(
 	'/:userId',
@@ -117,9 +92,11 @@ router.get(
 	asyncHandler(async (req, res) => {
 		const { userId } = req.params;
 		let customShelves = await Kindling_Shelf.findAll({
-			where: { user_id: userId },
-			shelf_name: {
-				[Op.notIn]: ['Torched', 'Torching', 'Want to Torch'],
+			where: {
+				user_id: userId,
+				shelf_name: {
+					[Op.notIn]: ['Torched', 'Torching', 'Want to Torch'],
+				},
 			},
 		});
 		return res.json(customShelves);
@@ -221,4 +198,28 @@ router.delete(
 	})
 );
 
+// router.get(
+// 	'/shelf/:shelfId',
+// 	asyncHandler(async (req, res, next) => {
+// 		const shelf_id = parseInt(req.params.shelfId, 10);
+// 		let shelf = await Kindling_Shelf.findByPk(shelf_id, {
+// 			include: Book,
+// 		});
+
+// 		const books = shelf.Books;
+
+// 		let info;
+// 		kindlingShelf = await Promise.all(
+// 			(booksInfo = await Promise.all(
+// 				books.map(async book => {
+// 					info = await getBookInfo(book.google_book_id, userId);
+// 					info.book_id = book.id;
+// 					return info;
+// 				})
+// 			))
+// 		);
+
+// 		return res.json(kindlingShelf);
+// 	})
+// );
 module.exports = router;

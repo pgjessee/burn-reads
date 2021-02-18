@@ -91,7 +91,6 @@ const bookSearch = async (searchTerm, maxResults, pageNumber, userId) => {
 };
 
 const getBookInfo = async (bookId, userId) => {
-	console.log(bookId);
 	if (!bookId) {
 		return {
 			id: id || 0,

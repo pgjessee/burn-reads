@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
-// import { AiOutlineClose } from "react-icons/ai";
-import { Button, Flex, HStack, Input, MenuIcon, Stack, Text } from '@chakra-ui/react';
+import { Button, Flex, HStack, Input, Stack, Text } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import Logo from './Logo';
 import * as sessionActions from '../../store/session';
-
-const REMOVE_SESSION_USER = 'REMOVE_SESSION_USER';
 
 const NavBarContainer = props => {
 	return (
@@ -78,10 +75,10 @@ const NavBar = () => {
 				{!sessionUser && (
 					<>
 						<NavLink to='/login' exact={true} activeClassName='active'>
-							<Text color='red'>Login</Text>
+							<Text color='black'>Login</Text>
 						</NavLink>
 						<NavLink to='/signup' exact={true} activeClassName='active'>
-							<Text color='red'>Sign Up</Text>
+							<Text color='black'>Sign Up</Text>
 						</NavLink>
 					</>
 				)}

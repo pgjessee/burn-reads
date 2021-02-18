@@ -1,15 +1,14 @@
-import React, { useState } from "react";
-import * as sessionActions from "../../store/session";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
-import SignUpFormPage from "../SignupFormPage/SignUpForm";
+import React, { useState } from 'react';
+import * as sessionActions from '../../store/session';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import SignUpFormPage from '../SignupFormPage/SignUpForm';
 
-import "./LoginFormPage.css";
+import './LoginFormPage.css';
 import {
 	Box,
 	Button,
 	Flex,
-	Image,
 	Input,
 	Stack,
 	Tab,
@@ -17,31 +16,28 @@ import {
 	TabPanel,
 	TabPanels,
 	Tabs,
-	Text,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 const LoginFormPage = () => {
 	const dispatch = useDispatch();
-	const sessionUser = useSelector((state) => state.session.user);
-	const [credential, setCredential] = useState("");
-	const [password, setPassword] = useState("");
+	const sessionUser = useSelector(state => state.session.user);
+	const [credential, setCredential] = useState('');
+	const [password, setPassword] = useState('');
 	const [errors, setErrors] = useState([]);
 
-	if (sessionUser) return <Redirect to="/" />;
+	if (sessionUser) return <Redirect to='/' />;
 
-	const handleSubmit = (e) => {
+	const handleSubmit = e => {
 		e.preventDefault();
 		setErrors([]);
-		return dispatch(sessionActions.login({ credential, password })).catch(
-			(res) => {
-				if (res.data && res.data.errors) setErrors(res.data.errors);
-			}
-		);
+		return dispatch(sessionActions.login({ credential, password })).catch(res => {
+			if (res.data && res.data.errors) setErrors(res.data.errors);
+		});
 	};
 
-	const demoLogin = async (e) => {
-		setCredential("demo@aa.io");
-		setPassword("123");
+	const demoLogin = async e => {
+		setCredential('demo@aa.io');
+		setPassword('123');
 		dispatch(sessionActions.login({ credential, password }));
 	};
 
@@ -49,59 +45,59 @@ const LoginFormPage = () => {
 		// <div>
 		<Flex
 			// justify="space-evenly"
-			justify="center"
-			align="center"
-			bgImage="url(/matchSticks.jfif)"
-			bgSize="cover"
-			backgroundRepeat="no-repeat"
-			height="100vh"
-			width="100vw"
-			overflow="hidden"
+			justify='center'
+			align='center'
+			bgImage='url(/matchSticks.jfif)'
+			bgSize='cover'
+			backgroundRepeat='no-repeat'
+			height='100vh'
+			width='100vw'
+			overflow='hidden'
 		>
 			<Box
-				color="white"
+				color='white'
 				// border="solid"
-				width="50vw"
-				textAlign="center"
-				fontSize="70px"
-				alignSelf="flex-start"
-				mt="10vh"
-				fontFamily="Big Shoulders Display, cursive"
+				width='50vw'
+				textAlign='center'
+				fontSize='70px'
+				alignSelf='flex-start'
+				mt='10vh'
+				fontFamily='Big Shoulders Display, cursive'
 				p={10}
 				m={7}
 			>
 				Welcome to BurnReads
 			</Box>
 			<Box
-				className="form"
-				bg="red.500"
+				className='form'
+				bg='red.500'
 				// bg="#F7B05B"
 				// bg="#CC232A"
 				// border="2px"
 				// borderColor="red.500"
-				width="350px"
-				margin="10px"
+				width='350px'
+				margin='10px'
 				p={5}
 				// pt={10}
-				boxShadow="sm"
-				rounded="lg"
-				textAlign="center"
+				boxShadow='sm'
+				rounded='lg'
+				textAlign='center'
 				// height="220px"
-				minWidth="200px"
-				opacity="0.9"
+				minWidth='200px'
+				opacity='0.9'
 			>
 				<Tabs
-					variant="soft-rounded"
-					colorScheme="red"
+					variant='soft-rounded'
+					colorScheme='red'
 					// bg="yellow.200"
 					isFitted
 					m={2}
 					// defaultIndex={formTab}
-					rounded="lg"
+					rounded='lg'
 				>
 					<TabList>
-						<Tab color="white">Login</Tab>
-						<Tab color="white">Sign Up</Tab>
+						<Tab color='white'>Login</Tab>
+						<Tab color='white'>Sign Up</Tab>
 					</TabList>
 					<TabPanels>
 						<TabPanel>
@@ -113,39 +109,34 @@ const LoginFormPage = () => {
 										))}
 									</ul>
 									<div>
-										<label htmlFor="email"></label>
+										<label htmlFor='email'></label>
 										<Input
-											name="email"
-											type="text"
+											name='email'
+											type='text'
 											value={credential}
-											onChange={(e) => setCredential(e.target.value)}
-											placeholder="Email"
-											bg="white"
+											onChange={e => setCredential(e.target.value)}
+											placeholder='Email'
+											bg='white'
 											required
 										/>
 									</div>
 									<div>
 										{/* <Text>Password</Text> */}
 										<Input
-											name="password"
-											type="password"
+											name='password'
+											type='password'
 											value={password}
-											onChange={(e) => setPassword(e.target.value)}
-											placeholder="Password"
-											bg="white"
+											onChange={e => setPassword(e.target.value)}
+											placeholder='Password'
+											bg='white'
 											required
 										/>
 									</div>
-									<div className="login-form-submit-button-div">
-										<Button type="submit" boxShadow="md" width="100%">
+									<div className='login-form-submit-button-div'>
+										<Button type='submit' boxShadow='md' width='100%'>
 											Login
 										</Button>
-										<Button
-											boxShadow="md"
-											width="100%"
-											mt={4}
-											onClick={() => demoLogin()}
-										>
+										<Button boxShadow='md' width='100%' mt={4} onClick={() => demoLogin()}>
 											Demo Login
 										</Button>
 									</div>

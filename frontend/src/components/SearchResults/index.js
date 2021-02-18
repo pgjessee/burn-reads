@@ -6,14 +6,13 @@ import './index.css';
 import BurnRating from '../BurnRating';
 import PageResults from './PageResults';
 import ShelfUtil from '../ShelfUtil';
-import { Flex, Select } from '@chakra-ui/react';
 
 const SearchResults = () => {
 	const sessionUser = useSelector(state => state.session.user);
 	const { searchTerm } = useParams();
 	const [maxResults, setMaxResults] = useState(10);
 	const [pageNumber, setPageNumber] = useState(1);
-	const [shelfNames, setShelfNames] = useState([]);
+	const [customShelfNames, setCustomShelfNames] = useState([]);
 	const [searchResults, setSearchResults] = useState(null);
 	const [loaded, setLoaded] = useState(false);
 
@@ -26,6 +25,7 @@ const SearchResults = () => {
 		}
 		return authors?.join(', ');
 	};
+
 	useEffect(() => {
 		(async () => {
 			setLoaded(false);
@@ -33,16 +33,11 @@ const SearchResults = () => {
 				`/api/books/search/${searchTerm}/${pageNumber}/${maxResults}/${sessionUser?.id || 0}`
 			);
 			setSearchResults(res.data);
+			res = await fetch(`/api/shelves/shelf-names/${sessionUser?.id || 0}`);
+			setCustomShelfNames(res.data);
 			setLoaded(true);
 		})();
 	}, [maxResults, pageNumber, searchTerm, sessionUser]);
-
-	useEffect(() => {
-		(async () => {
-			let res = await fetch(`/api/shelves/shelf-names/${sessionUser?.id || 0}`);
-			setCustomShelfNames(res.data);
-		})();
-	}, [sessionUser]);
 
 	return (
 		<>
@@ -56,10 +51,10 @@ const SearchResults = () => {
 							setMaxResults={setMaxResults}
 						/>
 						{searchResults?.map(
-							({ id, smallThumbnail, title, authors, rating, kindlingShelves }) => {
+							({ id, smallThumbnail, title, authors, rating, kindlingShelves }, i) => {
 								return (
-									<>
-										<div className='search-bookContainer' key={id} justify='space-between'>
+									<div key={`${id}${i}`}>
+										<div className='search-bookContainer'>
 											<div className='search-bookThumbnailContainer'>
 												<img
 													className='search-bookThumbnail'
@@ -73,7 +68,7 @@ const SearchResults = () => {
 												</a>
 												<div className='search-authorContainer'>by {displayAuthors(authors)}</div>
 												<div className='search-rating'>
-													<BurnRating rating={rating} id={id} />
+													<BurnRating rating={rating} />
 													<div className='search-ratingText'>{rating} avg rating</div>
 												</div>
 												<ShelfUtil
@@ -84,7 +79,7 @@ const SearchResults = () => {
 											</div>
 										</div>
 										<hr></hr>
-									</>
+									</div>
 								);
 							}
 						)}

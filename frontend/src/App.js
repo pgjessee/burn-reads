@@ -5,11 +5,9 @@ import SplashPage from './components/SplashPage';
 import LoginFormPage from './components/LoginFormPage';
 import SignUpFormPage from './components/SignupFormPage/SignUpFormPage';
 import MyBooksPage from './components/MyBooksPage';
-// import ShelfPage from './components/MyBooksPage/ShelfPage'
 import BookProfilePage from './components/BookProfilePage';
 import WriteReviewPage from './components/WriteReviewPage';
 import SearchResults from './components/SearchResults';
-import Test from './components/Test';
 import * as sessionActions from './store/session';
 import NavBar from './components/NavBar/NavBar';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';

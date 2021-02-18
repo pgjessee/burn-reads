@@ -4,6 +4,7 @@
 	display: flex;
 	position: relative;
 	color: white;
+	cursor: pointer;
 }
 
 .shelf-nameDisplay {
@@ -49,8 +50,45 @@
 	position: relative;
 	background: rgb(255, 149, 10);
 	text-indent: 10px;
+	user-select: none;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.customShelfOption {
+	padding-left: 5px;
+}
+
+.customShelfOption > input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-o-appearance: none;
+	appearance: none;
+	height: 15px;
+	width: 15px;
+	border: 1px solid #34495e;
+	border-radius: 5px;
+	outline: none;
+	background-color: #ffff;
+	cursor: pointer;
+	content: '';
+	position: relative;
+}
+
+.customShelfOption > input:checked + label:before {
+	position: absolute;
+	left: -2px;
+	top: 3px;
+	font-size: 12px;
+	font-weight: 600;
+	content: '\2713';
+	color: black;
+	height: 15px;
+	width: 15px;
+	border-radius: 5px;
 }
 
 .shelf-optionContainer:hover {
-	background: rgb(138, 108, 81);
+	background: rgb(97, 83, 71);
 }

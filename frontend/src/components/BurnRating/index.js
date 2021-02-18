@@ -41,8 +41,6 @@ export default function BurnRating({ rating, id }) {
 				for (let i = ratingCeiling; i < 5; i++) {
 					flames.push(<i key={`${id}${i}`} className='fab fa-gripfire greyFire'></i>);
 				}
-
-				console.log(flames);
 				setBurnRating(flames);
 			}
 		})();
