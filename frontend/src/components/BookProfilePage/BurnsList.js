@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import UserFlames from '../UserFlame';
 import { fetch } from '../../store/csrf';
 
-function BookBurn({ burn }) {
+function BookBurn({ burn, onDelete }) {
     const sessionUser = useSelector(state => state.session.user);
     const [userBurn, setUserBurn] = useState('');
 
@@ -11,14 +11,15 @@ function BookBurn({ burn }) {
     //     setUserBurn(burn)
     // }, [])
 
-    const handleBurnDelete = async (burn) => {
+    const handleBurnDelete = async (e) => {
+        e.preventDefault();
 
         await fetch(`/api/burns/${burn.book_id}/${sessionUser.id}`, {
             method: "DELETE",
             headers: {"Content-Type": "application/json"},
         });
 
-        setUserBurn(null)
+        onDelete(e)
     };
 
 
@@ -43,7 +44,7 @@ function BookBurn({ burn }) {
                     <span className="burn-review">{burn.review}</span>
                 </div>
                 <div className="burn-delete-container">
-                    <button className="burn-delete-button" onClick={() => handleBurnDelete(burn)}>Delete</button>
+                    <button className="burn-delete-button" onClick={handleBurnDelete}>Delete</button>
                 </div>
             </div>
         )

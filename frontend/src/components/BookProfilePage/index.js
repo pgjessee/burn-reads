@@ -37,7 +37,25 @@ function BookProfilePage() {
 			e.preventDefault();
 			history.push('/login')
 		}
-	}
+	};
+
+	const handleBurns = (e) => {
+		e.preventDefault();
+		let existingBurns = [];
+
+		let burn;
+		for (let i = 0; i < bookBurns.length; i++) {
+			burn = bookBurns[i];
+
+			if (burn.user_id !== sessionUser.id) {
+				existingBurns.push(burn)
+			};
+
+		};
+
+		setBurns(existingBurns);
+
+	};
 
 
 	return (
@@ -76,7 +94,7 @@ function BookProfilePage() {
 				<div className='profile-burns-container'>
 					<div className='book-burns-header'>This Book's Burns</div>
 					{bookBurns.map(burn => {
-						return <BookBurn key={burn.user_id} burn={burn} />;
+						return <BookBurn key={burn.user_id} burn={burn} onDelete={handleBurns}/>;
 					})}
 				</div>
 			</div>
