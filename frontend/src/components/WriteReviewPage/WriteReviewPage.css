@@ -57,8 +57,19 @@
     font-size: 30px;
 }
 
+.review-errors-container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 .burn-textarea-container {
     margin-top: 10px;
+}
+
+.review-err {
+    color: red;
+    font-weight: bolder;
+    font-size: 18px;
 }
 
 .burn-textarea {

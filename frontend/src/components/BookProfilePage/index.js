@@ -39,13 +39,6 @@ function BookProfilePage() {
 		}
 	}
 
-	// const handleUserBurns = (e) => {
-	// 	if (!userBurn) {
-	// 		history.push('/login')
-	// 	}
-	// 	e.preventDefault();
-
-	// };
 
 	return (
 		<div className='book-profile-page-container'>
