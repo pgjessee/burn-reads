@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import { fetch } from '../../store/csrf';
 import BurnRating from '../BurnFlame'
@@ -8,20 +8,33 @@ import BurnRating from '../BurnFlame'
 import './WriteReviewPage.css'
 
 const WriteReviewPage = () => {
-    const { googleBookId } = useParams()
-
     const sessionUser = useSelector(state => state.session.user);
+    const { googleBookId } = useParams()
+    const history = useHistory();
+
     const [burn, setBurn] = useState('');
+    const [isPrevBurn, setIsPrevBurn] = useState(false);
     const [rating, setRating] = useState(1);
     const [book, setBook] = useState('');
     const [authors, setAuthors] = useState('');
     const [bookLink, setBookLink] = useState('');
+    const [errors, setErrors] = useState([]);
 
 
     useEffect(() => {
         (async () => {
             const res = await fetch(`/api/books/${googleBookId}/${sessionUser?.id || 0}`);
             let bookAuthors = res.data.book.authors;
+            let burns = res.data.burns
+            let burn;
+            for (let i = 0; i < burns.length; i++) {
+                burn = burns[i];
+                if (burn.user_id === sessionUser.id) {
+                    setIsPrevBurn(true);
+                    break;
+                }
+            };
+
             bookAuthors = bookAuthors.length === 1 ? bookAuthors[0] : bookAuthors.join(", ");
             let bookPage = `/${googleBookId}`
 
@@ -32,22 +45,30 @@ const WriteReviewPage = () => {
         })()
     }, [])
 
-    // if (!sessionUser) return <Redirect to="/login" />;
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        const newBurn = {
-            review: burn,
-            rating: rating
-        };
+        if (isPrevBurn) {
+            return setErrors([
+                "You have already burned this book! Once is enough!"
+            ]);
+        } else {
 
-        const res = await fetch(`/api/burns/${googleBookId}/${sessionUser.id}`, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(newBurn)
-        });
+            history.push(`/${googleBookId}`);
+            const newBurn = {
+                review: burn,
+                rating: rating
+            };
 
-        return;
+
+            const res = await fetch(`/api/burns/${googleBookId}/${sessionUser.id}`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(newBurn)
+            });
+        }
+
     }
 
     return (
@@ -72,6 +93,15 @@ const WriteReviewPage = () => {
                     <h3 className="burn-book-header">Burn this Book!</h3>
                     <form onSubmit={handleSubmit}>
                         <BurnRating setRating={setRating} rating={rating}/>
+                        <div className="review-errors-container">
+                            <ul>
+                                {errors.map((error, idx) => (
+                                    <li className="review-err" key={idx}>
+                                        {error}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                         <div className="burn-textarea-container">
                             <textarea
                                 className="burn-textarea"

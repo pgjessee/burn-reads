@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams, NavLink } from 'react-router-dom';
+import { useParams, NavLink, useHistory } from 'react-router-dom';
 import { fetch } from '../../store/csrf';
 import BookBurn from './BurnsList';
 import './BookProfilePage.css';
 
 function BookProfilePage() {
 	const { googleBookId } = useParams();
+	const history = useHistory();
 
 	const sessionUser = useSelector(state => state.session.user);
 	const [googleBook, setBook] = useState('');
@@ -19,6 +20,7 @@ function BookProfilePage() {
 			const res = await fetch(`/api/books/${googleBookId}/${sessionUser?.id || 0}`);
 			const data = res.data;
 			const { book, burns } = data;
+
 			let bookAuthors = book.authors;
 			bookAuthors = bookAuthors.length === 1 ? bookAuthors[0] : bookAuthors.join(', ');
 			const writeBurn = `/${googleBookId}/reviews`;
@@ -29,6 +31,32 @@ function BookProfilePage() {
 			setReviewsLink(writeBurn);
 		})();
 	}, []);
+
+	const handleUser = (e) => {
+		if (!sessionUser) {
+			e.preventDefault();
+			history.push('/login')
+		}
+	};
+
+	const handleBurns = (e) => {
+		e.preventDefault();
+		let existingBurns = [];
+
+		let burn;
+		for (let i = 0; i < bookBurns.length; i++) {
+			burn = bookBurns[i];
+
+			if (burn.user_id !== sessionUser.id) {
+				existingBurns.push(burn)
+			};
+
+		};
+
+		setBurns(existingBurns);
+
+	};
+
 
 	return (
 		<div className='book-profile-page-container'>
@@ -60,13 +88,13 @@ function BookProfilePage() {
 				</div>
 				<div className='button-link-burn'>
 					<NavLink to={reviewsLink}>
-						<button className='burn-book-button'>Burn this book</button>
+						<button className='burn-book-button' onClick={handleUser}>Burn this book</button>
 					</NavLink>
 				</div>
 				<div className='profile-burns-container'>
 					<div className='book-burns-header'>This Book's Burns</div>
 					{bookBurns.map(burn => {
-						return <BookBurn key={burn.user_id} burn={burn} />;
+						return <BookBurn key={burn.user_id} burn={burn} onDelete={handleBurns}/>;
 					})}
 				</div>
 			</div>

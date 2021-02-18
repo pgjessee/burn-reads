@@ -74,7 +74,7 @@ const LoginFormPage = () => {
 			</Box>
 			<Box
 				className="form"
-				bg="red.800"
+				bg="red.500"
 				// bg="#F7B05B"
 				// bg="#CC232A"
 				// border="2px"

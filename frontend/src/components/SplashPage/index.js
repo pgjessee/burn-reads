@@ -22,7 +22,7 @@ const SplashPage = () => {
     return (
         <div className="splashbooks-page-container">
             <div className="splashbooks-body-container">
-                <div className="splashbooks-title-header">Top Ten Most Infamous Burned Books</div>
+                <div className="splashbooks-title-header">Most Infamous Burned Books</div>
                 <div className="splashbooks-table-container">
                     <table>
                         <thead className="splash-table-head">

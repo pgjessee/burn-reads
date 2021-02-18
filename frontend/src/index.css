@@ -15,3 +15,11 @@ a:hover {
 td {
 	width: 150px;
 }
+
+
+#searchInput {
+    border: 1px solid black;
+    margin: 20px;
+    padding: 2px 2px 2px 7px;
+    width: 400px;
+}
