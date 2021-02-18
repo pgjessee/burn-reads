@@ -111,23 +111,18 @@ router.get(
 	})
 );
 
-//gets all kindling shelf names for a user
+//gets all custom kindling shelf names for a user
 router.get(
 	'/shelf-names/:userId',
 	asyncHandler(async (req, res) => {
 		const { userId } = req.params;
-		let userShelves;
-
-		if (userId == 0) {
-			userShelves = [
-				{ shelf_name: 'Torched', userId: 0 },
-				{ shelf_name: 'Torching', userId: 0 },
-				{ shelf_name: 'Want to Torch', userId: 0 },
-			];
-		} else {
-			userShelves = await Kindling_Shelf.findAll({ where: { user_id: userId } });
-		}
-		return res.json(userShelves);
+		let customShelves = await Kindling_Shelf.findAll({
+			where: { user_id: userId },
+			shelf_name: {
+				[Op.notIn]: ['Torched', 'Torching', 'Want to Torch'],
+			},
+		});
+		return res.json(customShelves);
 	})
 );
 

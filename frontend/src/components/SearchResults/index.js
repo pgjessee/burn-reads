@@ -40,7 +40,7 @@ const SearchResults = () => {
 	useEffect(() => {
 		(async () => {
 			let res = await fetch(`/api/shelves/shelf-names/${sessionUser?.id || 0}`);
-			setShelfNames(res.data);
+			setCustomShelfNames(res.data);
 		})();
 	}, [sessionUser]);
 
@@ -78,7 +78,7 @@ const SearchResults = () => {
 												</div>
 												<ShelfUtil
 													kindlingShelves={kindlingShelves}
-													shelfNames={shelfNames}
+													customShelfNames={customShelfNames}
 													bookId={id}
 												/>
 											</div>
