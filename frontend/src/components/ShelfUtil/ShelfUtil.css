@@ -1,22 +1,31 @@
 .shelf-wrapper {
-	width: 150px;
+	width: 165px;
 	height: 30px;
 	display: flex;
 	position: relative;
-	color: white;
+	/* color: white; */
 	cursor: pointer;
 }
 
 .shelf-nameDisplay {
-	width: 125px;
+	width: 140px;
 	height: 30px;
 	background-color: rgb(255, 149, 10);
 	border-right: 1px solid rgb(167, 107, 29);
 	border-top-left-radius: 4px;
 	border-bottom-left-radius: 4px;
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 28px;
 	text-indent: 6px;
+	color: black;
+	font-weight: 500;
+}
+
+.fa-check {
+	font-size: 15px;
+	transform: rotate(-10deg);
+	padding-right: 5px;
+	color: black;
 }
 
 .shelf-dropdownBtn {
@@ -38,7 +47,7 @@
 .shelf-optionsWrapper {
 	position: absolute;
 	top: 30px;
-	width: 150px;
+	width: 165px;
 	border-radius: 4px;
 	border: 1px solid rgb(167, 107, 29);
 
@@ -47,6 +56,8 @@
 }
 
 .shelf-optionContainer {
+	color: white;
+	font-weight: 600;
 	position: relative;
 	background: rgb(255, 149, 10);
 	text-indent: 10px;
@@ -60,7 +71,7 @@
 	padding-left: 5px;
 }
 
-.customShelfOption > input {
+/* .customShelfOption > input {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	-o-appearance: none;
@@ -84,10 +95,12 @@
 	font-weight: 600;
 	content: '\2713';
 	color: black;
-	height: 15px;
-	width: 15px;
-	border-radius: 5px;
+	cursor: pointer;
 }
+
+.customShelfOption > input + label:before {
+	content: '';
+} */
 
 .shelf-optionContainer:hover {
 	background: rgb(97, 83, 71);

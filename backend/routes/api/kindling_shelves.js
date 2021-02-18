@@ -91,18 +91,29 @@ router.get(
 	'/shelf-names/:userId',
 	asyncHandler(async (req, res) => {
 		const { userId } = req.params;
+		if (parseInt(userId, 10) === 0) {
+			return res.json([
+				{
+					shelf_name: 'Torched',
+				},
+				{
+					shelf_name: 'Torching',
+				},
+				{
+					shelf_name: 'Want to Torch',
+				},
+			]);
+		}
 		let customShelves = await Kindling_Shelf.findAll({
 			where: {
 				user_id: userId,
-				shelf_name: {
-					[Op.notIn]: ['Torched', 'Torching', 'Want to Torch'],
-				},
 			},
 		});
 		return res.json(customShelves);
 	})
 );
 
+//sets default kindling shelves for user
 router.post(
 	'/new-user',
 	asyncHandler(async (req, res, next) => {
@@ -133,12 +144,23 @@ router.post(
 router.post(
 	'/:shelfId/:googleBookId',
 	asyncHandler(async (req, res) => {
-		const shelfId = req.params.shelfId;
-		const googleBookId = req.params.googleBookId;
+		const { shelfId, googleBookId } = req.params;
 
-		let newKindlingBook = Kindling_Book.create({
-			shelf_id: shelfId,
-			google_book_id: googleBookId,
+		let book = await Book.findOne({
+			where: {
+				google_book_id: googleBookId,
+			},
+		});
+
+		if (!book) {
+			book = await Book.create({
+				google_book_id: googleBookId,
+			});
+		}
+
+		let newKindlingBook = await Kindling_Book.create({
+			kindling_shelf_id: shelfId,
+			book_id: book.id,
 		});
 		return res.json(newKindlingBook);
 	})
@@ -148,13 +170,13 @@ router.post(
 router.patch(
 	'/:shelfId/:googleBookId',
 	asyncHandler(async (req, res) => {
-		const shelfId = req.params.shelfId;
-		const googleBookId = req.params.googleBookId;
+		const { shelfId, googleBookId } = req.params;
+		// need to find the book
 
-		let kindlingBook = Kindling_Book.findOne({
+		let kindlingBook = await Kindling_Book.findOne({
 			where: {
-				shelf_id: shelfId,
-				google_book_id: googleBookId,
+				kindling_shelf_id: shelfId,
+				book_id: book.id,
 			},
 		});
 		kindlingBook.destroy();

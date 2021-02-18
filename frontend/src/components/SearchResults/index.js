@@ -12,7 +12,8 @@ const SearchResults = () => {
 	const { searchTerm } = useParams();
 	const [maxResults, setMaxResults] = useState(10);
 	const [pageNumber, setPageNumber] = useState(1);
-	const [customShelfNames, setCustomShelfNames] = useState([]);
+	const [customShelves, setCustomShelves] = useState([]);
+	const [defaultShelves, setDefaultShelves] = useState([]);
 	const [searchResults, setSearchResults] = useState(null);
 	const [loaded, setLoaded] = useState(false);
 
@@ -34,7 +35,8 @@ const SearchResults = () => {
 			);
 			setSearchResults(res.data);
 			res = await fetch(`/api/shelves/shelf-names/${sessionUser?.id || 0}`);
-			setCustomShelfNames(res.data);
+			setDefaultShelves(res.data.slice(0, 3));
+			setCustomShelves(res.data.slice(3, res.data.length + 1));
 			setLoaded(true);
 		})();
 	}, [maxResults, pageNumber, searchTerm, sessionUser]);
@@ -73,8 +75,10 @@ const SearchResults = () => {
 												</div>
 												<ShelfUtil
 													kindlingShelves={kindlingShelves}
-													customShelfNames={customShelfNames}
+													customShelves={customShelves}
+													defaultShelves={defaultShelves}
 													bookId={id}
+													sessionUserId={sessionUser?.id}
 												/>
 											</div>
 										</div>
