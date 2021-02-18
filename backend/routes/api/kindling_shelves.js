@@ -54,10 +54,20 @@ router.get(
 				const books = kindlingShelf.Books;
 				booksInfo = await Promise.all(
 					books.map(async book => {
-						console.log(book)
 						if (!book.google_book_id) return {title: "Unavailable"};
-						info = await getBookInfo(book.google_book_id, userId);
+						let info = await getBookInfo(book.google_book_id, userId);
+						let bookRating = await Burn.findOne({
+							where: {
+								user_id: userId,
+								book_id: book.id
+							}
+						})
+						if (!bookRating) {
+							bookRating = [];
+						}
+						let { rating } = bookRating;
 						info.book_id = book.id;
+						info.userRating = rating;
 						return info;
 					})
 				);
@@ -93,7 +103,18 @@ router.get(
 					books.map(async book => {
 						if (!book.google_book_id) return {title: "Unavailable"};
 						info = await getBookInfo(book.google_book_id, userId);
+						let bookRating = await Burn.findOne({
+							where: {
+								user_id: userId,
+								book_id: book.id
+							}
+						})
+						if (!bookRating) {
+							bookRating = [];
+						}
+						let { rating } = bookRating;
 						info.book_id = book.id;
+						info.userRating = rating;
 						return info;
 					})
 				);
