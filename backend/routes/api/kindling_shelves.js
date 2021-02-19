@@ -91,8 +91,9 @@ router.get(
 	'/shelf-names/:userId',
 	asyncHandler(async (req, res) => {
 		const { userId } = req.params;
+		let allShelves;
 		if (parseInt(userId, 10) === 0) {
-			return res.json([
+			allShelves = [
 				{
 					shelf_name: 'Torched',
 				},
@@ -102,14 +103,15 @@ router.get(
 				{
 					shelf_name: 'Want to Torch',
 				},
-			]);
+			];
+		} else {
+			allShelves = await Kindling_Shelf.findAll({
+				where: {
+					user_id: userId,
+				},
+			});
 		}
-		let customShelves = await Kindling_Shelf.findAll({
-			where: {
-				user_id: userId,
-			},
-		});
-		return res.json(customShelves);
+		return res.json(allShelves);
 	})
 );
 
@@ -162,16 +164,47 @@ router.post(
 			kindling_shelf_id: shelfId,
 			book_id: book.id,
 		});
+
 		return res.json(newKindlingBook);
 	})
 );
 
-//remove book from kindling shelf
+//change book to a different default kindling shelf
+router.patch(
+	'/:oldShelfId/:/:newShelfId/:googleBookId',
+	asyncHandler(async (req, res) => {
+		const { oldShelfId, newShelfId, googleBookId } = req.params;
+		let book = await Book.findOne({
+			where: {
+				google_book_id: googleBookId,
+			},
+		});
+
+		let kindlingBook = await Kindling_Book.findOne({
+			where: {
+				kindling_shelf_id: oldShelfId,
+				book_id: book.id,
+			},
+		});
+
+		await kindlingBook.update({
+			kindling_shelf_id: newShelfId,
+		});
+		return res.json(kindlingBook);
+	})
+);
+
+//remove book from a kindling shelf
 router.patch(
 	'/:shelfId/:googleBookId',
 	asyncHandler(async (req, res) => {
 		const { shelfId, googleBookId } = req.params;
 		// need to find the book
+		let book = await Book.findOne({
+			where: {
+				google_book_id: googleBookId,
+			},
+		});
 
 		let kindlingBook = await Kindling_Book.findOne({
 			where: {
@@ -179,6 +212,7 @@ router.patch(
 				book_id: book.id,
 			},
 		});
+
 		kindlingBook.destroy();
 		return res.json(kindlingBook);
 	})

@@ -22,12 +22,13 @@
 
 .search-bookThumbnailContainer {
 	cursor: pointer;
-	width: 50px;
+	min-width: 60px;
 	height: 80px;
 }
 
 .search-bookThumbnailContainer img {
-	width: 100%;
+	width: 60px;
+	height: auto;
 }
 
 .search-bookInfoContainer {

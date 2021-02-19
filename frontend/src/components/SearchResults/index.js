@@ -18,6 +18,7 @@ const SearchResults = () => {
 	const [loaded, setLoaded] = useState(false);
 
 	const displayAuthors = authors => {
+		if (typeof authors === 'string') return authors;
 		if (authors?.length >= 3) {
 			return `${authors?.slice(0, 3).join(', ')}...`;
 		}

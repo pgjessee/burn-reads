@@ -69,8 +69,8 @@ const bookSearch = async (searchTerm, maxResults, pageNumber, userId) => {
 				avgRating = getBookRating(burns);
 				let bookInfo = {
 					id: id,
-					title: title,
-					authors: authors,
+					title: title || 'Title Not Available',
+					authors: authors || 'Author Not Available',
 					rating: avgRating || 0,
 					publisher: publisher || 'Publisher Not Available',
 					description: description || 'Description Not Available',
@@ -94,11 +94,11 @@ const getBookInfo = async (bookId, userId) => {
 	if (!bookId) {
 		return {
 			id: id || 0,
-			title: volumeInfo.title || 'Not Available',
-			authors: volumeInfo.authors || 'Not Available',
+			title: volumeInfo.title || 'Title Not Available',
+			authors: volumeInfo.authors || 'Author Not Available',
 			rating: avgRating || 0,
-			publisher: volumeInfo.publisher || 'Not Available',
-			description: volumeInfo.description || 'Not Available',
+			publisher: volumeInfo.publisher || 'Publisher Not Available',
+			description: volumeInfo.description || 'Description Not Available',
 			smallThumbnail: volumeInfo.imageLinks.smallThumbnail || null,
 			thumbnail: volumeInfo.imageLinks.thumbnail || null,
 			categories: volumeInfo.categories || 'Categories Not Available',
