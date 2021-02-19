@@ -8,7 +8,7 @@ import './MyBooksPage.css'
 const MyBooksPage = () => {
     const sessionUser = useSelector(state => state.session.user);
 
-    // const [userBooks, setUserBooks] = useState([]);
+
     const [loaded, setLoaded] = useState(false)
     let [allBooks, setAllBooks] = useState([]);
     const [userShelfBooks, setUserShelfBooks] = useState([]);
@@ -16,6 +16,7 @@ const MyBooksPage = () => {
     const [torchings, setTorchings] = useState({});
     const [torched, setTorched] = useState({});
     const [wantToTorch, setWantToTorch] = useState({});
+    const [newShelf, setNewShelf] = useState('');
 
 
     let allUserBooks = [];
@@ -71,6 +72,33 @@ const MyBooksPage = () => {
         document.getElementById("mybooks-header").innerHTML = "My Inferno"
     }
 
+    let handleAddShelfDisplay = () => {
+        document.getElementById("add-shelf-form").style.visibility = "visible";
+        document.getElementById("add-shelf-creator-button").style.visibility="hidden";
+    }
+
+    let handleShelfSubmit = async () => {
+        let newShelves = customShelves;
+
+        const shelf = await fetch("/api/shelves", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                shelf_name: newShelf,
+                user_id: sessionUser.id
+            })
+
+        });
+
+        newShelves.push(shelf);
+        setCustomShelves(newShelves)
+        document.getElementById("add-shelf-form").style.visibility = "hidden";
+        document.getElementById("add-shelf-creator-button").style.visibility="visible";
+    }
+
+
     return (
         loaded &&
         <div className="mybooks-page-container">
@@ -95,7 +123,17 @@ const MyBooksPage = () => {
                             })}
                         </div>
                         <div className="add-shelf-div">
-                            Shelf Creator Goes Here
+                            <button id="add-shelf-creator-button" onClick={handleAddShelfDisplay}>Add shelf</button>
+                            <form id="add-shelf-form" onSubmit={handleShelfSubmit}>
+                                <input
+                                id="add-shelf-input"
+                                type="text"
+                                value={newShelf}
+                                onChange={(e) => setNewShelf(e.target.value)}
+                                required
+                                />
+                                <button id="create-shelf-button" type="submit">add</button>
+                            </form>
                         </div>
                     </div>
                 </div>
