@@ -227,7 +227,7 @@ router.patch(
 );
 
 //remove book from a kindling shelf
-router.patch(
+router.delete(
 	'/:shelfId/:googleBookId',
 	asyncHandler(async (req, res) => {
 		const { shelfId, googleBookId } = req.params;
