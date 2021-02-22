@@ -148,11 +148,11 @@ const MyBooksPage = () => {
 						<table>
 							<thead className='mybooks-table-header'>
 								<tr>
-									<th className='mybooks-cover-column'>cover</th>
-									<th className='mybooks-title-column'>title</th>
-									<th className='mybooks-authors-column'>author(s)</th>
-									<th className='mybooks-fire-rating'>my fire rating</th>
-									<th className='mybooks-burn-review'>burn review</th>
+									<th className='mybooks-cover-column mybooks-th'>cover</th>
+									<th className='mybooks-title-column mybooks-th'>title</th>
+									<th className='mybooks-authors-column mybooks-th'>author(s)</th>
+									<th className='mybooks-fire-rating mybooks-th'>my fire rating</th>
+									<th className='mybooks-burn-review mybooks-th'>burn review</th>
 								</tr>
 							</thead>
 							<tbody>

@@ -19,13 +19,30 @@
 	text-indent: 6px;
 	color: black;
 	font-weight: 500;
+	display: flex;
+	padding-left: 5px;
 }
 
-.fa-check {
+.removeShelfBtn {
+	height: 30px;
+	width: 25px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.noShelfPlaceHolder {
+	padding-left: 5px;
+}
+
+.shelf-nameDisplay > .fas:before {
 	font-size: 15px;
 	transform: rotate(-10deg);
-	padding-right: 5px;
+	padding-top: 5px;
 	color: black;
+	transition-duration: 0.3s;
+	cursor: pointer;
+	z-index: 2;
 }
 
 .shelf-dropdownBtn {
@@ -69,6 +86,11 @@
 
 .customShelfOption {
 	padding-left: 5px;
+}
+
+.onShelfIndicatorBtn {
+	/* width: 5px;
+	height: 10px; */
 }
 
 /* .customShelfOption > input {

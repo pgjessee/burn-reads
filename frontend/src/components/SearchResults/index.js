@@ -55,7 +55,6 @@ const SearchResults = () => {
 						/>
 						{searchResults?.map(
 							({ id, smallThumbnail, title, authors, rating, kindlingShelves }, i) => {
-								console.log(rating);
 								return (
 									<div key={`${id}${i}`}>
 										<div className='search-bookContainer'>

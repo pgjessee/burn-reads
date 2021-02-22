@@ -3,7 +3,6 @@ import './BurnRating.css';
 
 export default function BurnRating({ rating, id }) {
 	const [burnRating, setBurnRating] = useState([]);
-	console.log(rating, 'rating for', id);
 	useEffect(() => {
 		(() => {
 			const flames = [];
@@ -12,7 +11,6 @@ export default function BurnRating({ rating, id }) {
 			if (ratingCeiling === rating) {
 				// if rating is whole number
 				for (let i = 0; i < rating; i++) {
-					console.log('this runs');
 					flames.push(<i key={`${id}${i}`} className='fab fa-gripfire redFire'></i>);
 				}
 				for (let i = rating; i < 5; i++) {

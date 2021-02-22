@@ -35,10 +35,13 @@ const LoginFormPage = () => {
 		});
 	};
 
-	const demoLogin = async e => {
-		setCredential('demo@aa.io');
-		setPassword('123');
-		dispatch(sessionActions.login({ credential, password }));
+	const demoLogin = e => {
+		e.preventDefault();
+		return dispatch(sessionActions.login({ credential: 'demo@aa.io', password: '123' })).catch(
+			res => {
+				if (res.data && res.data.errors) setErrors(res.data.errors);
+			}
+		);
 	};
 
 	return (
@@ -136,7 +139,7 @@ const LoginFormPage = () => {
 										<Button type='submit' boxShadow='md' width='100%'>
 											Login
 										</Button>
-										<Button boxShadow='md' width='100%' mt={4} onClick={() => demoLogin()}>
+										<Button boxShadow='md' width='100%' mt={4} onClick={demoLogin}>
 											Demo Login
 										</Button>
 									</div>
