@@ -11,22 +11,15 @@ const getBookRating = burns => {
 	return avgRating;
 };
 
-const getBurnsAndShelves = async (googleBookId, userId) => {
-	let burns;
-	let shelves;
+//just gets shelves
+const getShelves = async (googleBookId, userId) => {
+	let kindlingShelves;
 	let book = await Book.findOne({
 		where: {
 			google_book_id: googleBookId,
 		},
 	});
-
 	if (book) {
-		burns = await Burn.findAll({
-			where: {
-				book_id: book.id,
-			},
-		});
-
 		kindlingBooks = await Kindling_Book.findAll({
 			where: {
 				book_id: book.id,
@@ -40,19 +33,38 @@ const getBurnsAndShelves = async (googleBookId, userId) => {
 			},
 		});
 
-		shelves = kindlingBooks.map(kindlingBook => {
+		kindlingShelves = kindlingBooks.map(kindlingBook => {
 			return {
 				id: kindlingBook.Kindling_Shelf.id,
 				name: kindlingBook.Kindling_Shelf.shelf_name,
 			};
 		});
 	} else {
-		burns = [];
-		shelves = [];
+		kindlingShelves = [];
 	}
 
-	let burnsAndShelves = { burns, shelves };
-	return burns;
+	return { kindlingShelves };
+};
+
+const getBurns = async (googleBookId, userId) => {
+	let burns;
+	let book = await Book.findOne({
+		where: {
+			google_book_id: googleBookId,
+		},
+	});
+
+	if (book) {
+		burns = await Burn.findAll({
+			where: {
+				book_id: book.id,
+			},
+		});
+	} else {
+		burns = [];
+	}
+
+	return { burns };
 };
 
 const bookSearch = async (searchTerm, maxResults, pageNumber, userId) => {
@@ -64,20 +76,19 @@ const bookSearch = async (searchTerm, maxResults, pageNumber, userId) => {
 		res = await res.json();
 		const books = await Promise.all(
 			res.items.map(async ({ id, volumeInfo }) => {
-				let { burns, shelves } = await getBurnsAndShelves(id, userId);
+				let { burns } = await getBurns(id, userId);
 				let { title, authors, publisher, description, imageLinks, categories } = volumeInfo;
 				avgRating = getBookRating(burns);
 				let bookInfo = {
 					id: id,
-					title: title,
-					authors: authors,
+					title: title || 'Title Not Available',
+					authors: authors || 'Author Not Available',
 					rating: avgRating || 0,
 					publisher: publisher || 'Publisher Not Available',
 					description: description || 'Description Not Available',
 					smallThumbnail: imageLinks ? imageLinks.smallThumbnail : null,
 					thumbnail: imageLinks ? imageLinks.thumbnail : null,
 					categories: categories || 'Categories Not Available',
-					kindlingShelves: shelves,
 				};
 
 				return bookInfo;
@@ -91,19 +102,17 @@ const bookSearch = async (searchTerm, maxResults, pageNumber, userId) => {
 };
 
 const getBookInfo = async (bookId, userId) => {
-	console.log(bookId);
 	if (!bookId) {
 		return {
 			id: id || 0,
-			title: volumeInfo.title || 'Not Available',
-			authors: volumeInfo.authors || 'Not Available',
+			title: volumeInfo.title || 'Title Not Available',
+			authors: volumeInfo.authors || 'Author Not Available',
 			rating: avgRating || 0,
-			publisher: volumeInfo.publisher || 'Not Available',
-			description: volumeInfo.description || 'Not Available',
+			publisher: volumeInfo.publisher || 'Publisher Not Available',
+			description: volumeInfo.description || 'Description Not Available',
 			smallThumbnail: volumeInfo.imageLinks.smallThumbnail || null,
 			thumbnail: volumeInfo.imageLinks.thumbnail || null,
 			categories: volumeInfo.categories || 'Categories Not Available',
-			kindlingShelves: shelves || {},
 		};
 	}
 	const url = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
@@ -111,20 +120,19 @@ const getBookInfo = async (bookId, userId) => {
 	let book = await res.json();
 
 	let { id, volumeInfo } = book;
-	let { burns, shelves } = await getBurnsAndShelves(id, userId);
+	let { burns } = await getBurns(id, userId);
 	let avgRating = getBookRating(burns);
 
 	book = {
 		id: id,
-		title: volumeInfo.title,
-		authors: volumeInfo.authors,
+		title: volumeInfo.title || 'Title Not Available',
+		authors: volumeInfo.authors || 'Author Not Available',
 		rating: avgRating || 0,
 		publisher: volumeInfo.publisher || 'Not Available',
 		description: volumeInfo.description || 'Not Available',
-		smallThumbnail: volumeInfo.imageLinks.smallThumbnail,
-		thumbnail: volumeInfo.imageLinks.thumbnail,
+		smallThumbnail: volumeInfo.imageLinks.smallThumbnail || null,
+		thumbnail: volumeInfo.imageLinks.thumbnail || null,
 		categories: volumeInfo.categories || 'Categories Not Available',
-		kindlingShelves: shelves,
 	};
 
 	return book;
@@ -133,4 +141,5 @@ const getBookInfo = async (bookId, userId) => {
 module.exports = {
 	bookSearch,
 	getBookInfo,
+	getShelves,
 };

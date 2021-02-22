@@ -1,0 +1,129 @@
+.shelf-wrapper {
+	width: 165px;
+	height: 30px;
+	display: flex;
+	position: relative;
+	/* color: white; */
+	cursor: pointer;
+}
+
+.shelf-nameDisplay {
+	width: 140px;
+	height: 30px;
+	background-color: rgb(255, 149, 10);
+	border-right: 1px solid rgb(167, 107, 29);
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	font-size: 16px;
+	line-height: 28px;
+	text-indent: 6px;
+	color: black;
+	font-weight: 500;
+	display: flex;
+	padding-left: 5px;
+}
+
+.removeShelfBtn {
+	height: 30px;
+	width: 25px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.noShelfPlaceHolder {
+	padding-left: 5px;
+}
+
+.shelf-nameDisplay > .fas:before {
+	font-size: 15px;
+	transform: rotate(-10deg);
+	padding-top: 5px;
+	color: black;
+	transition-duration: 0.3s;
+	cursor: pointer;
+	z-index: 2;
+}
+
+.shelf-dropdownBtn {
+	position: absolute;
+	right: 0;
+	height: 30px;
+	width: 25px;
+	background-color: rgb(255, 149, 10);
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	font-size: 18px;
+	text-align: center;
+	z-index: 1;
+}
+
+.shelf-dropdownBtn:active {
+	border: 1px solid black;
+}
+.shelf-optionsWrapper {
+	position: absolute;
+	top: 30px;
+	width: 165px;
+	border-radius: 4px;
+	border: 1px solid rgb(167, 107, 29);
+
+	display: none;
+	z-index: 2;
+}
+
+.shelf-optionContainer {
+	color: white;
+	font-weight: 600;
+	position: relative;
+	background: rgb(255, 149, 10);
+	text-indent: 10px;
+	user-select: none;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.customShelfOption {
+	padding-left: 5px;
+}
+
+.onShelfIndicatorBtn {
+	/* width: 5px;
+	height: 10px; */
+}
+
+/* .customShelfOption > input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-o-appearance: none;
+	appearance: none;
+	height: 15px;
+	width: 15px;
+	border: 1px solid #34495e;
+	border-radius: 5px;
+	outline: none;
+	background-color: #ffff;
+	cursor: pointer;
+	content: '';
+	position: relative;
+}
+
+.customShelfOption > input:checked + label:before {
+	position: absolute;
+	left: -2px;
+	top: 3px;
+	font-size: 12px;
+	font-weight: 600;
+	content: '\2713';
+	color: black;
+	cursor: pointer;
+}
+
+.customShelfOption > input + label:before {
+	content: '';
+} */
+
+.shelf-optionContainer:hover {
+	background: rgb(97, 83, 71);
+}
