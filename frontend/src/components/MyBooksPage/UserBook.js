@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import UserFlames from '../UserFlame';
+import BurnRating from '../BurnRating';
 
 const UserBook = ({ userBook }) => {
 	const [fetchedBook, setBook] = useState('');
@@ -29,7 +29,11 @@ const UserBook = ({ userBook }) => {
 		<tr className='user-book-table-row'>
 			<td className='mybooks-thumbnail-cell'>
 				<a href={bookProfileLink}>
-					<img src={fetchedBook.smallThumbnail} className='mybooks-thumbnail-image' />
+					<img
+						src={fetchedBook.smallThumbnail}
+						className='mybooks-thumbnail-image'
+						alt={`${fetchedBook.title} thumbnail`}
+					/>
 				</a>
 			</td>
 			<td>
@@ -39,7 +43,7 @@ const UserBook = ({ userBook }) => {
 			</td>
 			<td>{authors}</td>
 			<td className='mybooks-fire-rating'>
-				<UserFlames rating={fetchedBook.rating} />
+				<BurnRating rating={fetchedBook.rating} />
 			</td>
 			<td className='mybooks-burn-link'>
 				<a href={userBurnLink}>Burn this book!</a>
