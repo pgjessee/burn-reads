@@ -203,26 +203,35 @@ router.post(
 
 //change book to a different default kindling shelf
 router.patch(
-	'/:oldShelfId/:/:newShelfId/:googleBookId',
+	'/:oldShelfId/:newShelfId/:googleBookId',
 	asyncHandler(async (req, res) => {
 		const { oldShelfId, newShelfId, googleBookId } = req.params;
-		let book = await Book.findOne({
+		let book;
+		book = await Book.findOne({
 			where: {
 				google_book_id: googleBookId,
 			},
 		});
-
+		if (!book) {
+			book = await Book.create({
+				google_book_id: googleBookId,
+			});
+		}
 		let kindlingBook = await Kindling_Book.findOne({
 			where: {
-				kindling_shelf_id: oldShelfId,
+				kindling_shelf_id: parseInt(oldShelfId, 10),
 				book_id: book.id,
 			},
 		});
+		if (kindlingBook) await kindlingBook.destroy();
 
-		await kindlingBook.update({
-			kindling_shelf_id: newShelfId,
+		const newKindlingBook = await Kindling_Book.build({
+			kindling_shelf_id: parseInt(newShelfId, 10),
+			book_id: book.id,
 		});
-		return res.json(kindlingBook);
+		newKindlingBook.save();
+
+		return res.json({ kindlingBook, newKindlingBook });
 	})
 );
 
