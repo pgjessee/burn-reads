@@ -31,7 +31,7 @@
 }
 
 .mybooks-shelves-container {
-	margin-right: 40px;
+	margin-right: 80px;
 }
 
 .default-shelves-container {
@@ -41,6 +41,51 @@
 .custom-shelves-container {
 	padding-top: 10px;
 	border-top: 1px solid gray;
+}
+
+.add-shelf-div {
+	margin-top: 10px;
+}
+
+#add-shelf-creator-button {
+	border: 1px solid black;
+	font-weight: bolder;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 5px;
+}
+
+#add-shelf-creator-button:hover {
+	background-color: firebrick;
+	color: white;
+	font-weight: bolder;
+}
+
+#add-shelf-form {
+	visibility: hidden;
+}
+
+#add-shelf-input {
+	width: 120px;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding-left: 4px;
+}
+
+#create-shelf-button {
+	border: 1px solid black;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 5px;
+	margin-left: 5px;
+}
+
+#create-shelf-button:hover {
+	color: white;
+	font-weight: bolder;
+	background-color: firebrick;
 }
 
 #mybooks-header {
