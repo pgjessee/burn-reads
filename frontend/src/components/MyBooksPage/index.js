@@ -144,7 +144,7 @@ const MyBooksPage = () => {
                                 <th className="mybooks-cover-column">cover</th>
                                 <th className="mybooks-title-column">title</th>
                                 <th className="mybooks-authors-column">author(s)</th>
-                                <th className="mybooks-fire-rating">fire rating</th>
+                                <th className="mybooks-fire-rating">my fire rating</th>
                                 <th className="mybooks-burn-review">burn review</th>
                             </tr>
                         </thead>
