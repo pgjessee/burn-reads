@@ -31,6 +31,10 @@ h2 {
     height: 150px;
 }
 
+.shelf-selector-container {
+    margin-top: 10px;
+}
+
 .button-link-burn {
     padding-top: 20px;
     padding-bottom: 20px;

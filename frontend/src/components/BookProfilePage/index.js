@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, NavLink, useHistory } from 'react-router-dom';
+
+
 import { fetch } from '../../store/csrf';
 import BookBurn from './BurnsList';
+import ShelfUtil from '../ShelfUtil'
 import './BookProfilePage.css';
 
 function BookProfilePage() {
@@ -14,23 +17,32 @@ function BookProfilePage() {
 	const [bookBurns, setBurns] = useState([]);
 	const [authors, setAuthors] = useState('');
 	const [reviewsLink, setReviewsLink] = useState('');
+	const [defaultShelves, setDefaultShelves] = useState([]);
+	const [customShelves, setCustomShelves] = useState([]);
+	const [allShelves, setAllShelves] = useState([]);
+	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
 		(async () => {
-			const res = await fetch(`/api/books/${googleBookId}/${sessionUser?.id || 0}`);
+			let res = await fetch(`/api/books/${googleBookId}/${sessionUser?.id || 0}`);
 			const data = res.data;
 			const { book, burns } = data;
 
 			let bookAuthors = book.authors;
 			bookAuthors = bookAuthors.length === 1 ? bookAuthors[0] : bookAuthors.join(', ');
 			const writeBurn = `/${googleBookId}/reviews`;
-
 			setBook(book);
 			setBurns(burns);
 			setAuthors(bookAuthors);
 			setReviewsLink(writeBurn);
+			res = await fetch(`/api/shelves/shelf-names/${sessionUser?.id || 0}`);
+
+			setDefaultShelves(res.data.slice(0, 3));
+			setCustomShelves(res.data.slice(3, res.data.length + 1));
+			setAllShelves(defaultShelves.concat(customShelves))
+			setLoaded(true)
 		})();
-	}, []);
+	}, [sessionUser]);
 
 	const handleUser = (e) => {
 		if (!sessionUser) {
@@ -59,6 +71,7 @@ function BookProfilePage() {
 
 
 	return (
+		loaded &&
 		<div className='book-profile-page-container'>
 			<div className='book-profile-margin-container'>
 				<div className='profile-grid-container'>
@@ -70,7 +83,14 @@ function BookProfilePage() {
 							/>
 						</div>
 						<div className='shelf-selector-container'>
-							<h3>Shelf Selector goes here</h3>
+							{/* <h3>Shelf Selector goes here</h3> */}
+							<ShelfUtil
+							kindlingShelves={allShelves}
+							customShelves={customShelves}
+							defaultShelves={defaultShelves}
+							bookId={googleBook.id}
+							userId={sessionUser?.id}
+							/>
 						</div>
 					</div>
 					<div className='profile-info-container'>
