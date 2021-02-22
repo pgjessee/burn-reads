@@ -1,0 +1,29 @@
+.greyFire {
+	color: lightgrey;
+}
+
+.redFire {
+	color: firebrick;
+}
+
+.greyFire:before {
+	color: lightgrey;
+}
+
+.redFire:before {
+	color: firebrick;
+}
+
+.percentFire {
+	color: grey;
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+	background-clip: text;
+}
+
+.percentFire:before {
+	color: grey;
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+	background-clip: text;
+}

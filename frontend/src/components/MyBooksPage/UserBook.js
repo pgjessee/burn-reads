@@ -43,7 +43,7 @@ const UserBook = ({ userBook }) => {
 			</td>
 			<td>{authors}</td>
 			<td className='mybooks-fire-rating'>
-				<BurnRating rating={fetchedBook.rating} />
+				<BurnRating rating={fetchedBook.rating} id={fetchedBook.id} />
 			</td>
 			<td className='mybooks-burn-link'>
 				<a href={userBurnLink}>Burn this book!</a>

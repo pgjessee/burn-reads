@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import './index.css';
+import './BurnRating.css';
 
 export default function BurnRating({ rating, id }) {
 	const [burnRating, setBurnRating] = useState([]);
-
+	console.log(rating, 'rating for', id);
 	useEffect(() => {
-		// rating is 3.2
-		// check if decimal
 		(() => {
 			const flames = [];
-			const decimal = Math.floor((rating % 1) * 100); // ==> 0.2
-			const ratingCeiling = Math.ceil(rating); // ==> 4
+			const decimal = Math.floor((rating % 1) * 100);
+			const ratingCeiling = Math.ceil(rating);
 			if (ratingCeiling === rating) {
 				// if rating is whole number
 				for (let i = 0; i < rating; i++) {
+					console.log('this runs');
 					flames.push(<i key={`${id}${i}`} className='fab fa-gripfire redFire'></i>);
 				}
 				for (let i = rating; i < 5; i++) {

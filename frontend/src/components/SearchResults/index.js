@@ -55,6 +55,7 @@ const SearchResults = () => {
 						/>
 						{searchResults?.map(
 							({ id, smallThumbnail, title, authors, rating, kindlingShelves }, i) => {
+								console.log(rating);
 								return (
 									<div key={`${id}${i}`}>
 										<div className='search-bookContainer'>
@@ -71,7 +72,7 @@ const SearchResults = () => {
 												</a>
 												<div className='search-authorContainer'>by {displayAuthors(authors)}</div>
 												<div className='search-rating'>
-													<BurnRating rating={rating} />
+													<BurnRating rating={rating} id={id} />
 													<div className='search-ratingText'>{rating} avg rating</div>
 												</div>
 												<ShelfUtil

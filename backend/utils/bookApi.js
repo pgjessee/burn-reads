@@ -141,4 +141,5 @@ const getBookInfo = async (bookId, userId) => {
 module.exports = {
 	bookSearch,
 	getBookInfo,
+	getShelves,
 };

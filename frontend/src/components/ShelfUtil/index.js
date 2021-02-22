@@ -13,9 +13,9 @@ export default function ShelfUtil({
 	bookId,
 }) {
 	// this reduce did not work
-	const [currentKindlingShelvesObj, setCurrentKindlingShelvesObj] = useState(
-		kindlingShelves.reduce((kindlingShelfObj, { name, id }) => (kindlingShelfObj[name] = id), {})
-	);
+	// const [currentKindlingShelvesObj, setCurrentKindlingShelvesObj] = useState(
+	// 	kindlingShelves.reduce((kindlingShelfObj, { name, id }) => (kindlingShelfObj[name] = id), {})
+	// );
 	const [currentDefaultShelves, setCurrentDefaultShelves] = useState(defaultShelves);
 	const [currentCustomShelves, setCurrentCustomShelves] = useState(customShelves);
 	const [currentDisplayShelf, setCurrentDisplayShelf] = useState({ shelf_name: 'test' });
@@ -31,8 +31,9 @@ export default function ShelfUtil({
 	// gets any updates to book kindling shelves
 	useEffect(() => {
 		const obj = {};
-		let res = fetch(`/api/shelves/${bookId}/${userId}`);
-		setCurrentKindlingShelvesObj(obj);
+		let res = fetch(`/api/shelves/${bookId}/${userId || 0}`);
+		// setCurrentKindlingShelvesObj(obj);
+		// console.log(res.data);
 	}, [bookId, userId]);
 
 	/*
