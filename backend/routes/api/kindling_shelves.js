@@ -1,7 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { Op } = require('sequelize');
-const { getBookInfo } = require('../../utils/bookApi');
+const { getBookInfo, getShelves } = require('../../utils/bookApi');
 const { Kindling_Shelf, Kindling_Book, Book, Burn } = require('../../db/models');
 
 const router = express.Router();
@@ -112,6 +112,16 @@ router.get(
 			});
 		}
 		return res.json(allShelves);
+	})
+);
+
+//gets all kindling shelves for a book
+router.get(
+	'/:googleBookId/:userId',
+	asyncHandler(async (req, res) => {
+		const { googleBookId, userId } = req.params;
+		const { kindlingShelves } = await getShelves(googleBookId, userId);
+		return res.json(kindlingShelves);
 	})
 );
 

@@ -79,7 +79,7 @@ const SearchResults = () => {
 													customShelves={customShelves}
 													defaultShelves={defaultShelves}
 													bookId={id}
-													sessionUserId={sessionUser?.id}
+													userId={sessionUser?.id}
 												/>
 											</div>
 										</div>

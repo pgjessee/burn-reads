@@ -10,7 +10,12 @@ const UserBook = ({ userBook }) => {
 
 	useEffect(() => {
 		let bookAuthors = userBook.authors;
-		bookAuthors = bookAuthors.length === 1 ? bookAuthors[0] : bookAuthors.join(', ');
+		bookAuthors =
+			typeof bookAuthors === 'string'
+				? bookAuthors
+				: bookAuthors.length === 1
+				? bookAuthors[0]
+				: bookAuthors.join(', ');
 		let burnLink = `/${userBook.id}/reviews`;
 		let profileLink = `/${userBook.id}`;
 
@@ -18,7 +23,7 @@ const UserBook = ({ userBook }) => {
 		setAuthors(bookAuthors);
 		setUserBurnLink(burnLink);
 		setBookProfileLink(profileLink);
-	}, []);
+	}, [userBook]);
 
 	return (
 		<tr className='user-book-table-row'>

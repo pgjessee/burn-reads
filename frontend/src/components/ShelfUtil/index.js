@@ -11,7 +11,6 @@ export default function ShelfUtil({
 	customShelves,
 	userId,
 	bookId,
-	sessionUserId,
 }) {
 	// this reduce did not work
 	const [currentKindlingShelvesObj, setCurrentKindlingShelvesObj] = useState(
@@ -28,6 +27,13 @@ export default function ShelfUtil({
 	const optionsWrapper = useRef(null);
 	const history = useHistory();
 	let dropdownTimer;
+
+	// gets any updates to book kindling shelves
+	useEffect(() => {
+		const obj = {};
+		let res = fetch(`/api/shelves/${bookId}/${userId}`);
+		setCurrentKindlingShelvesObj(obj);
+	}, [bookId, userId]);
 
 	/*
 	useEffect(() => {
@@ -231,7 +237,7 @@ export default function ShelfUtil({
 					className='shelf-nameDisplay'
 					onMouseEnter={handleMouseEnter}
 					onMouseLeave={handleMouseLeave}
-					onClick={handleDisplayShelfClick}
+					// onClick={handleDisplayShelfClick}
 				>
 					{currentDisplayShelf?.onShelf ? <i className='fas fa-check'></i> : <span></span>}
 					{currentDisplayShelf?.shelf_name.length > 13
@@ -260,7 +266,7 @@ export default function ShelfUtil({
 								data-value={shelf_name}
 								data-shelfid={id}
 								key={v4()}
-								onClick={handleDefaultShelfOptionClick}
+								// onClick={handleDefaultShelfOptionClick}
 							>
 								{shelf_name}
 							</div>
