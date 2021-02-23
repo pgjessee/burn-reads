@@ -9,6 +9,7 @@ const SplashPage = () => {
     const sessionUser = useSelector(state => state.session.user);
 
     const [burnSplashBooks, setSplashBooks] = useState([]);
+    const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
         (async () => {
@@ -16,10 +17,12 @@ const SplashPage = () => {
            const res = await fetch(`/api/books/splash`);
            const { splashBooks } = res.data;
            setSplashBooks(splashBooks)
+           setLoaded(true)
         })()
     }, [])
 
     return (
+        loaded &&
         <div className="splashbooks-page-container">
             <div className="splashbooks-body-container">
                 <div className="splashbooks-title-header">Most Infamous Burned Books</div>

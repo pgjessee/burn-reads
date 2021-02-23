@@ -5,7 +5,7 @@ export default function Logo() {
 	return (
 		<Box width="65px">
 			<NavLink to="/" exact={true} activeClassName="active">
-				<Image alt="logo" src={"/favicon.ico"} />
+				<Image alt="logo" src={"/favicon.png"} />
 			</NavLink>
 		</Box>
 	);
