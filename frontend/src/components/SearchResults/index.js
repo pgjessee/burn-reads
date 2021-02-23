@@ -59,11 +59,13 @@ const SearchResults = () => {
 									<div key={`${id}${i}`}>
 										<div className='search-bookContainer'>
 											<div className='search-bookThumbnailContainer'>
+												<a href={`/${id}`}>
 												<img
 													className='search-bookThumbnail'
 													alt='thumbnail'
 													src={smallThumbnail ? smallThumbnail : '/image-not-found.png'}
 												/>
+												</a>
 											</div>
 											<div className='search-bookInfoContainer'>
 												<a className='search-BookTitle' href={`/${id}`}>
