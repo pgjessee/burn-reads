@@ -170,7 +170,7 @@ router.post(
 			shelf_name,
 			user_id,
 		});
-		return res.json({ newShelf });
+		return res.json(newShelf);
 	})
 );
 

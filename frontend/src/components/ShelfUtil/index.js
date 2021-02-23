@@ -7,16 +7,20 @@ import { v4 } from 'uuid';
 export default function ShelfUtil({ defaultShelves, customShelves, userId, bookId }) {
 	// this reduce did not work
 	const [currentKindlingShelvesObj, setCurrentKindlingShelvesObj] = useState({});
-	const [removeFromShelfBtn, setRemoveFromShelfBtn] = useState(false);
 	const [currentDefaultShelves, setCurrentDefaultShelves] = useState(defaultShelves);
+	const [defaultShelfOptions, setDefaultShelfOptions] = useState([]);
 	const [currentCustomShelves, setCurrentCustomShelves] = useState(customShelves);
+	const [customShelfOptions, setCustomShelfOptions] = useState([]);
 	const [currentDisplayShelf, setCurrentDisplayShelf] = useState({ shelf_name: bookId });
 	const [displayShelfLoaded, setDisplayShelfLoaded] = useState(false);
-	const [defaultShelfOptions, setDefaultShelfOptions] = useState([]);
+	const [removeFromShelfBtn, setRemoveFromShelfBtn] = useState(false);
+	const [newShelfName, setNewShelfName] = useState('');
 	const [reloadShelves, setReloadShelves] = useState(false);
-	const [customShelfOptions, setCustomShelfOptions] = useState([]);
 	const [loaded, setLoaded] = useState(true);
 	const optionsWrapper = useRef(null);
+	const newShelfInput = useRef(null);
+	const newShelfBtn = useRef(null);
+	const addShelfBtn = useRef(null);
 	const history = useHistory();
 	let dropdownTimer;
 
@@ -24,16 +28,13 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 
 	useEffect(() => {
 		setLoaded(false);
-
 		if (!userId) {
 			setCurrentDisplayShelf(currentDefaultShelves[2]);
 			setDefaultShelfOptions(currentDefaultShelves.slice(0, 2));
 		} else {
-			console.log(bookId);
-			console.log('default shelevs ', currentDefaultShelves);
-			console.log('kindling obj ', currentKindlingShelvesObj);
 			let updatedDefaultShelfOptions = [];
 			let noShelfDisplayIdx;
+			// sets up defualt shelves for display
 			currentDefaultShelves.forEach((shelf, idx) => {
 				// gets index of want to torch shelf in case book not on any default shelves
 				if (shelf.shelf_name === 'Want to Torch') {
@@ -51,12 +52,30 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 			if (updatedDefaultShelfOptions.length === 3) {
 				setCurrentDisplayShelf(...updatedDefaultShelfOptions.splice(noShelfDisplayIdx, 1));
 			}
-
 			setDefaultShelfOptions(updatedDefaultShelfOptions);
+
+			// sets up custom shelves for display
+			let updatedCustomShelves = currentCustomShelves.map(shelf => {
+				if (shelf.shelf_name in currentKindlingShelvesObj) {
+					shelf.selected = true;
+					return shelf;
+				} else {
+					shelf.selected = false;
+					return shelf;
+				}
+			});
+			setCustomShelfOptions(updatedCustomShelves);
 		}
 
 		setLoaded(true);
-	}, [currentDefaultShelves, userId, currentKindlingShelvesObj, removeFromShelfBtn, bookId]);
+	}, [
+		currentDefaultShelves,
+		userId,
+		currentKindlingShelvesObj,
+		removeFromShelfBtn,
+		bookId,
+		currentCustomShelves,
+	]);
 
 	//gets kindliing shelves for book
 	useEffect(() => {
@@ -87,6 +106,7 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 		} else {
 		}
 	};
+
 	const handleDefaultShelfOptionClick = async e => {
 		if (!userId) history.push('/login');
 		const newShelfName = e.target.getAttribute('data-value');
@@ -94,25 +114,40 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 		const updatedKindlingObj = { ...currentKindlingShelvesObj };
 
 		// there is a book already on a default shelf so we need to remove it
-		console.log(`current display is on shelf: ${currentDisplayShelf.onShelf}
-    bookId: ${bookId}
-    `);
 		if (currentDisplayShelf.onShelf) {
 			const res = await fetch(`/api/shelves/${currentDisplayShelf.id}/${newShelfId}/${bookId}`, {
 				method: 'PATCH',
 			});
-			console.log('patch response', res.data);
 			delete updatedKindlingObj[currentDisplayShelf.shelf_name];
 		} else {
 			const res = await fetch(`/api/shelves/${newShelfId}/${bookId}`, {
 				method: 'POST',
 			});
-			console.log('patch response', res.data);
 		}
 		updatedKindlingObj[newShelfName] = newShelfId;
-		console.log('updated Kindling Obj', updatedKindlingObj);
 		setCurrentKindlingShelvesObj(updatedKindlingObj);
-		// setReloadShelves(true);
+		setReloadShelves(true);
+	};
+
+	const handleCustomShelfClick = async e => {
+		const shelfId = parseInt(e.target.value);
+		const { checked } = e.target;
+		const shelfName = e.target.getAttribute('data-value');
+		let res;
+		const updatedKindlingObj = { ...currentKindlingShelvesObj };
+		if (checked) {
+			res = await fetch(`/api/shelves/${shelfId}/${bookId}`, { method: 'POST' });
+			if (res.data) {
+				updatedKindlingObj[shelfName] = res.data.kindling_shelf_id;
+			}
+		} else {
+			res = await fetch(`/api/shelves/${shelfId}/${bookId}`, { method: 'DELETE' });
+			if (res.data) {
+				delete updatedKindlingObj[shelfName];
+			}
+		}
+		setCurrentKindlingShelvesObj(updatedKindlingObj);
+		setReloadShelves(true);
 	};
 
 	const handleRemoveFromShelf = async () => {
@@ -127,55 +162,36 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 		}
 	};
 
-	// const setupDefaultShelves = kindlingShelfObj => {
-	// 	//check if book is on any default shelves
-	// 	let CurShelfIdx;
-	// 	let unselectedDefaultShelves = [];
-	// 	for (let i = 0; i < defaultShelves.length; i++) {
-	// 		let shelf = defaultShelves[i];
-	// 		if (shelf.shelf_name in kindlingShelfObj) {
-	// 			console.log(shelf.shelf_name);
-	// 			shelf.onShelf = true;
-	// 			CurShelfIdx = i;
-	// 			setCurrentDisplayShelf(shelf);
-	// 		} else {
-	// 			unselectedDefaultShelves.push(shelf);
-	// 		}
-	// 	}
-
-	// 	if (!CurShelfIdx) {
-	// 		// if book isn't on any kindling shelves
-	// 		setDefaultShelfOptions(unselectedDefaultShelves.slice(0, 2));
-	// 		// console.log(unselectedDefaultShelves[1]);
-	// 		setCurrentDisplayShelf(unselectedDefaultShelves[2]);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	setLoaded(false);
-	// 	//create obj of users shelves for this book to check if user has put book in default shelf
-	// 	let kindlingShelfObj = {};
-	// 	console.log('these are the current kindling shelves', curKindlingShelves);
-	// 	curKindlingShelves.forEach(({ name, id }) => (kindlingShelfObj[name] = id));
-	// 	setupDefaultShelves(kindlingShelfObj);
-
-	// 	//check if book is on any of users custom shelves and set state
-	// 	let selectedCustomShelves = customShelves.map(shelf => {
-	// 		if (shelf.name in kindlingShelfObj) {
-	// 			shelf.selected = true;
-	// 			return shelf;
-	// 		} else {
-	// 			shelf.selected = false;
-	// 			return shelf;
-	// 		}
-	// 	});
-	// 	setCustomShelfOptions(selectedCustomShelves);
-
-	// 	setLoaded(true);
-	// }, [kindlingShelves, customShelves, userId, reload]);
+	const cleanUpNewShelfInput = () => {
+		newShelfBtn.current.classList.remove('hide');
+		addShelfBtn.current.classList.add('hide');
+		newShelfInput.current.classList.add('hide');
+		handleMouseLeave();
+	};
+	const handleNewShelf = async e => {
+		e.preventDefault();
+		const res = await fetch('/api/shelves/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				shelf_name: newShelfName,
+				user_id: userId,
+			}),
+		});
+		const updatedKindlingObj = { ...currentKindlingShelvesObj };
+		const updatedCurrentCustomShelves = [...currentCustomShelves, res.data];
+		updatedKindlingObj[res.data.shelf_name] = res.data.id;
+		setCurrentCustomShelves(updatedCurrentCustomShelves);
+		setCurrentKindlingShelvesObj(updatedKindlingObj);
+		cleanUpNewShelfInput();
+		setReloadShelves(true);
+	};
 
 	// displays dropdown when clicking btn
 	const handleShelfDropdownBtn = () => {
+		cleanUpNewShelfInput();
 		optionsWrapper.current.style.display === 'none'
 			? (optionsWrapper.current.style.display = 'block')
 			: (optionsWrapper.current.style.display = 'none');
@@ -192,40 +208,9 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 	};
 
 	const handleMouseLeave = () => {
+		if (document.activeElement === newShelfInput.current) return;
 		dropdownTimer = setTimeout(() => (optionsWrapper.current.style.display = 'none'), 500);
 	};
-
-	// const handleDefaultShelfClick = async e => {
-	//
-	// 	}
-
-	// 	// //set up unselected default shelves
-	// 	// const newUnselectedDefaultShelves = defaultShelfOptions.map(shelf => {
-	// 	// 	const { shelf_name } = shelf;
-
-	// 	// 	if (shelf_name === newShelfName) {
-	// 	// 		shelf = {
-	// 	// 			shelf_name: currentDisplayShelf.shelf_name,
-	// 	// 			id: currentDisplayShelf.id,
-	// 	// 			onShelf: true,
-	// 	// 		};
-	// 	// 	}
-	// 	// 	return shelf;
-	// 	// });
-	// 	// setDefaultShelfOptions(newUnselectedDefaultShelves);
-
-	// 	//update kindling shelves
-	// 	const updatedKindlingShelves = curKindlingShelves.filter(({ shelf_name }) => {
-	// 		if (shelf_name === currentDisplayShelf.shelf_name) {
-	// 			return false;
-	// 		}
-	// 		return true;
-	// 	});
-
-	// 	setCurKindlingShelves(updatedKindlingShelves);
-	// 	// setCurrentDisplayShelf({ shelf_name: newShelfName,id: newShelfId,onShelf: true });
-	// 	setReload(true);
-	// };
 
 	return (
 		loaded && (
@@ -250,7 +235,7 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 							)}
 						</div>
 					) : (
-						<span></span>
+						<span className='removeShelfBtnPlaceholder'></span>
 					)}
 					{displayShelfLoaded ? (
 						currentDisplayShelf.shelf_name.length > 13 ? (
@@ -290,16 +275,55 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 							</div>
 						);
 					})}
-					{customShelfOptions.map(({ shelf_name, id }) => {
+					{customShelfOptions.map(({ shelf_name, id, selected }) => {
 						return (
-							<form key={v4()}>
-								<div className='shelf-optionContainer customShelfOption' value={shelf_name}>
-									<input id={`check${shelf_name}`} type='checkbox' data-shelfid={`${id}`} />
-									<label htmlFor={`check${shelf_name}`}>{shelf_name}</label>
-								</div>
-							</form>
+							<div key={v4()}>
+								<form>
+									<div className='shelf-optionContainer customShelfOption' value={shelf_name}>
+										<input
+											id={`check${shelf_name}`}
+											type='checkbox'
+											defaultChecked={selected}
+											onChange={handleCustomShelfClick}
+											value={id}
+											data-value={shelf_name}
+										/>
+										<label htmlFor={shelf_name} value={shelf_name}>
+											{shelf_name}
+										</label>
+									</div>
+								</form>
+							</div>
 						);
 					})}
+					<hr className='blackLine'></hr>
+					<div className='newShelfInputContainer'>
+						<div
+							ref={newShelfBtn}
+							className='newShelfInputBtn'
+							onClick={() => {
+								newShelfBtn.current.classList.add('hide');
+								addShelfBtn.current.classList.remove('hide');
+								newShelfInput.current.classList.remove('hide');
+							}}
+						>
+							Add a Shelf
+						</div>
+						<div ref={addShelfBtn} className='addShelfInputBtn hide' onClick={handleNewShelf}>
+							Add
+						</div>
+						<div>
+							<form onSubmit={handleNewShelf}>
+								<input
+									ref={newShelfInput}
+									className='newShelfInput hide'
+									onChange={e => setNewShelfName(e.target.value)}
+									onFocus={() => clearTimeout(dropdownTimer)}
+									value={newShelfName}
+								/>
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
 		)
