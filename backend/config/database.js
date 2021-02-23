@@ -8,6 +8,7 @@ const host = db.host;
 const port = db.port;
 
 module.exports = {
+
 	development: {
 		username,
 		password,
@@ -17,9 +18,10 @@ module.exports = {
 		dialect: 'postgres',
 		seederStorage: 'sequelize',
 	},
+
 	production: {
+		use_env_variable: 'DATABASE_URL',
 		dialect: 'postgres',
 		seederStorage: 'sequelize',
-		use_env_variable: 'DATABASE_URL',
 	},
 };

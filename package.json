@@ -1,0 +1,30 @@
+{
+  "name": "burn-reads",
+  "version": "1.0.0",
+  "description": "BurnReads is a [GoodReads](https://www.goodreads.com/) inspired place on the internet to belittle, banish, and torch books that make your eyes burn! Never again will you have to worry about organizing all the books that you hate. Simply search for a book to set its torch status, add it to a custom kindling shelf, or leave a fiery bad review!",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv-cli": "^4.0.0",
+    "nodemon": "^2.0.7",
+    "sequelize": "^6.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "heroku-postbuild": "npm run build --prefix frontend",
+    "install": "npm --prefix backend install backend && npm --prefix frontend install frontend",
+    "sequelize": "npm run --prefix backend sequelize",
+    "sequelize-cli": "npm run --prefix backend sequelize-cli",
+    "start": "npm start --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pgjessee/burn-reads.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pgjessee/burn-reads/issues"
+  },
+  "homepage": "https://github.com/pgjessee/burn-reads#readme"
+}
