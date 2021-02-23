@@ -14,9 +14,13 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 	const [currentDisplayShelf, setCurrentDisplayShelf] = useState({ shelf_name: bookId });
 	const [displayShelfLoaded, setDisplayShelfLoaded] = useState(false);
 	const [removeFromShelfBtn, setRemoveFromShelfBtn] = useState(false);
+	const [newShelfName, setNewShelfName] = useState('');
 	const [reloadShelves, setReloadShelves] = useState(false);
 	const [loaded, setLoaded] = useState(true);
 	const optionsWrapper = useRef(null);
+	const newShelfInput = useRef(null);
+	const newShelfBtn = useRef(null);
+	const addShelfBtn = useRef(null);
 	const history = useHistory();
 	let dropdownTimer;
 
@@ -24,7 +28,6 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 
 	useEffect(() => {
 		setLoaded(false);
-		console.log('current kindling shelf obj', currentKindlingShelvesObj);
 		if (!userId) {
 			setCurrentDisplayShelf(currentDefaultShelves[2]);
 			setDefaultShelfOptions(currentDefaultShelves.slice(0, 2));
@@ -61,7 +64,6 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 					return shelf;
 				}
 			});
-			console.log(bookId, updatedCustomShelves);
 			setCustomShelfOptions(updatedCustomShelves);
 		}
 
@@ -124,10 +126,9 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 		}
 		updatedKindlingObj[newShelfName] = newShelfId;
 		setCurrentKindlingShelvesObj(updatedKindlingObj);
-		// setReloadShelves(true);
+		setReloadShelves(true);
 	};
 
-	// const handleCustomShelfClick = async ({ target }) => {
 	const handleCustomShelfClick = async e => {
 		const shelfId = parseInt(e.target.value);
 		const { checked } = e.target;
@@ -136,13 +137,11 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 		const updatedKindlingObj = { ...currentKindlingShelvesObj };
 		if (checked) {
 			res = await fetch(`/api/shelves/${shelfId}/${bookId}`, { method: 'POST' });
-			console.log(res.data);
 			if (res.data) {
 				updatedKindlingObj[shelfName] = res.data.kindling_shelf_id;
 			}
 		} else {
 			res = await fetch(`/api/shelves/${shelfId}/${bookId}`, { method: 'DELETE' });
-			console.log(res.data);
 			if (res.data) {
 				delete updatedKindlingObj[shelfName];
 			}
@@ -163,8 +162,36 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 		}
 	};
 
+	const cleanUpNewShelfInput = () => {
+		newShelfBtn.current.classList.remove('hide');
+		addShelfBtn.current.classList.add('hide');
+		newShelfInput.current.classList.add('hide');
+		handleMouseLeave();
+	};
+	const handleNewShelf = async e => {
+		e.preventDefault();
+		const res = await fetch('/api/shelves/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				shelf_name: newShelfName,
+				user_id: userId,
+			}),
+		});
+		const updatedKindlingObj = { ...currentKindlingShelvesObj };
+		const updatedCurrentCustomShelves = [...currentCustomShelves, res.data];
+		updatedKindlingObj[res.data.shelf_name] = res.data.id;
+		setCurrentCustomShelves(updatedCurrentCustomShelves);
+		setCurrentKindlingShelvesObj(updatedKindlingObj);
+		cleanUpNewShelfInput();
+		setReloadShelves(true);
+	};
+
 	// displays dropdown when clicking btn
 	const handleShelfDropdownBtn = () => {
+		cleanUpNewShelfInput();
 		optionsWrapper.current.style.display === 'none'
 			? (optionsWrapper.current.style.display = 'block')
 			: (optionsWrapper.current.style.display = 'none');
@@ -181,6 +208,7 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 	};
 
 	const handleMouseLeave = () => {
+		if (document.activeElement === newShelfInput.current) return;
 		dropdownTimer = setTimeout(() => (optionsWrapper.current.style.display = 'none'), 500);
 	};
 
@@ -207,7 +235,7 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 							)}
 						</div>
 					) : (
-						<span></span>
+						<span className='removeShelfBtnPlaceholder'></span>
 					)}
 					{displayShelfLoaded ? (
 						currentDisplayShelf.shelf_name.length > 13 ? (
@@ -265,10 +293,37 @@ export default function ShelfUtil({ defaultShelves, customShelves, userId, bookI
 										</label>
 									</div>
 								</form>
-								<form></form>
 							</div>
 						);
 					})}
+					<hr className='blackLine'></hr>
+					<div className='newShelfInputContainer'>
+						<div
+							ref={newShelfBtn}
+							className='newShelfInputBtn'
+							onClick={() => {
+								newShelfBtn.current.classList.add('hide');
+								addShelfBtn.current.classList.remove('hide');
+								newShelfInput.current.classList.remove('hide');
+							}}
+						>
+							Add a Shelf
+						</div>
+						<div ref={addShelfBtn} className='addShelfInputBtn hide' onClick={handleNewShelf}>
+							Add
+						</div>
+						<div>
+							<form onSubmit={handleNewShelf}>
+								<input
+									ref={newShelfInput}
+									className='newShelfInput hide'
+									onChange={e => setNewShelfName(e.target.value)}
+									onFocus={() => clearTimeout(dropdownTimer)}
+									value={newShelfName}
+								/>
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
 		)

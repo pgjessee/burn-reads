@@ -26,13 +26,10 @@
 .removeShelfBtn {
 	height: 30px;
 	width: 25px;
+	margin-left: -4px;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-}
-
-.noShelfPlaceHolder {
-	padding-left: 5px;
 }
 
 .shelf-nameDisplay > .fas:before {
@@ -43,6 +40,10 @@
 	transition-duration: 0.3s;
 	cursor: pointer;
 	z-index: 2;
+}
+
+.removeShelfBtnPlaceholder {
+	padding-left: 10px;
 }
 
 .shelf-dropdownBtn {
@@ -122,4 +123,61 @@
 
 .shelf-optionContainer:hover {
 	background: rgb(97, 83, 71);
+}
+
+.newShelfInputContainer {
+	background-color: rgb(255, 149, 10);
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	color: white;
+	user-select: none;
+}
+.newShelfInputContainer:hover {
+	background: rgb(97, 83, 71);
+}
+
+.blackLine {
+	border-color: rgb(167, 107, 29);
+}
+
+.newShelfInput {
+	width: 165px;
+	height: 25px;
+	margin: 10px 0 10px 0;
+	border-radius: 5px;
+	color: black;
+	padding: 4px;
+	font-size: 15px;
+}
+
+.newShelfInput:focus {
+	outline: none;
+	/* border: 2px solid #ffe046; */
+	border-radius: 5px;
+}
+
+.addShelfInputBtn {
+	font-weight: 600;
+	font-size: 15px;
+	height: 30px;
+	width: 50px;
+	text-align: center;
+	line-height: 28px;
+}
+
+.newShelfInputBtn {
+	font-weight: 600;
+	font-size: 15px;
+	height: 25px;
+	width: 95px;
+	text-align: center;
+	line-height: 28px;
+}
+
+.hide {
+	width: 0;
+	height: 0;
+	font-size: 0;
+	padding: 0;
 }
