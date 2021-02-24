@@ -67,7 +67,7 @@ const SignUpFormPage = () => {
 					m={7}
 				>
 					Welcome to BurnReads
-				{/* <Image alt="log" src={"/profile-btn-v1.png"}/> */}
+				<Image alt="log" src={"/profile-btn-v1.png"}/>
 				</Box>
 				<Box
 					className='form'
