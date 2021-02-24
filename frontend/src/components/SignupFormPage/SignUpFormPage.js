@@ -36,11 +36,12 @@ const SignUpFormPage = () => {
 		});
 	};
 
-	const demoLogin = e => {
+	const demoLogin = (e) => {
+		e.preventDefault();
 		return dispatch(
 			sessionActions.login({ credential: "demo@aa.io", password: "123" })
 		).catch((res) => {
-			if (res.data && res.data.errors) console.log(res.data.errors);
+			if (res.data && res.data.errors) setErrors(res.data.errors);
 		});
 	};
 
@@ -137,7 +138,7 @@ const SignUpFormPage = () => {
 											</Button>
 										</div>
 									</Stack>
-									<Button boxShadow='md' width='100%' mt={4} onClick={() => demoLogin()}>
+									<Button boxShadow='md' width='100%' mt={4} onClick={demoLogin}>
 										Demo Login
 									</Button>
 								</form>
