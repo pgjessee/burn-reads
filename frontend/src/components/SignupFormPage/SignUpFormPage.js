@@ -36,10 +36,10 @@ const SignUpFormPage = () => {
 		});
 	};
 
-	const demoLogin = async e => {
-		setCredential('demo@aa.io');
-		setPassword('123');
-		return dispatch(sessionActions.login({ credential, password })).catch(res => {
+	const demoLogin = e => {
+		return dispatch(
+			sessionActions.login({ credential: "demo@aa.io", password: "123" })
+		).catch((res) => {
 			if (res.data && res.data.errors) console.log(res.data.errors);
 		});
 	};
