@@ -72,6 +72,11 @@
     font-size: 18px;
 }
 
+.burn-shelf-selector-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .burn-textarea {
     padding: 5px;
     font-size: 18px;

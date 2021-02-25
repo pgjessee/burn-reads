@@ -7,6 +7,7 @@ const SplashBook = ({ splashBook }) => {
 	const sessionUser = useSelector(state => state.session.user);
 	const history = useHistory();
 
+	const [loaded, setLoaded] = useState(false)
 	const [fetchedBook, setBook] = useState('');
 	const [authors, setAuthors] = useState('');
 	const [userBurnLink, setUserBurnLink] = useState('');
@@ -14,6 +15,7 @@ const SplashBook = ({ splashBook }) => {
 
 	useEffect(() => {
 		(async () => {
+			setLoaded(false)
 			const res = await fetch(`/api/books/${splashBook.google_book_id}/${sessionUser?.id || 0}`);
 			const { book } = res.data;
 			let bookAuthors = book.authors;
@@ -25,6 +27,7 @@ const SplashBook = ({ splashBook }) => {
 			setAuthors(bookAuthors);
 			setUserBurnLink(burnLink);
 			setBookProfileLink(profileLink);
+			setLoaded(true)
 		})();
 	}, [sessionUser, splashBook.google_book_id]);
 
@@ -36,10 +39,11 @@ const SplashBook = ({ splashBook }) => {
 	};
 
 	return (
+		loaded &&
 		<tr className='user-book-table-row'>
 			<td className='splashbook-thumbnail'>
 				<a href={bookProfileLink}>
-					<img src={fetchedBook.smallThumbnail} alt={`${fetchedBook.title} thumbnail`} />
+					<img src={fetchedBook.smallThumbnail} alt={"Loading..."} />
 				</a>
 			</td>
 			<td className='splashbook-title'>

@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
 import { fetch } from '../../store/csrf';
-import BurnRating from '../BurnFlame'
 
+import ShelfUtil from '../ShelfUtil'
+import BurnRating from '../BurnFlame'
 import './WriteReviewPage.css'
 
 const WriteReviewPage = () => {
@@ -18,14 +19,28 @@ const WriteReviewPage = () => {
     const [book, setBook] = useState('');
     const [authors, setAuthors] = useState('');
     const [bookLink, setBookLink] = useState('');
+    const [defaultShelves, setDefaultShelves] = useState([]);
+	const [customShelves, setCustomShelves] = useState([]);
+	const [allShelves, setAllShelves] = useState([]);
     const [errors, setErrors] = useState([]);
+    const [loaded, setLoaded] = useState(false);
 
 
     useEffect(() => {
         (async () => {
-            const res = await fetch(`/api/books/${googleBookId}/${sessionUser?.id || 0}`);
+            let res = await fetch(`/api/books/${googleBookId}/${sessionUser?.id || 0}`);
             let bookAuthors = res.data.book.authors;
             let burns = res.data.burns
+            bookAuthors = bookAuthors.length === 1 ? bookAuthors[0] : bookAuthors.join(", ");
+            let bookPage = `/${googleBookId}`
+            setAuthors(bookAuthors);
+            setBook(res.data.book);
+            setBookLink(bookPage);
+
+            res = await fetch(`/api/shelves/shelf-names/${sessionUser?.id || 0}`);
+            setDefaultShelves(res.data.slice(0, 3));
+			setCustomShelves(res.data.slice(3, res.data.length + 1));
+			setAllShelves(defaultShelves.concat(customShelves))
             let burn;
             for (let i = 0; i < burns.length; i++) {
                 burn = burns[i];
@@ -35,15 +50,9 @@ const WriteReviewPage = () => {
                 }
             };
 
-            bookAuthors = bookAuthors.length === 1 ? bookAuthors[0] : bookAuthors.join(", ");
-            let bookPage = `/${googleBookId}`
-
-            setAuthors(bookAuthors);
-            setBook(res.data.book);
-            setBookLink(bookPage);
-
+            setLoaded(true)
         })()
-    }, [])
+    }, [sessionUser])
 
 
     const handleSubmit = async (e) => {
@@ -72,6 +81,7 @@ const WriteReviewPage = () => {
     }
 
     return (
+        loaded &&
         <div className="write-review-page-container">
             <div className="burn-margin-container">
                 <div className="book-page-return">
@@ -86,8 +96,15 @@ const WriteReviewPage = () => {
                         <h3>By {authors}</h3>
                     </div>
                 </div>
-                <div className="shelf-selector">
-                    <h3>Shelf selector goes here</h3>
+                <div className="burn-shelf-selector-container">
+                    {/* <h3>Shelf selector goes here</h3> */}
+                    <ShelfUtil
+                    kindlingShelves={allShelves}
+                    customShelves={customShelves}
+                    defaultShelves={defaultShelves}
+                    bookId={book.id}
+                    userId={sessionUser?.id}
+                    />
                 </div>
                 <div className="write-review-body">
                     <h3 className="burn-book-header">Burn this Book!</h3>

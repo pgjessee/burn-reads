@@ -5,11 +5,13 @@ import { fetch } from '../../store/csrf';
 
 function BookBurn({ burn, onDelete }) {
     const sessionUser = useSelector(state => state.session.user);
+    const [loaded, setLoaded] = useState(false);
     const [userBurn, setUserBurn] = useState('');
 
-    // useEffect(() => {
-    //     setUserBurn(burn)
-    // }, [])
+    useEffect(() => {
+        setUserBurn(burn)
+        setLoaded(true)
+    }, [])
 
     const handleBurnDelete = async (e) => {
         e.preventDefault();
@@ -25,6 +27,7 @@ function BookBurn({ burn, onDelete }) {
 
     if (!sessionUser) {
         return (
+            loaded &&
             <div className="profile-book-burn-container">
                 <span className="burn-firstname">{burn.User.first_name} burned it </span>
                 <UserFlames rating={burn.rating}/>
@@ -37,6 +40,7 @@ function BookBurn({ burn, onDelete }) {
 
     if (sessionUser.id === burn.user_id) {
         return (
+            loaded &&
             <div className="profile-book-burn-container">
                 <span className="burn-firstname">{burn.User.first_name} burned it </span>
                 <UserFlames rating={burn.rating}/>
@@ -51,6 +55,7 @@ function BookBurn({ burn, onDelete }) {
     }
 
     return (
+        loaded &&
         <div className="profile-book-burn-container">
             <span className="burn-firstname">{burn.User.first_name} burned it </span>
             <UserFlames rating={burn.rating}/>

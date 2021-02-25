@@ -9,6 +9,7 @@ import {
 	Box,
 	Button,
 	Flex,
+	Image,
 	Input,
 	Stack,
 	Tab,
@@ -70,6 +71,7 @@ const LoginFormPage = () => {
 				m={7}
 			>
 				Welcome to BurnReads
+				<Image alt="log" src={"/profile-btn-v1.png"}/>
 			</Box>
 			<Box
 				className='form'
