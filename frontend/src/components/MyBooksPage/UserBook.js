@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-import BurnRating from '../BurnRating';
+// import BurnRating from '../BurnRating';
+import UserFlame from '../UserFlame';
 
 const UserBook = ({ userBook }) => {
 	const [fetchedBook, setBook] = useState('');
 	const [authors, setAuthors] = useState('');
 	const [userBurnLink, setUserBurnLink] = useState('');
 	const [bookProfileLink, setBookProfileLink] = useState('');
+
 
 	useEffect(() => {
 		let bookAuthors = userBook.authors;
@@ -43,7 +45,8 @@ const UserBook = ({ userBook }) => {
 			</td>
 			<td>{authors}</td>
 			<td className='mybooks-fire-rating'>
-				<BurnRating rating={fetchedBook.rating} id={fetchedBook.id} />
+				{/* <BurnRating rating={fetchedBook.rating} id={fetchedBook.id} /> */}
+				<UserFlame rating={fetchedBook.userRating} />
 			</td>
 			<td className='mybooks-burn-link'>
 				<a href={userBurnLink}>Burn this book!</a>
