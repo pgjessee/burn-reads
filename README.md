@@ -2,7 +2,7 @@
 BurnReads is a [GoodReads](https://www.goodreads.com/) inspired place on the internet to belittle, banish, and torch books that make your eyes burn! Never again will you have to worry about organizing all the books that you hate.
 Simply search for a book to set its torch status, add it to a custom kindling shelf, or leave a fiery bad review! 
 
-Visit the live website here: https://burn-reads.herokuapp.com/
+## Visit the live website here: https://burn-reads.herokuapp.com/
 
 ## MVP
 
